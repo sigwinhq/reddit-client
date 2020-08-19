@@ -153,7 +153,6 @@ class UserApi
             $options = $this->createHttpClientOption();
             try {
                 $response = $this->client->send($request, $options);
-                var_dump($response->getBody()->getContents());
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
