@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .php_cs
 .travis.yml
 README.md
@@ -15,5 +14,3 @@ src/HeaderSelector.php
 src/Model/Me.php
 src/Model/ModelInterface.php
 src/ObjectSerializer.php
-test/Api/UserApiTest.php
-test/Model/MeTest.php
