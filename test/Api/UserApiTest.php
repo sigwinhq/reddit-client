@@ -83,6 +83,8 @@ final class UserApiTest extends TestCase
      */
     public function testGetSaved(): void
     {
+        // TODO: implement
+        static::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,5 +94,7 @@ final class UserApiTest extends TestCase
      */
     public function testMe(): void
     {
+        // TODO: implement
+        static::markTestIncomplete('Not implemented');
     }
 }

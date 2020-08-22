@@ -2,5 +2,4 @@
 /test export-ignore
 /.* export-ignore
 /*dist export-ignore
-/git_push.sh export-ignore
 /Makefile export-ignore

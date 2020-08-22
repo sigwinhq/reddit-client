@@ -43,10 +43,13 @@ use Flexolabs\RedditClient\ObjectSerializer;
  * @author   OpenAPI Generator team
  *
  * @see     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null
  */
 class Me implements ArrayAccess, ModelInterface
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
      * The original name of the model.
@@ -69,6 +72,8 @@ class Me implements ArrayAccess, ModelInterface
      * Array of property to format mappings. Used for (de)serialization.
      *
      * @var string[]
+     * @phpstan-var array<string, string|null>
+     * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
         'id' => null,
@@ -121,8 +126,8 @@ class Me implements ArrayAccess, ModelInterface
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['id'] = $data['id'] ?? null;
+        $this->container['name'] = $data['name'] ?? null;
     }
 
     /**
@@ -227,10 +232,8 @@ class Me implements ArrayAccess, ModelInterface
      * Sets id.
      *
      * @param string $id id
-     *
-     * @return $this
      */
-    public function setId($id)
+    public function setId($id): self
     {
         $this->container['id'] = $id;
 
@@ -249,10 +252,8 @@ class Me implements ArrayAccess, ModelInterface
      * Sets name.
      *
      * @param string $name name
-     *
-     * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->container['name'] = $name;
 
@@ -273,17 +274,19 @@ class Me implements ArrayAccess, ModelInterface
      * Gets offset.
      *
      * @param int $offset Offset
+     *
+     * @return null|mixed
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param int   $offset Offset
-     * @param mixed $value  Value to be set
+     * @param null|int $offset Offset
+     * @param mixed    $value  Value to be set
      */
     public function offsetSet($offset, $value): void
     {

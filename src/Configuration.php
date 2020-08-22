@@ -112,6 +112,9 @@ class Configuration
      * @var string
      */
     protected $tempFolderPath;
+    /**
+     * @var Configuration
+     */
     private static $defaultConfiguration;
 
     /**
@@ -142,9 +145,9 @@ class Configuration
      *
      * @param string $apiKeyIdentifier API key identifier (authentication scheme)
      *
-     * @return string API key or token
+     * @return null|string API key or token
      */
-    public function getApiKey($apiKeyIdentifier): string
+    public function getApiKey($apiKeyIdentifier): ?string
     {
         return isset($this->apiKeys[$apiKeyIdentifier]) ? $this->apiKeys[$apiKeyIdentifier] : null;
     }
@@ -169,7 +172,7 @@ class Configuration
      *
      * @param string $apiKeyIdentifier API key identifier (authentication scheme)
      */
-    public function getApiKeyPrefix($apiKeyIdentifier): string
+    public function getApiKeyPrefix($apiKeyIdentifier): ?string
     {
         return isset($this->apiKeyPrefixes[$apiKeyIdentifier]) ? $this->apiKeyPrefixes[$apiKeyIdentifier] : null;
     }
@@ -411,9 +414,9 @@ class Configuration
      *
      * @param string $apiKeyIdentifier name of apikey
      *
-     * @return string API key with the prefix
+     * @return null|string API key with the prefix
      */
-    public function getApiKeyWithPrefix($apiKeyIdentifier): string
+    public function getApiKeyWithPrefix($apiKeyIdentifier): ?string
     {
         $prefix = $this->getApiKeyPrefix($apiKeyIdentifier);
         $apiKey = $this->getApiKey($apiKeyIdentifier);
@@ -434,9 +437,9 @@ class Configuration
     /**
      * Returns an array of host settings.
      *
-     * @return an array of host settings
+     * @return array an array of host settings
      */
-    public function getHostSettings(): an
+    public function getHostSettings(): array
     {
         return [
             [
@@ -449,13 +452,12 @@ class Configuration
     /**
      * Returns URL based on the index and variables.
      *
-     * @param index array index of the host settings
-     * @param variables hash of variable and the corresponding value (optional)
-     * @param null|mixed $variables
+     * @param int        $index     index of the host settings
+     * @param null|array $variables hash of variable and the corresponding value (optional)
      *
-     * @return URL based on host settings
+     * @return string URL based on host settings
      */
-    public function getHostFromSettings($index, $variables = null): URL
+    public function getHostFromSettings($index, $variables = null): string
     {
         if (null === $variables) {
             $variables = [];

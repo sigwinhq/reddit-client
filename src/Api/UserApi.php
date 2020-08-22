@@ -94,19 +94,19 @@ class UserApi
     /**
      * Set the host index.
      *
-     * @param  int Host index (required)
+     * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($host_index): void
+    public function setHostIndex($hostIndex): void
     {
-        $this->hostIndex = $host_index;
+        $this->hostIndex = $hostIndex;
     }
 
     /**
      * Get the host index.
      *
-     * @return Host index
+     * @return int Host index
      */
-    public function getHostIndex(): Host
+    public function getHostIndex(): int
     {
         return $this->hostIndex;
     }

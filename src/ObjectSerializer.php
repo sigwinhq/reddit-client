@@ -65,21 +65,27 @@ class ObjectSerializer
      * @param string $type   the OpenAPIToolsType of the data
      * @param string $format the format of the OpenAPITools type of the data
      *
-     * @return object|string serialized form of $data
+     * @return null|array|object|scalar serialized form of $data
      */
     public static function sanitizeForSerialization($data, $type = null, $format = null)
     {
         if (is_scalar($data) || null === $data) {
             return $data;
-        } elseif ($data instanceof \DateTimeImmutable) {
+        }
+
+        if ($data instanceof \DateTimeImmutable) {
             return ($format === 'date') ? $data->format('Y-m-d') : $data->format(self::$dateTimeFormat);
-        } elseif (\is_array($data)) {
+        }
+
+        if (\is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
             }
 
             return $data;
-        } elseif (\is_object($data)) {
+        }
+
+        if (\is_object($data)) {
             $values = [];
             if ($data instanceof ModelInterface) {
                 $formats = $data::openAPIFormats();
@@ -263,26 +269,30 @@ class ObjectSerializer
     {
         if (null === $data) {
             return null;
-        } elseif (strcasecmp(substr($class, -2), '[]') === 0) {
+        }
+
+        if (strcasecmp(mb_substr($class, -2), '[]') === 0) {
             $data = \is_string($data) ? json_decode($data) : $data;
 
             if ( ! \is_array($data)) {
                 throw new \InvalidArgumentException("Invalid array '$class'");
             }
 
-            $subClass = substr($class, 0, -2);
+            $subClass = mb_substr($class, 0, -2);
             $values = [];
             foreach ($data as $key => $value) {
                 $values[] = self::deserialize($value, $subClass, null);
             }
 
             return $values;
-        } elseif (substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
+        }
+
+        if (mb_substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
             $data = \is_string($data) ? json_decode($data) : $data;
             $data = (array) $data;
-            $inner = substr($class, 4, -1);
+            $inner = mb_substr($class, 4, -1);
             $deserialized = [];
-            if (strrpos($inner, ',') !== false) {
+            if (mb_strrpos($inner, ',') !== false) {
                 $subClass_array = explode(',', $inner, 2);
                 $subClass = $subClass_array[1];
                 foreach ($data as $key => $value) {
@@ -291,11 +301,15 @@ class ObjectSerializer
             }
 
             return $deserialized;
-        } elseif ($class === 'object') {
+        }
+
+        if ($class === 'object') {
             $data = (array) $data;
 
             return $data;
-        } elseif ($class === '\DateTime') {
+        }
+
+        if ($class === '\DateTime') {
             // Some API's return an invalid, empty string as a
             // date-time property. DateTime::__construct() will return
             // the current time for empty input which is probably not
@@ -307,11 +321,15 @@ class ObjectSerializer
             }
 
             return null;
-        } elseif (\in_array($class, ['DateTime', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
+        }
+
+        if (\in_array($class, ['DateTime', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
             settype($data, $class);
 
             return $data;
-        } elseif ($class === '\SplFileObject') {
+        }
+
+        if ($class === '\SplFileObject') {
             /** @var \Psr\Http\Message\StreamInterface $data */
 
             // determine file name
