@@ -1,10 +1,10 @@
 <?php
 /**
- * AccountApi
+ * UserApi
  * PHP version 7.2
  *
  * @category Class
- * @package  OpenAPI\Client
+ * @package  Flexolabs\RedditClient
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -26,7 +26,7 @@
  * Do not edit the class manually.
  */
 
-namespace OpenAPI\Client\Api;
+namespace Flexolabs\RedditClient\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -34,20 +34,20 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
-use OpenAPI\Client\ApiException;
-use OpenAPI\Client\Configuration;
-use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\ObjectSerializer;
+use Flexolabs\RedditClient\ApiException;
+use Flexolabs\RedditClient\Configuration;
+use Flexolabs\RedditClient\HeaderSelector;
+use Flexolabs\RedditClient\ObjectSerializer;
 
 /**
- * AccountApi Class Doc Comment
+ * UserApi Class Doc Comment
  *
  * @category Class
- * @package  OpenAPI\Client
+ * @package  Flexolabs\RedditClient
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class AccountApi
+class UserApi
 {
     /**
      * @var ClientInterface
@@ -116,6 +116,305 @@ class AccountApi
     }
 
     /**
+     * Operation getSaved
+     *
+     * Get user saved things
+     *
+     * @param  string $username username (required)
+     * @param  int $limit limit (optional)
+     *
+     * @throws \Flexolabs\RedditClient\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Flexolabs\RedditClient\Model\Me
+     */
+    public function getSaved($username, $limit = null)
+    {
+        list($response) = $this->getSavedWithHttpInfo($username, $limit);
+        return $response;
+    }
+
+    /**
+     * Operation getSavedWithHttpInfo
+     *
+     * Get user saved things
+     *
+     * @param  string $username (required)
+     * @param  int $limit (optional)
+     *
+     * @throws \Flexolabs\RedditClient\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Flexolabs\RedditClient\Model\Me, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getSavedWithHttpInfo($username, $limit = null)
+    {
+        $request = $this->getSavedRequest($username, $limit);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\Flexolabs\RedditClient\Model\Me' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = (string) $responseBody;
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Flexolabs\RedditClient\Model\Me', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\Flexolabs\RedditClient\Model\Me';
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = (string) $responseBody;
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Flexolabs\RedditClient\Model\Me',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getSavedAsync
+     *
+     * Get user saved things
+     *
+     * @param  string $username (required)
+     * @param  int $limit (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSavedAsync($username, $limit = null)
+    {
+        return $this->getSavedAsyncWithHttpInfo($username, $limit)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getSavedAsyncWithHttpInfo
+     *
+     * Get user saved things
+     *
+     * @param  string $username (required)
+     * @param  int $limit (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSavedAsyncWithHttpInfo($username, $limit = null)
+    {
+        $returnType = '\Flexolabs\RedditClient\Model\Me';
+        $request = $this->getSavedRequest($username, $limit);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = (string) $responseBody;
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getSaved'
+     *
+     * @param  string $username (required)
+     * @param  int $limit (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getSavedRequest($username, $limit = null)
+    {
+        // verify the required parameter 'username' is set
+        if ($username === null || (is_array($username) && count($username) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $username when calling getSaved'
+            );
+        }
+        if ($limit !== null && $limit > 100) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling UserApi.getSaved, must be smaller than or equal to 100.');
+        }
+        if ($limit !== null && $limit < 0) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling UserApi.getSaved, must be bigger than or equal to 0.');
+        }
+
+
+        $resourcePath = '/user/{username}/saved';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if (is_array($limit)) {
+            $limit = ObjectSerializer::serializeCollection($limit, '', true);
+        }
+        if ($limit !== null) {
+            $queryParams['limit'] = $limit;
+        }
+
+
+        // path params
+        if ($username !== null) {
+            $resourcePath = str_replace(
+                '{' . 'username' . '}',
+                ObjectSerializer::toPathValue($username),
+                $resourcePath
+            );
+        }
+
+        // body params
+        $_tempBody = null;
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                []
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            if ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+            } else {
+                $httpBody = $_tempBody;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        return new Request(
+            'GET',
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation me
      *
      * Returns the identity of the user.
@@ -124,9 +423,9 @@ class AccountApi
      * URL: https://oauth.reddit.com/api/v1
      *
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \Flexolabs\RedditClient\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Me
+     * @return \Flexolabs\RedditClient\Model\Me
      */
     public function me()
     {
@@ -143,9 +442,9 @@ class AccountApi
      * URL: https://oauth.reddit.com/api/v1
      *
      *
-     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \Flexolabs\RedditClient\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Me, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Flexolabs\RedditClient\Model\Me, HTTP status code, HTTP response headers (array of strings)
      */
     public function meWithHttpInfo()
     {
@@ -182,20 +481,20 @@ class AccountApi
             $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\Me' === '\SplFileObject') {
+                    if ('\Flexolabs\RedditClient\Model\Me' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = (string) $responseBody;
                     }
 
                     return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Me', []),
+                        ObjectSerializer::deserialize($content, '\Flexolabs\RedditClient\Model\Me', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
             }
 
-            $returnType = '\OpenAPI\Client\Model\Me';
+            $returnType = '\Flexolabs\RedditClient\Model\Me';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -214,7 +513,7 @@ class AccountApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenAPI\Client\Model\Me',
+                        '\Flexolabs\RedditClient\Model\Me',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -260,7 +559,7 @@ class AccountApi
      */
     public function meAsyncWithHttpInfo()
     {
-        $returnType = '\OpenAPI\Client\Model\Me';
+        $returnType = '\Flexolabs\RedditClient\Model\Me';
         $request = $this->meRequest();
 
         return $this->client

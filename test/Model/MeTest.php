@@ -5,7 +5,7 @@
  * PHP version 7.2
  *
  * @category Class
- * @package  OpenAPI\Client
+ * @package  Flexolabs\RedditClient
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -27,7 +27,7 @@
  * Please update the test case below to test the model.
  */
 
-namespace OpenAPI\Client;
+namespace Flexolabs\RedditClient;
 
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +36,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @category    Class
  * @description Me
- * @package     OpenAPI\Client
+ * @package     Flexolabs\RedditClient
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */

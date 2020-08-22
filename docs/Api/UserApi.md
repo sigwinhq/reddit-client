@@ -1,4 +1,4 @@
-# OpenAPI\Client\UserApi
+# Flexolabs\RedditClient\UserApi
 
 All URIs are relative to *https://oauth.reddit.com*
 
@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## getSaved
 
-> \OpenAPI\Client\Model\Me getSaved($username, $limit)
+> \Flexolabs\RedditClient\Model\Me getSaved($username, $limit)
 
 Get user saved things
 
@@ -23,10 +23,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Flexolabs\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
-$apiInstance = new OpenAPI\Client\Api\UserApi(
+$apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
@@ -54,7 +54,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\OpenAPI\Client\Model\Me**](../Model/Me.md)
+[**\Flexolabs\RedditClient\Model\Me**](../Model/Me.md)
 
 ### Authorization
 
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 
 ## me
 
-> \OpenAPI\Client\Model\Me me()
+> \Flexolabs\RedditClient\Model\Me me()
 
 Returns the identity of the user.
 
@@ -84,10 +84,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Flexolabs\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
-$apiInstance = new OpenAPI\Client\Api\UserApi(
+$apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
@@ -109,7 +109,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**\OpenAPI\Client\Model\Me**](../Model/Me.md)
+[**\Flexolabs\RedditClient\Model\Me**](../Model/Me.md)
 
 ### Authorization
 

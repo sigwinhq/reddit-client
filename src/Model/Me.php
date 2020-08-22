@@ -5,7 +5,7 @@
  * PHP version 7.2
  *
  * @category Class
- * @package  OpenAPI\Client
+ * @package  Flexolabs\RedditClient
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -27,16 +27,16 @@
  * Do not edit the class manually.
  */
 
-namespace OpenAPI\Client\Model;
+namespace Flexolabs\RedditClient\Model;
 
 use \ArrayAccess;
-use \OpenAPI\Client\ObjectSerializer;
+use \Flexolabs\RedditClient\ObjectSerializer;
 
 /**
  * Me Class Doc Comment
  *
  * @category Class
- * @package  OpenAPI\Client
+ * @package  Flexolabs\RedditClient
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
