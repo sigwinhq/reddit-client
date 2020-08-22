@@ -1,5 +1,5 @@
 {
-    "name": "GIT_USER_ID/GIT_REPO_ID",
+    "name": "flexolabs/reddit-client",
     "description": "Reddit.com API",
     "keywords": [
         "openapitools",
@@ -30,9 +30,9 @@
         "friendsofphp/php-cs-fixer": "^2.12"
     },
     "autoload": {
-        "psr-4": { "OpenAPI\\Client\\" : "lib/" }
+        "psr-4": { "Flexolabs\\RedditClient\\" : "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "OpenAPI\\Client\\" : "test/" }
+        "psr-4": { "Flexolabs\\RedditClient\\" : "test/" }
     }
 }

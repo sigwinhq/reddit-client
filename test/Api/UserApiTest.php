@@ -4,7 +4,7 @@
  * PHP version 7.2
  *
  * @category Class
- * @package  OpenAPI\Client
+ * @package  Flexolabs\RedditClient
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -26,18 +26,18 @@
  * Please update the test case below to test the endpoint.
  */
 
-namespace OpenAPI\Client;
+namespace Flexolabs\RedditClient;
 
-use \OpenAPI\Client\Configuration;
-use \OpenAPI\Client\ApiException;
-use \OpenAPI\Client\ObjectSerializer;
+use \Flexolabs\RedditClient\Configuration;
+use \Flexolabs\RedditClient\ApiException;
+use \Flexolabs\RedditClient\ObjectSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * UserApiTest Class Doc Comment
  *
  * @category Class
- * @package  OpenAPI\Client
+ * @package  Flexolabs\RedditClient
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -73,12 +73,22 @@ class UserApiTest extends TestCase
     }
 
     /**
-     * Test case for userUsernameSavedGet
+     * Test case for getSaved
      *
      * Get user saved things.
      *
      */
-    public function testUserUsernameSavedGet()
+    public function testGetSaved()
+    {
+    }
+
+    /**
+     * Test case for me
+     *
+     * Returns the identity of the user..
+     *
+     */
+    public function testMe()
     {
     }
 }

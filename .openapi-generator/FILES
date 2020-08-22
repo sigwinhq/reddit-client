@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 .php_cs
 .travis.yml
 README.md
@@ -6,11 +7,13 @@ composer.json
 docs/Api/UserApi.md
 docs/Model/Me.md
 git_push.sh
-lib/Api/UserApi.php
-lib/ApiException.php
-lib/Configuration.php
-lib/HeaderSelector.php
-lib/Model/Me.php
-lib/Model/ModelInterface.php
-lib/ObjectSerializer.php
 phpunit.xml.dist
+src/Api/UserApi.php
+src/ApiException.php
+src/Configuration.php
+src/HeaderSelector.php
+src/Model/Me.php
+src/Model/ModelInterface.php
+src/ObjectSerializer.php
+test/Api/UserApiTest.php
+test/Model/MeTest.php
