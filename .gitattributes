@@ -1,0 +1,5 @@
+/docs export-ignore
+/test export-ignore
+/.* export-ignore
+/*dist export-ignore
+/Makefile export-ignore
