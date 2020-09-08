@@ -4,7 +4,7 @@ endif
 
 ifndef OPENAPI_DOCKER_COMMAND
 OPENAPI_DOCKER_IMAGE=dkarlovi/openapi-generator-php:latest
-OPENAPI_DOCKER_COMMAND=docker run --init --interactive --rm --tty --user "$(shell id -u):$(shell id -g)" --volume "$(shell pwd):/project" --volume "$(shell pwd)/../openapi-specs:/specs" --workdir /project ${OPENAPI_DOCKER_IMAGE}
+OPENAPI_DOCKER_COMMAND=docker run --init --interactive --rm --tty --env "COMPOSER_CACHE_DIR=/composer/cache" --user "$(shell id -u):$(shell id -g)" --volume "$(shell pwd):/project" --volume "$(shell pwd)/../openapi-specs:/specs" --volume "${HOME}/.composer:/composer" --workdir /project ${OPENAPI_DOCKER_IMAGE}
 endif
 
 ifndef PHPQA_DOCKER_COMMAND
@@ -17,7 +17,7 @@ check: composer-validate cs-check analyze
 analyze: phpstan psalm
 test: phpunit
 
-build: clean
+build: clean ensure
 	sh -c "${OPENAPI_DOCKER_COMMAND} /specs/reddit/v1/index.yaml . .openapi-generator/config.json"
 
 composer-validate: ensure composer-normalize-check
