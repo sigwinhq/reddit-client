@@ -5,6 +5,8 @@
 README.md
 composer.json
 docs/Api/UserApi.md
+docs/Model/Listing.md
+docs/Model/ListingData.md
 docs/Model/Me.md
 git_push.sh
 phpunit.xml.dist
@@ -12,8 +14,12 @@ src/Api/UserApi.php
 src/ApiException.php
 src/Configuration.php
 src/HeaderSelector.php
+src/Model/Listing.php
+src/Model/ListingData.php
 src/Model/Me.php
 src/Model/ModelInterface.php
 src/ObjectSerializer.php
 test/Api/UserApiTest.php
+test/Model/ListingDataTest.php
+test/Model/ListingTest.php
 test/Model/MeTest.php

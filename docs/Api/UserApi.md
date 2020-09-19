@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## getSaved
 
-> \Flexolabs\RedditClient\Model\Me getSaved($username, $limit)
+> \Flexolabs\RedditClient\Model\Listing getSaved($username, $limit)
 
 Get user saved things
 
@@ -32,7 +32,7 @@ $apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     new GuzzleHttp\Client(),
     $config
 );
-$username = 'username_example'; // string | 
+$username = snoo; // string | 
 $limit = 56; // int | 
 
 try {
@@ -54,7 +54,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Flexolabs\RedditClient\Model\Me**](../Model/Me.md)
+[**\Flexolabs\RedditClient\Model\Listing**](../Model/Listing.md)
 
 ### Authorization
 

@@ -70,7 +70,7 @@ $apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     new GuzzleHttp\Client(),
     $config
 );
-$username = 'username_example'; // string | 
+$username = snoo; // string | 
 $limit = 56; // int | 
 
 try {
@@ -95,6 +95,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [Listing](docs/Model/Listing.md)
+ - [ListingData](docs/Model/ListingData.md)
  - [Me](docs/Model/Me.md)
 
 
@@ -108,9 +110,7 @@ Class | Method | HTTP request | Description
 - **Type**: OAuth
 - **Flow**: accessCode
 - **Authorization URL**: /authorize
-- **Scopes**: 
-- **creddits**: Spend my reddit gold creddits on giving gold to other users.
-- **modcontributors**: Add/remove users to approved user lists and ban/unban or mute/unmute users from subreddits I moderate.
+- **Scopes**: N/A
 
 
 ## Author
