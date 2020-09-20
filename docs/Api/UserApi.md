@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## getSaved
 
-> \Flexolabs\RedditClient\Model\Listing getSaved($username, $limit)
+> \Flexolabs\RedditClient\Model\Listing getSaved($username, $after, $before, $limit)
 
 Get user saved things
 
@@ -33,10 +33,12 @@ $apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     $config
 );
 $username = snoo; // string | 
-$limit = 56; // int | 
+$after = 'after_example'; // string | 
+$before = 'before_example'; // string | 
+$limit = 25; // int | 
 
 try {
-    $result = $apiInstance->getSaved($username, $limit);
+    $result = $apiInstance->getSaved($username, $after, $before, $limit);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->getSaved: ', $e->getMessage(), PHP_EOL;
@@ -50,7 +52,9 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**|  |
- **limit** | **int**|  | [optional]
+ **after** | **string**|  | [optional]
+ **before** | **string**|  | [optional]
+ **limit** | **int**|  | [optional] [default to 25]
 
 ### Return type
 

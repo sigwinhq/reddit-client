@@ -71,10 +71,12 @@ $apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     $config
 );
 $username = snoo; // string | 
-$limit = 56; // int | 
+$after = 'after_example'; // string | 
+$before = 'before_example'; // string | 
+$limit = 25; // int | 
 
 try {
-    $result = $apiInstance->getSaved($username, $limit);
+    $result = $apiInstance->getSaved($username, $after, $before, $limit);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->getSaved: ', $e->getMessage(), PHP_EOL;
@@ -97,7 +99,9 @@ Class | Method | HTTP request | Description
 
  - [Listing](docs/Model/Listing.md)
  - [ListingData](docs/Model/ListingData.md)
+ - [ListingDataChildren](docs/Model/ListingDataChildren.md)
  - [Me](docs/Model/Me.md)
+ - [Thing](docs/Model/Thing.md)
 
 
 ## Documentation For Authorization

@@ -122,14 +122,16 @@ class UserApi
      * Get user saved things
      *
      * @param string $username username (required)
-     * @param int    $limit    limit (optional)
+     * @param string $after    after (optional)
+     * @param string $before   before (optional)
+     * @param int    $limit    limit (optional, default to 25)
      *
      * @throws \Flexolabs\RedditClient\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      */
-    public function getSaved($username, $limit = null): \Flexolabs\RedditClient\Model\Listing
+    public function getSaved($username, $after = null, $before = null, $limit = 25): \Flexolabs\RedditClient\Model\Listing
     {
-        list($response) = $this->getSavedWithHttpInfo($username, $limit);
+        list($response) = $this->getSavedWithHttpInfo($username, $after, $before, $limit);
 
         return $response;
     }
@@ -140,16 +142,18 @@ class UserApi
      * Get user saved things
      *
      * @param string $username (required)
-     * @param int    $limit    (optional)
+     * @param string $after    (optional)
+     * @param string $before   (optional)
+     * @param int    $limit    (optional, default to 25)
      *
      * @throws \Flexolabs\RedditClient\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      *
      * @return array of \Flexolabs\RedditClient\Model\Listing, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getSavedWithHttpInfo($username, $limit = null): array
+    public function getSavedWithHttpInfo($username, $after = null, $before = null, $limit = 25): array
     {
-        $request = $this->getSavedRequest($username, $limit);
+        $request = $this->getSavedRequest($username, $after, $before, $limit);
 
         try {
             $options = $this->createHttpClientOption();
@@ -215,13 +219,15 @@ class UserApi
      * Get user saved things
      *
      * @param string $username (required)
-     * @param int    $limit    (optional)
+     * @param string $after    (optional)
+     * @param string $before   (optional)
+     * @param int    $limit    (optional, default to 25)
      *
      * @throws \InvalidArgumentException
      */
-    public function getSavedAsync($username, $limit = null): \GuzzleHttp\Promise\PromiseInterface
+    public function getSavedAsync($username, $after = null, $before = null, $limit = 25): \GuzzleHttp\Promise\PromiseInterface
     {
-        return $this->getSavedAsyncWithHttpInfo($username, $limit)
+        return $this->getSavedAsyncWithHttpInfo($username, $after, $before, $limit)
             ->then(
                 static function ($response) {
                     return $response[0];
@@ -235,14 +241,16 @@ class UserApi
      * Get user saved things
      *
      * @param string $username (required)
-     * @param int    $limit    (optional)
+     * @param string $after    (optional)
+     * @param string $before   (optional)
+     * @param int    $limit    (optional, default to 25)
      *
      * @throws \InvalidArgumentException
      */
-    public function getSavedAsyncWithHttpInfo($username, $limit = null): \GuzzleHttp\Promise\PromiseInterface
+    public function getSavedAsyncWithHttpInfo($username, $after = null, $before = null, $limit = 25): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\Flexolabs\RedditClient\Model\Listing';
-        $request = $this->getSavedRequest($username, $limit);
+        $request = $this->getSavedRequest($username, $after, $before, $limit);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -426,11 +434,13 @@ class UserApi
      * Create request for operation 'getSaved'.
      *
      * @param string $username (required)
-     * @param int    $limit    (optional)
+     * @param string $after    (optional)
+     * @param string $before   (optional)
+     * @param int    $limit    (optional, default to 25)
      *
      * @throws \InvalidArgumentException
      */
-    protected function getSavedRequest($username, $limit = null): \GuzzleHttp\Psr7\Request
+    protected function getSavedRequest($username, $after = null, $before = null, $limit = 25): \GuzzleHttp\Psr7\Request
     {
         // verify the required parameter 'username' is set
         if ($username === null || (\is_array($username) && \count($username) === 0)) {
@@ -450,6 +460,20 @@ class UserApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if (\is_array($after)) {
+            $after = ObjectSerializer::serializeCollection($after, '', true);
+        }
+        if ($after !== null) {
+            $queryParams['after'] = $after;
+        }
+        // query params
+        if (\is_array($before)) {
+            $before = ObjectSerializer::serializeCollection($before, '', true);
+        }
+        if ($before !== null) {
+            $queryParams['before'] = $before;
+        }
         // query params
         if (\is_array($limit)) {
             $limit = ObjectSerializer::serializeCollection($limit, '', true);

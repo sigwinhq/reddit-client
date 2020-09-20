@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * ListingData.
+ * ListingDataChildren.
  *
  * PHP version 7.2
  *
@@ -36,7 +36,7 @@ use ArrayAccess;
 use Flexolabs\RedditClient\ObjectSerializer;
 
 /**
- * ListingData Class Doc Comment.
+ * ListingDataChildren Class Doc Comment.
  *
  * @category Class
  *
@@ -47,7 +47,7 @@ use Flexolabs\RedditClient\ObjectSerializer;
  * @template TKey int|null
  * @template TValue mixed|null
  */
-class ListingData implements ArrayAccess, ModelInterface
+class ListingDataChildren implements ArrayAccess, ModelInterface
 {
     public const DISCRIMINATOR = null;
 
@@ -56,7 +56,7 @@ class ListingData implements ArrayAccess, ModelInterface
      *
      * @var string
      */
-    protected static $openAPIModelName = 'Listing_data';
+    protected static $openAPIModelName = 'Listing_data_children';
 
     /**
      * Array of property to type mappings. Used for (de)serialization.
@@ -64,11 +64,8 @@ class ListingData implements ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $openAPITypes = [
-        'modhash' => 'string',
-        'dist' => 'int',
-        'children' => '\Flexolabs\RedditClient\Model\ListingDataChildren[]',
-        'after' => 'string',
-        'before' => 'string',
+        'kind' => 'string',
+        'data' => '\Flexolabs\RedditClient\Model\Thing',
     ];
 
     /**
@@ -79,11 +76,8 @@ class ListingData implements ArrayAccess, ModelInterface
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'modhash' => null,
-        'dist' => null,
-        'children' => null,
-        'after' => null,
-        'before' => null,
+        'kind' => null,
+        'data' => null,
     ];
 
     /**
@@ -93,11 +87,8 @@ class ListingData implements ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $attributeMap = [
-        'modhash' => 'modhash',
-        'dist' => 'dist',
-        'children' => 'children',
-        'after' => 'after',
-        'before' => 'before',
+        'kind' => 'kind',
+        'data' => 'data',
     ];
 
     /**
@@ -106,11 +97,8 @@ class ListingData implements ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $setters = [
-        'modhash' => 'setModhash',
-        'dist' => 'setDist',
-        'children' => 'setChildren',
-        'after' => 'setAfter',
-        'before' => 'setBefore',
+        'kind' => 'setKind',
+        'data' => 'setData',
     ];
 
     /**
@@ -119,11 +107,8 @@ class ListingData implements ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $getters = [
-        'modhash' => 'getModhash',
-        'dist' => 'getDist',
-        'children' => 'getChildren',
-        'after' => 'getAfter',
-        'before' => 'getBefore',
+        'kind' => 'getKind',
+        'data' => 'getData',
     ];
 
     /**
@@ -141,11 +126,8 @@ class ListingData implements ArrayAccess, ModelInterface
      */
     public function __construct(array $data = null)
     {
-        $this->container['modhash'] = $data['modhash'] ?? null;
-        $this->container['dist'] = $data['dist'] ?? null;
-        $this->container['children'] = $data['children'] ?? null;
-        $this->container['after'] = $data['after'] ?? null;
-        $this->container['before'] = $data['before'] ?? null;
+        $this->container['kind'] = $data['kind'] ?? null;
+        $this->container['data'] = $data['data'] ?? null;
     }
 
     /**
@@ -217,16 +199,6 @@ class ListingData implements ArrayAccess, ModelInterface
     {
         $invalidProperties = [];
 
-        if ($this->container['modhash'] === null) {
-            $invalidProperties[] = "'modhash' can't be null";
-        }
-        if ($this->container['dist'] === null) {
-            $invalidProperties[] = "'dist' can't be null";
-        }
-        if ($this->container['children'] === null) {
-            $invalidProperties[] = "'children' can't be null";
-        }
-
         return $invalidProperties;
     }
 
@@ -242,103 +214,41 @@ class ListingData implements ArrayAccess, ModelInterface
     }
 
     /**
-     * Gets modhash.
+     * Gets kind.
      */
-    public function getModhash(): string
+    public function getKind(): ?string
     {
-        return $this->container['modhash'];
+        return $this->container['kind'];
     }
 
     /**
-     * Sets modhash.
+     * Sets kind.
      *
-     * @param string $modhash modhash
+     * @param null|string $kind kind
      */
-    public function setModhash($modhash): self
+    public function setKind($kind): self
     {
-        $this->container['modhash'] = $modhash;
+        $this->container['kind'] = $kind;
 
         return $this;
     }
 
     /**
-     * Gets dist.
+     * Gets data.
      */
-    public function getDist(): int
+    public function getData(): ?\Flexolabs\RedditClient\Model\Thing
     {
-        return $this->container['dist'];
+        return $this->container['data'];
     }
 
     /**
-     * Sets dist.
+     * Sets data.
      *
-     * @param int $dist dist
+     * @param null|\Flexolabs\RedditClient\Model\Thing $data data
      */
-    public function setDist($dist): self
+    public function setData($data): self
     {
-        $this->container['dist'] = $dist;
-
-        return $this;
-    }
-
-    /**
-     * Gets children.
-     *
-     * @return \Flexolabs\RedditClient\Model\ListingDataChildren[]
-     */
-    public function getChildren(): array
-    {
-        return $this->container['children'];
-    }
-
-    /**
-     * Sets children.
-     *
-     * @param \Flexolabs\RedditClient\Model\ListingDataChildren[] $children children
-     */
-    public function setChildren($children): self
-    {
-        $this->container['children'] = $children;
-
-        return $this;
-    }
-
-    /**
-     * Gets after.
-     */
-    public function getAfter(): ?string
-    {
-        return $this->container['after'];
-    }
-
-    /**
-     * Sets after.
-     *
-     * @param null|string $after after
-     */
-    public function setAfter($after): self
-    {
-        $this->container['after'] = $after;
-
-        return $this;
-    }
-
-    /**
-     * Gets before.
-     */
-    public function getBefore(): ?string
-    {
-        return $this->container['before'];
-    }
-
-    /**
-     * Sets before.
-     *
-     * @param null|string $before before
-     */
-    public function setBefore($before): self
-    {
-        $this->container['before'] = $before;
+        $this->container['data'] = $data;
 
         return $this;
     }
