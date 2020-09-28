@@ -18,7 +18,7 @@ analyze: phpstan psalm
 test: phpunit
 
 build: clean ensure
-	sh -c "${OPENAPI_DOCKER_COMMAND} /specs/reddit/v1/index.yaml . .openapi-generator/config.json"
+	sh -c "${OPENAPI_DOCKER_COMMAND} /specs/reddit/v1/index.yaml"
 
 composer-validate: ensure composer-normalize-check
 	sh -c "${PHPQA_DOCKER_COMMAND} composer validate"
@@ -44,4 +44,4 @@ phpunit-coverage: ensure
 ensure:
 	mkdir -p ${HOME}/.composer var/tmp/docqa var/tmp/phpqa
 clean:
-	rm -rf .openapi-generator/FILES .openapi-generator/VERSION docs/ src/ test/ .editorconfig .gitattributes .gitignore .openapi-generator-ignore .php_cs.dist .travis.yml composer.json git_push.sh phpstan.neon.dist phpunit.xml.dist psalm.xml.dist Makefile README.md
+	rm -rf .openapi-generator/ docs/ src/ test/ .editorconfig .gitattributes .gitignore .openapi-generator-ignore .php_cs.dist .travis.yml composer.json git_push.sh phpstan.neon.dist phpunit.xml.dist psalm.xml.dist Makefile README.md
