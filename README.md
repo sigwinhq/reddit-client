@@ -48,9 +48,10 @@ Please follow the [installation procedure](#installation--usage) and then run th
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
-h
+
 // Configure OAuth2 access token for authorization: oauth2
 $config = Flexolabs\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -83,15 +84,19 @@ Class | Method | HTTP request | Description
 
 ## Models
 
-- [Listing](docs/Model/Listing.md)- [ListingData](docs/Model/ListingData.md)- [ListingDataChildren](docs/Model/ListingDataChildren.md)- [Me](docs/Model/Me.md)- [Thing](docs/Model/Thing.md)
+- [Listing](docs/Model/Listing.md)
+- [ListingData](docs/Model/ListingData.md)
+- [ListingDataChildren](docs/Model/ListingDataChildren.md)
+- [Me](docs/Model/Me.md)
+- [Thing](docs/Model/Thing.md)
 
 ## Authorization
 
 ### oauth2
 
-- **Type**: OAuth
-- **Flow**: accessCode
-- **Authorization URL**: /authorize
+- **Type**: `OAuth`
+- **Flow**: `accessCode`
+- **Authorization URL**: `/authorize`
 - **Scopes**: N/A
 
 ## Tests

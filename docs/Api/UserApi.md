@@ -21,9 +21,10 @@ Get user saved things
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-h
+
 // Configure OAuth2 access token for authorization: oauth2
 $config = Flexolabs\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -85,9 +86,10 @@ Returns the identity of the user.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-h
+
 // Configure OAuth2 access token for authorization: oauth2
 $config = Flexolabs\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
