@@ -302,6 +302,7 @@ class ObjectSerializer
             return null;
         }
 
+        /** @psalm-suppress ParadoxicalCondition */
         if (\in_array($class, ['DateTime', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
             settype($data, $class);
 
@@ -343,6 +344,8 @@ class ObjectSerializer
                 $class = $subclass;
             }
         }
+
+        /** @var ModelInterface $instance */
         $instance = new $class();
         foreach ($instance::openAPITypes() as $property => $type) {
             $propertySetter = $instance::setters()[$property];
