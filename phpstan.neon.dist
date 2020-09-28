@@ -6,7 +6,7 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     treatPhpDocTypesAsCertain: false
-    level: 1
+    level: 3
     paths:
         - ./
     excludes_analyse:

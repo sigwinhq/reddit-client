@@ -92,12 +92,18 @@ class ObjectSerializer
                 foreach ($data::openAPITypes() as $property => $openAPIType) {
                     $getter = $data::getters()[$property];
                     $value = $data->$getter();
-                    if ($value !== null
-                        && ! \in_array($openAPIType, ['DateTime', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)
-                        && method_exists($openAPIType, 'getAllowableEnumValues')
-                        && ! \in_array($value, $openAPIType::getAllowableEnumValues(), true)) {
-                        $imploded = implode("', '", $openAPIType::getAllowableEnumValues());
-                        throw new \InvalidArgumentException("Invalid value for enum '$openAPIType', must be one of: '$imploded'");
+                    if ($value !== null && ! \in_array($openAPIType, ['DateTime', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
+                        $callable = [$openAPIType, 'getAllowableEnumValues'];
+                        if ( ! \is_callable($callable)) {
+                            continue;
+                        }
+
+                        /** array $callable */
+                        $allowedEnumTypes = $callable();
+                        if ( ! \in_array($value, $openAPIType::getAllowableEnumValues(), true)) {
+                            $imploded = implode("', '", $openAPIType::getAllowableEnumValues());
+                            throw new \InvalidArgumentException("Invalid value for enum '$openAPIType', must be one of: '$imploded'");
+                        }
                     }
                     if ($value !== null) {
                         $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $openAPIType, $formats[$property]);
@@ -175,8 +181,9 @@ class ObjectSerializer
      */
     public static function toHeaderValue($value): string
     {
-        if (method_exists($value, 'toHeaderValue')) {
-            return $value->toHeaderValue();
+        $callable = [$value, 'toHeaderValue'];
+        if (\is_callable($callable)) {
+            return $callable();
         }
 
         return self::toString($value);
