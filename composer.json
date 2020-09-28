@@ -11,7 +11,7 @@
         "api"
     ],
     "homepage": "https://openapi-generator.tech",
-    "license": "unlicense",
+    "license": "MIT",
     "authors": [
         {
             "name": "OpenAPI-Generator contributors",
@@ -19,8 +19,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
-        "ext-curl": "*",
+        "php": "^7.2",
         "ext-json": "*",
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "^6.2"
