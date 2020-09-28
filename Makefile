@@ -17,7 +17,7 @@ check: composer-validate cs-check analyze
 analyze: phpstan psalm
 test: phpunit
 
-build: clean ensure
+build: ensure
 	sh -c "${OPENAPI_DOCKER_COMMAND} /specs/reddit/v1/index.yaml"
 
 composer-validate: ensure composer-normalize-check
@@ -43,5 +43,3 @@ phpunit-coverage: ensure
 
 ensure:
 	mkdir -p ${HOME}/.composer var/tmp/docqa var/tmp/phpqa
-clean:
-	rm -rf .openapi-generator/ docs/ src/ test/ .editorconfig .gitattributes .gitignore .openapi-generator-ignore .php_cs.dist .travis.yml composer.json git_push.sh phpstan.neon.dist phpunit.xml.dist psalm.xml.dist Makefile README.md
