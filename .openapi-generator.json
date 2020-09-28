@@ -1,4 +1,5 @@
 {
+    "packageName": "Flexolabs\\RedditClient",
     "invokerPackage": "Flexolabs\\RedditClient",
     "srcBasePath": "src",
     "gitUserId": "flexolabs",
