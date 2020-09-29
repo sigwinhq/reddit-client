@@ -1,17 +1,18 @@
 # Flexolabs\RedditClient\UserApi
 
-All URIs are relative to *https://oauth.reddit.com*
+All URIs are relative to https://oauth.reddit.com.
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getSaved**](UserApi.md#getSaved) | **GET** /user/{username}/saved | Get user saved things
-[**me**](UserApi.md#me) | **GET** /me | Returns the identity of the user.
+[**getSaved()**](UserApi.md#getSaved) | **GET** /user/{username}/saved | Get user saved things
+[**me()**](UserApi.md#me) | **GET** /me | Returns the identity of the user.
 
 
+## `getSaved()`
 
-## getSaved
-
-> \Flexolabs\RedditClient\Model\Listing getSaved($username, $after, $before, $limit)
+```php
+getSaved($username, $after, $before, $limit): \Flexolabs\RedditClient\Model\Listing
+```
 
 Get user saved things
 
@@ -32,10 +33,10 @@ $apiInstance = new Flexolabs\RedditClient\Api\UserApi(
     new GuzzleHttp\Client(),
     $config
 );
-$username = snoo; // string | 
-$after = 'after_example'; // string | 
-$before = 'before_example'; // string | 
-$limit = 25; // int | 
+$username = snoo; // string
+$after = 'after_example'; // string
+$before = 'before_example'; // string
+$limit = 25; // int
 
 try {
     $result = $apiInstance->getSaved($username, $after, $before, $limit);
@@ -43,11 +44,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->getSaved: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -67,16 +66,17 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `me()`
 
-## me
-
-> \Flexolabs\RedditClient\Model\Me me()
+```php
+me(): \Flexolabs\RedditClient\Model\Me
+```
 
 Returns the identity of the user.
 
@@ -104,7 +104,6 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->me: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
@@ -122,9 +121,8 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
-
