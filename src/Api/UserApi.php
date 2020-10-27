@@ -251,6 +251,127 @@ class UserApi
     }
 
     /**
+     * Create request for operation 'getSaved'.
+     *
+     * @param string $username (required)
+     * @param string $after    (optional)
+     * @param string $before   (optional)
+     * @param int    $limit    (optional, default to 25)
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getSavedRequest($username, $after = null, $before = null, $limit = 25): \GuzzleHttp\Psr7\Request
+    {
+        // verify the required parameter 'username' is set
+        if ($username === null || (\is_array($username) && \count($username) === 0)) {
+            throw new \InvalidArgumentException('Missing the required parameter $username when calling getSaved');
+        }
+        if ($limit !== null && $limit > 100) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling UserApi.getSaved, must be smaller than or equal to 100.');
+        }
+        if ($limit !== null && $limit < 0) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling UserApi.getSaved, must be bigger than or equal to 0.');
+        }
+
+        $resourcePath = '/user/{username}/saved';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if (\is_array($after)) {
+            $after = ObjectSerializer::serializeCollection($after, '', true);
+        }
+        if ($after !== null) {
+            $queryParams['after'] = $after;
+        }
+        // query params
+        if (\is_array($before)) {
+            $before = ObjectSerializer::serializeCollection($before, '', true);
+        }
+        if ($before !== null) {
+            $queryParams['before'] = $before;
+        }
+        // query params
+        if (\is_array($limit)) {
+            $limit = ObjectSerializer::serializeCollection($limit, '', true);
+        }
+        if ($limit !== null) {
+            $queryParams['limit'] = $limit;
+        }
+
+        // path params
+        if ($username !== null) {
+            $resourcePath = str_replace(
+                '{'.'username'.'}',
+                ObjectSerializer::toPathValue($username),
+                $resourcePath
+            );
+        }
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                []
+            );
+        }
+
+        // for model (json/xml)
+        if (\count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = \is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem,
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer '.$this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+
+        return new Request(
+            'GET',
+            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation me.
      *
      * Returns the identity of the user.
@@ -404,127 +525,6 @@ class UserApi
     }
 
     /**
-     * Create request for operation 'getSaved'.
-     *
-     * @param string $username (required)
-     * @param string $after    (optional)
-     * @param string $before   (optional)
-     * @param int    $limit    (optional, default to 25)
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function getSavedRequest($username, $after = null, $before = null, $limit = 25): \GuzzleHttp\Psr7\Request
-    {
-        // verify the required parameter 'username' is set
-        if ($username === null || (\is_array($username) && \count($username) === 0)) {
-            throw new \InvalidArgumentException('Missing the required parameter $username when calling getSaved');
-        }
-        if ($limit !== null && $limit > 100) {
-            throw new \InvalidArgumentException('invalid value for "$limit" when calling UserApi.getSaved, must be smaller than or equal to 100.');
-        }
-        if ($limit !== null && $limit < 0) {
-            throw new \InvalidArgumentException('invalid value for "$limit" when calling UserApi.getSaved, must be bigger than or equal to 0.');
-        }
-
-        $resourcePath = '/user/{username}/saved';
-        $formParams = [];
-        $queryParams = [];
-        $headerParams = [];
-        $httpBody = '';
-        $multipart = false;
-
-        // query params
-        if (\is_array($after)) {
-            $after = ObjectSerializer::serializeCollection($after, '', true);
-        }
-        if ($after !== null) {
-            $queryParams['after'] = $after;
-        }
-        // query params
-        if (\is_array($before)) {
-            $before = ObjectSerializer::serializeCollection($before, '', true);
-        }
-        if ($before !== null) {
-            $queryParams['before'] = $before;
-        }
-        // query params
-        if (\is_array($limit)) {
-            $limit = ObjectSerializer::serializeCollection($limit, '', true);
-        }
-        if ($limit !== null) {
-            $queryParams['limit'] = $limit;
-        }
-
-        // path params
-        if ($username !== null) {
-            $resourcePath = str_replace(
-                '{'.'username'.'}',
-                ObjectSerializer::toPathValue($username),
-                $resourcePath
-            );
-        }
-
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                []
-            );
-        }
-
-        // for model (json/xml)
-        if (\count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = \is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem,
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-            } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
-            }
-        }
-
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer '.$this->config->getAccessToken();
-        }
-
-        $defaultHeaders = [];
-        if ($this->config->getUserAgent()) {
-            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
-        }
-
-        $headers = array_merge(
-            $defaultHeaders,
-            $headerParams,
-            $headers
-        );
-
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-
-        return new Request(
-            'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
-    }
-
-    /**
      * Create request for operation 'me'.
      *
      * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
@@ -532,7 +532,7 @@ class UserApi
      *
      * @throws \InvalidArgumentException
      */
-    protected function meRequest(): \GuzzleHttp\Psr7\Request
+    public function meRequest(): \GuzzleHttp\Psr7\Request
     {
         $resourcePath = '/me';
         $formParams = [];

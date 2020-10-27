@@ -19,7 +19,7 @@ use Flexolabs\RedditClient\ObjectSerializer;
  * @template TKey int|null
  * @template TValue mixed|null
  */
-class Me implements ArrayAccess, ModelInterface
+class Me implements \JsonSerializable, ArrayAccess, ModelInterface
 {
     public const DISCRIMINATOR = null;
 
@@ -277,6 +277,19 @@ class Me implements ArrayAccess, ModelInterface
     public function offsetUnset($offset): void
     {
         unset($this->container[$offset]);
+    }
+
+    /**
+     * Serializes the object to a value that can be serialized natively by json_encode().
+     *
+     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
+     *
+     * @return mixed returns data which can be serialized by json_encode(), which is a value
+     *               of any type other than a resource
+     */
+    public function jsonSerialize()
+    {
+        return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
