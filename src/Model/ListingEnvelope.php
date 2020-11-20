@@ -191,7 +191,8 @@ class ListingEnvelope implements \JsonSerializable, ArrayAccess, ModelInterface
         $allowedValues = $this->getKindAllowableValues();
         if (null !== $this->container['kind'] && ! \in_array($this->container['kind'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value for 'kind', must be one of '%s'",
+                "invalid value '%s' for 'kind', must be one of '%s'",
+                $this->container['kind'],
                 implode("', '", $allowedValues)
             );
         }
@@ -231,7 +232,7 @@ class ListingEnvelope implements \JsonSerializable, ArrayAccess, ModelInterface
     {
         $allowedValues = $this->getKindAllowableValues();
         if ( ! \in_array($kind, $allowedValues, true)) {
-            throw new \InvalidArgumentException(sprintf("Invalid value for 'kind', must be one of '%s'", implode("', '", $allowedValues)));
+            throw new \InvalidArgumentException(sprintf("Invalid value '%s' for 'kind', must be one of '%s'", $kind, implode("', '", $allowedValues)));
         }
         $this->container['kind'] = $kind;
 

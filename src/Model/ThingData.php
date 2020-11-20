@@ -277,7 +277,8 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         $allowedValues = $this->getPostHintAllowableValues();
         if (null !== $this->container['post_hint'] && ! \in_array($this->container['post_hint'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value for 'post_hint', must be one of '%s'",
+                "invalid value '%s' for 'post_hint', must be one of '%s'",
+                $this->container['post_hint'],
                 implode("', '", $allowedValues)
             );
         }
@@ -386,7 +387,7 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
     {
         $allowedValues = $this->getPostHintAllowableValues();
         if (null !== $post_hint && ! \in_array($post_hint, $allowedValues, true)) {
-            throw new \InvalidArgumentException(sprintf("Invalid value for 'post_hint', must be one of '%s'", implode("', '", $allowedValues)));
+            throw new \InvalidArgumentException(sprintf("Invalid value '%s' for 'post_hint', must be one of '%s'", $post_hint, implode("', '", $allowedValues)));
         }
         $this->container['post_hint'] = $post_hint;
 
