@@ -7,10 +7,10 @@ namespace Flexolabs\RedditClient\Test\Model;
 use PHPUnit\Framework\TestCase;
 
 /**
- * ListingDataChildrenTest Class Doc Comment.
+ * ListingEnvelopeTest Class Doc Comment.
  *
  * @category    Class
- * @description ListingDataChildren
+ * @description ListingEnvelope
  *
  * @author      OpenAPI Generator team
  *
@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @small
  */
-final class ListingDataChildrenTest extends TestCase
+final class ListingEnvelopeTest extends TestCase
 {
     /**
      * Setup before running any test case.
@@ -51,9 +51,9 @@ final class ListingDataChildrenTest extends TestCase
     }
 
     /**
-     * Test "ListingDataChildren".
+     * Test "ListingEnvelope".
      */
-    public function testListingDataChildren(): void
+    public function testListingEnvelope(): void
     {
         // TODO: implement
         static::markTestIncomplete('Not implemented');

@@ -8,7 +8,7 @@ use ArrayAccess;
 use Flexolabs\RedditClient\ObjectSerializer;
 
 /**
- * ListingDataChildren Class Doc Comment.
+ * ListingEnvelope Class Doc Comment.
  *
  * @category Class
  *
@@ -19,16 +19,18 @@ use Flexolabs\RedditClient\ObjectSerializer;
  * @template TKey int|null
  * @template TValue mixed|null
  */
-class ListingDataChildren implements \JsonSerializable, ArrayAccess, ModelInterface
+class ListingEnvelope implements \JsonSerializable, ArrayAccess, ModelInterface
 {
     public const DISCRIMINATOR = null;
+
+    const KIND_LISTING = 'listing';
 
     /**
      * The original name of the model.
      *
      * @var string
      */
-    protected static $openAPIModelName = 'Listing_data_children';
+    protected static $openAPIModelName = 'ListingEnvelope';
 
     /**
      * Array of property to type mappings. Used for (de)serialization.
@@ -37,7 +39,7 @@ class ListingDataChildren implements \JsonSerializable, ArrayAccess, ModelInterf
      */
     protected static $openAPITypes = [
         'kind' => 'string',
-        'data' => '\Flexolabs\RedditClient\Model\Thing',
+        'data' => '\Flexolabs\RedditClient\Model\Listing',
     ];
 
     /**
@@ -163,6 +165,18 @@ class ListingDataChildren implements \JsonSerializable, ArrayAccess, ModelInterf
     }
 
     /**
+     * Gets allowable values of the enum.
+     *
+     * @return string[]
+     */
+    public function getKindAllowableValues(): array
+    {
+        return [
+            self::KIND_LISTING,
+        ];
+    }
+
+    /**
      * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
@@ -170,6 +184,21 @@ class ListingDataChildren implements \JsonSerializable, ArrayAccess, ModelInterf
     public function listInvalidProperties(): array
     {
         $invalidProperties = [];
+
+        if ($this->container['kind'] === null) {
+            $invalidProperties[] = "'kind' can't be null";
+        }
+        $allowedValues = $this->getKindAllowableValues();
+        if (null !== $this->container['kind'] && ! \in_array($this->container['kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'kind', must be one of '%s'",
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['data'] === null) {
+            $invalidProperties[] = "'data' can't be null";
+        }
 
         return $invalidProperties;
     }
@@ -188,7 +217,7 @@ class ListingDataChildren implements \JsonSerializable, ArrayAccess, ModelInterf
     /**
      * Gets kind.
      */
-    public function getKind(): ?string
+    public function getKind(): string
     {
         return $this->container['kind'];
     }
@@ -196,10 +225,14 @@ class ListingDataChildren implements \JsonSerializable, ArrayAccess, ModelInterf
     /**
      * Sets kind.
      *
-     * @param null|string $kind kind
+     * @param string $kind kind
      */
     public function setKind($kind): self
     {
+        $allowedValues = $this->getKindAllowableValues();
+        if ( ! \in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'kind', must be one of '%s'", implode("', '", $allowedValues)));
+        }
         $this->container['kind'] = $kind;
 
         return $this;
@@ -208,7 +241,7 @@ class ListingDataChildren implements \JsonSerializable, ArrayAccess, ModelInterf
     /**
      * Gets data.
      */
-    public function getData(): ?\Flexolabs\RedditClient\Model\Thing
+    public function getData(): \Flexolabs\RedditClient\Model\Listing
     {
         return $this->container['data'];
     }
@@ -216,7 +249,7 @@ class ListingDataChildren implements \JsonSerializable, ArrayAccess, ModelInterf
     /**
      * Sets data.
      *
-     * @param null|\Flexolabs\RedditClient\Model\Thing $data data
+     * @param \Flexolabs\RedditClient\Model\Listing $data data
      */
     public function setData($data): self
     {

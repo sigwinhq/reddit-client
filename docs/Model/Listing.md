@@ -4,7 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**kind** | **string** |  |
-**data** | [**\Flexolabs\RedditClient\Model\ListingData**](ListingData.md) |  |
+**modhash** | **string** |  |
+**dist** | **int** |  |
+**children** | [**\Flexolabs\RedditClient\Model\Thing[]**](Thing.md) |  |
+**after** | **string** |  | [optional]
+**before** | **string** |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

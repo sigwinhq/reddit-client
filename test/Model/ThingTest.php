@@ -60,126 +60,18 @@ final class ThingTest extends TestCase
     }
 
     /**
-     * Test attribute "id".
+     * Test attribute "kind".
      */
-    public function testPropertyId(): void
+    public function testPropertyKind(): void
     {
         // TODO: implement
         static::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "name".
+     * Test attribute "data".
      */
-    public function testPropertyName(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "permalink".
-     */
-    public function testPropertyPermalink(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "post_hint".
-     */
-    public function testPropertyPostHint(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "created_utc".
-     */
-    public function testPropertyCreatedUtc(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "subreddit".
-     */
-    public function testPropertySubreddit(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "subreddit_id".
-     */
-    public function testPropertySubredditId(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "subreddit_type".
-     */
-    public function testPropertySubredditType(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "author".
-     */
-    public function testPropertyAuthor(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "author_fullname".
-     */
-    public function testPropertyAuthorFullname(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "title".
-     */
-    public function testPropertyTitle(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "url".
-     */
-    public function testPropertyUrl(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "url_overridden_by_dest".
-     */
-    public function testPropertyUrlOverriddenByDest(): void
-    {
-        // TODO: implement
-        static::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "body".
-     */
-    public function testPropertyBody(): void
+    public function testPropertyData(): void
     {
         // TODO: implement
         static::markTestIncomplete('Not implemented');

@@ -23,11 +23,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
 {
     public const DISCRIMINATOR = null;
 
-    const POST_HINT_SELF = 'self';
-    const POST_HINT_LINK = 'link';
-    const POST_HINT_IMAGE = 'image';
-    const POST_HINT_HOSTEDVIDEO = 'hosted:video';
-    const POST_HINT_RICHVIDEO = 'rich:video';
+    const KIND_T1 = 't1';
 
     /**
      * The original name of the model.
@@ -42,20 +38,8 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $openAPITypes = [
-        'id' => 'string',
-        'name' => 'string',
-        'permalink' => 'string',
-        'post_hint' => 'string',
-        'created_utc' => 'int',
-        'subreddit' => 'string',
-        'subreddit_id' => 'string',
-        'subreddit_type' => 'string',
-        'author' => 'string',
-        'author_fullname' => 'string',
-        'title' => 'string',
-        'url' => 'string',
-        'url_overridden_by_dest' => 'string',
-        'body' => 'string',
+        'kind' => 'string',
+        'data' => '\Flexolabs\RedditClient\Model\ThingData',
     ];
 
     /**
@@ -66,20 +50,8 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'id' => null,
-        'name' => null,
-        'permalink' => null,
-        'post_hint' => null,
-        'created_utc' => 'int64',
-        'subreddit' => null,
-        'subreddit_id' => null,
-        'subreddit_type' => null,
-        'author' => null,
-        'author_fullname' => null,
-        'title' => null,
-        'url' => null,
-        'url_overridden_by_dest' => null,
-        'body' => null,
+        'kind' => null,
+        'data' => null,
     ];
 
     /**
@@ -89,20 +61,8 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $attributeMap = [
-        'id' => 'id',
-        'name' => 'name',
-        'permalink' => 'permalink',
-        'post_hint' => 'post_hint',
-        'created_utc' => 'created_utc',
-        'subreddit' => 'subreddit',
-        'subreddit_id' => 'subreddit_id',
-        'subreddit_type' => 'subreddit_type',
-        'author' => 'author',
-        'author_fullname' => 'author_fullname',
-        'title' => 'title',
-        'url' => 'url',
-        'url_overridden_by_dest' => 'url_overridden_by_dest',
-        'body' => 'body',
+        'kind' => 'kind',
+        'data' => 'data',
     ];
 
     /**
@@ -111,20 +71,8 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $setters = [
-        'id' => 'setId',
-        'name' => 'setName',
-        'permalink' => 'setPermalink',
-        'post_hint' => 'setPostHint',
-        'created_utc' => 'setCreatedUtc',
-        'subreddit' => 'setSubreddit',
-        'subreddit_id' => 'setSubredditId',
-        'subreddit_type' => 'setSubredditType',
-        'author' => 'setAuthor',
-        'author_fullname' => 'setAuthorFullname',
-        'title' => 'setTitle',
-        'url' => 'setUrl',
-        'url_overridden_by_dest' => 'setUrlOverriddenByDest',
-        'body' => 'setBody',
+        'kind' => 'setKind',
+        'data' => 'setData',
     ];
 
     /**
@@ -133,20 +81,8 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $getters = [
-        'id' => 'getId',
-        'name' => 'getName',
-        'permalink' => 'getPermalink',
-        'post_hint' => 'getPostHint',
-        'created_utc' => 'getCreatedUtc',
-        'subreddit' => 'getSubreddit',
-        'subreddit_id' => 'getSubredditId',
-        'subreddit_type' => 'getSubredditType',
-        'author' => 'getAuthor',
-        'author_fullname' => 'getAuthorFullname',
-        'title' => 'getTitle',
-        'url' => 'getUrl',
-        'url_overridden_by_dest' => 'getUrlOverriddenByDest',
-        'body' => 'getBody',
+        'kind' => 'getKind',
+        'data' => 'getData',
     ];
 
     /**
@@ -164,20 +100,8 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = $data['id'] ?? null;
-        $this->container['name'] = $data['name'] ?? null;
-        $this->container['permalink'] = $data['permalink'] ?? null;
-        $this->container['post_hint'] = $data['post_hint'] ?? null;
-        $this->container['created_utc'] = $data['created_utc'] ?? null;
-        $this->container['subreddit'] = $data['subreddit'] ?? null;
-        $this->container['subreddit_id'] = $data['subreddit_id'] ?? null;
-        $this->container['subreddit_type'] = $data['subreddit_type'] ?? null;
-        $this->container['author'] = $data['author'] ?? null;
-        $this->container['author_fullname'] = $data['author_fullname'] ?? null;
-        $this->container['title'] = $data['title'] ?? null;
-        $this->container['url'] = $data['url'] ?? null;
-        $this->container['url_overridden_by_dest'] = $data['url_overridden_by_dest'] ?? null;
-        $this->container['body'] = $data['body'] ?? null;
+        $this->container['kind'] = $data['kind'] ?? null;
+        $this->container['data'] = $data['data'] ?? null;
     }
 
     /**
@@ -245,14 +169,10 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
      *
      * @return string[]
      */
-    public function getPostHintAllowableValues(): array
+    public function getKindAllowableValues(): array
     {
         return [
-            self::POST_HINT_SELF,
-            self::POST_HINT_LINK,
-            self::POST_HINT_IMAGE,
-            self::POST_HINT_HOSTEDVIDEO,
-            self::POST_HINT_RICHVIDEO,
+            self::KIND_T1,
         ];
     }
 
@@ -265,37 +185,12 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     {
         $invalidProperties = [];
 
-        if ($this->container['id'] === null) {
-            $invalidProperties[] = "'id' can't be null";
-        }
-        if ($this->container['name'] === null) {
-            $invalidProperties[] = "'name' can't be null";
-        }
-        if ($this->container['permalink'] === null) {
-            $invalidProperties[] = "'permalink' can't be null";
-        }
-        $allowedValues = $this->getPostHintAllowableValues();
-        if (null !== $this->container['post_hint'] && ! \in_array($this->container['post_hint'], $allowedValues, true)) {
+        $allowedValues = $this->getKindAllowableValues();
+        if (null !== $this->container['kind'] && ! \in_array($this->container['kind'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value for 'post_hint', must be one of '%s'",
+                "invalid value for 'kind', must be one of '%s'",
                 implode("', '", $allowedValues)
             );
-        }
-
-        if ($this->container['subreddit'] === null) {
-            $invalidProperties[] = "'subreddit' can't be null";
-        }
-        if ($this->container['subreddit_id'] === null) {
-            $invalidProperties[] = "'subreddit_id' can't be null";
-        }
-        if ($this->container['subreddit_type'] === null) {
-            $invalidProperties[] = "'subreddit_type' can't be null";
-        }
-        if ($this->container['author'] === null) {
-            $invalidProperties[] = "'author' can't be null";
-        }
-        if ($this->container['author_fullname'] === null) {
-            $invalidProperties[] = "'author_fullname' can't be null";
         }
 
         return $invalidProperties;
@@ -313,285 +208,45 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     }
 
     /**
-     * Gets id.
+     * Gets kind.
      */
-    public function getId(): string
+    public function getKind(): ?string
     {
-        return $this->container['id'];
+        return $this->container['kind'];
     }
 
     /**
-     * Sets id.
+     * Sets kind.
      *
-     * @param string $id id
+     * @param null|string $kind kind
      */
-    public function setId($id): self
+    public function setKind($kind): self
     {
-        $this->container['id'] = $id;
-
-        return $this;
-    }
-
-    /**
-     * Gets name.
-     */
-    public function getName(): string
-    {
-        return $this->container['name'];
-    }
-
-    /**
-     * Sets name.
-     *
-     * @param string $name name
-     */
-    public function setName($name): self
-    {
-        $this->container['name'] = $name;
-
-        return $this;
-    }
-
-    /**
-     * Gets permalink.
-     */
-    public function getPermalink(): string
-    {
-        return $this->container['permalink'];
-    }
-
-    /**
-     * Sets permalink.
-     *
-     * @param string $permalink permalink
-     */
-    public function setPermalink($permalink): self
-    {
-        $this->container['permalink'] = $permalink;
-
-        return $this;
-    }
-
-    /**
-     * Gets post_hint.
-     */
-    public function getPostHint(): ?string
-    {
-        return $this->container['post_hint'];
-    }
-
-    /**
-     * Sets post_hint.
-     *
-     * @param null|string $post_hint post_hint
-     */
-    public function setPostHint($post_hint): self
-    {
-        $allowedValues = $this->getPostHintAllowableValues();
-        if (null !== $post_hint && ! \in_array($post_hint, $allowedValues, true)) {
-            throw new \InvalidArgumentException(sprintf("Invalid value for 'post_hint', must be one of '%s'", implode("', '", $allowedValues)));
+        $allowedValues = $this->getKindAllowableValues();
+        if (null !== $kind && ! \in_array($kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(sprintf("Invalid value for 'kind', must be one of '%s'", implode("', '", $allowedValues)));
         }
-        $this->container['post_hint'] = $post_hint;
+        $this->container['kind'] = $kind;
 
         return $this;
     }
 
     /**
-     * Gets created_utc.
+     * Gets data.
      */
-    public function getCreatedUtc(): ?int
+    public function getData(): ?\Flexolabs\RedditClient\Model\ThingData
     {
-        return $this->container['created_utc'];
+        return $this->container['data'];
     }
 
     /**
-     * Sets created_utc.
+     * Sets data.
      *
-     * @param null|int $created_utc created_utc
+     * @param null|\Flexolabs\RedditClient\Model\ThingData $data data
      */
-    public function setCreatedUtc($created_utc): self
+    public function setData($data): self
     {
-        $this->container['created_utc'] = $created_utc;
-
-        return $this;
-    }
-
-    /**
-     * Gets subreddit.
-     */
-    public function getSubreddit(): string
-    {
-        return $this->container['subreddit'];
-    }
-
-    /**
-     * Sets subreddit.
-     *
-     * @param string $subreddit subreddit
-     */
-    public function setSubreddit($subreddit): self
-    {
-        $this->container['subreddit'] = $subreddit;
-
-        return $this;
-    }
-
-    /**
-     * Gets subreddit_id.
-     */
-    public function getSubredditId(): string
-    {
-        return $this->container['subreddit_id'];
-    }
-
-    /**
-     * Sets subreddit_id.
-     *
-     * @param string $subreddit_id subreddit_id
-     */
-    public function setSubredditId($subreddit_id): self
-    {
-        $this->container['subreddit_id'] = $subreddit_id;
-
-        return $this;
-    }
-
-    /**
-     * Gets subreddit_type.
-     */
-    public function getSubredditType(): string
-    {
-        return $this->container['subreddit_type'];
-    }
-
-    /**
-     * Sets subreddit_type.
-     *
-     * @param string $subreddit_type subreddit_type
-     */
-    public function setSubredditType($subreddit_type): self
-    {
-        $this->container['subreddit_type'] = $subreddit_type;
-
-        return $this;
-    }
-
-    /**
-     * Gets author.
-     */
-    public function getAuthor(): string
-    {
-        return $this->container['author'];
-    }
-
-    /**
-     * Sets author.
-     *
-     * @param string $author author
-     */
-    public function setAuthor($author): self
-    {
-        $this->container['author'] = $author;
-
-        return $this;
-    }
-
-    /**
-     * Gets author_fullname.
-     */
-    public function getAuthorFullname(): string
-    {
-        return $this->container['author_fullname'];
-    }
-
-    /**
-     * Sets author_fullname.
-     *
-     * @param string $author_fullname author_fullname
-     */
-    public function setAuthorFullname($author_fullname): self
-    {
-        $this->container['author_fullname'] = $author_fullname;
-
-        return $this;
-    }
-
-    /**
-     * Gets title.
-     */
-    public function getTitle(): ?string
-    {
-        return $this->container['title'];
-    }
-
-    /**
-     * Sets title.
-     *
-     * @param null|string $title title
-     */
-    public function setTitle($title): self
-    {
-        $this->container['title'] = $title;
-
-        return $this;
-    }
-
-    /**
-     * Gets url.
-     */
-    public function getUrl(): ?string
-    {
-        return $this->container['url'];
-    }
-
-    /**
-     * Sets url.
-     *
-     * @param null|string $url url
-     */
-    public function setUrl($url): self
-    {
-        $this->container['url'] = $url;
-
-        return $this;
-    }
-
-    /**
-     * Gets url_overridden_by_dest.
-     */
-    public function getUrlOverriddenByDest(): ?string
-    {
-        return $this->container['url_overridden_by_dest'];
-    }
-
-    /**
-     * Sets url_overridden_by_dest.
-     *
-     * @param null|string $url_overridden_by_dest url_overridden_by_dest
-     */
-    public function setUrlOverriddenByDest($url_overridden_by_dest): self
-    {
-        $this->container['url_overridden_by_dest'] = $url_overridden_by_dest;
-
-        return $this;
-    }
-
-    /**
-     * Gets body.
-     */
-    public function getBody(): ?string
-    {
-        return $this->container['body'];
-    }
-
-    /**
-     * Sets body.
-     *
-     * @param null|string $body body
-     */
-    public function setBody($body): self
-    {
-        $this->container['body'] = $body;
+        $this->container['data'] = $data;
 
         return $this;
     }

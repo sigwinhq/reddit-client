@@ -102,7 +102,7 @@ class UserApi
      * @throws \Flexolabs\RedditClient\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      */
-    public function getSaved($username, $after = null, $before = null, $limit = 25): \Flexolabs\RedditClient\Model\Listing
+    public function getSaved($username, $after = null, $before = null, $limit = 25): \Flexolabs\RedditClient\Model\ListingEnvelope
     {
         list($response) = $this->getSavedWithHttpInfo($username, $after, $before, $limit);
 
@@ -122,7 +122,7 @@ class UserApi
      * @throws \Flexolabs\RedditClient\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      *
-     * @return array of \Flexolabs\RedditClient\Model\Listing, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Flexolabs\RedditClient\Model\ListingEnvelope, HTTP status code, HTTP response headers (array of strings)
      */
     public function getSavedWithHttpInfo($username, $after = null, $before = null, $limit = 25): array
     {
@@ -145,20 +145,20 @@ class UserApi
             $responseBody = $response->getBody();
             switch ($statusCode) {
                 case 200:
-                    if ('\Flexolabs\RedditClient\Model\Listing' === '\SplFileObject') {
+                    if ('\Flexolabs\RedditClient\Model\ListingEnvelope' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = (string) $responseBody;
                     }
 
                     return [
-                        ObjectSerializer::deserialize($content, '\Flexolabs\RedditClient\Model\Listing', []),
+                        ObjectSerializer::deserialize($content, '\Flexolabs\RedditClient\Model\ListingEnvelope', []),
                         $response->getStatusCode(),
                         $response->getHeaders(),
                     ];
             }
 
-            $returnType = '\Flexolabs\RedditClient\Model\Listing';
+            $returnType = '\Flexolabs\RedditClient\Model\ListingEnvelope';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -176,7 +176,7 @@ class UserApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Flexolabs\RedditClient\Model\Listing',
+                        '\Flexolabs\RedditClient\Model\ListingEnvelope',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -222,7 +222,7 @@ class UserApi
      */
     public function getSavedAsyncWithHttpInfo($username, $after = null, $before = null, $limit = 25): \GuzzleHttp\Promise\PromiseInterface
     {
-        $returnType = '\Flexolabs\RedditClient\Model\Listing';
+        $returnType = '\Flexolabs\RedditClient\Model\ListingEnvelope';
         $request = $this->getSavedRequest($username, $after, $before, $limit);
 
         return $this->client

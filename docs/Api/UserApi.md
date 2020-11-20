@@ -11,7 +11,7 @@ Method | HTTP request | Description
 ## `getSaved()`
 
 ```php
-getSaved($username, $after, $before, $limit): \Flexolabs\RedditClient\Model\Listing
+getSaved($username, $after, $before, $limit): \Flexolabs\RedditClient\Model\ListingEnvelope
 ```
 
 Get user saved things
@@ -57,7 +57,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Flexolabs\RedditClient\Model\Listing**](../Model/Listing.md)
+[**\Flexolabs\RedditClient\Model\ListingEnvelope**](../Model/ListingEnvelope.md)
 
 ### Authorization
 

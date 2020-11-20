@@ -60,18 +60,45 @@ final class ListingTest extends TestCase
     }
 
     /**
-     * Test attribute "kind".
+     * Test attribute "modhash".
      */
-    public function testPropertyKind(): void
+    public function testPropertyModhash(): void
     {
         // TODO: implement
         static::markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test attribute "data".
+     * Test attribute "dist".
      */
-    public function testPropertyData(): void
+    public function testPropertyDist(): void
+    {
+        // TODO: implement
+        static::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "children".
+     */
+    public function testPropertyChildren(): void
+    {
+        // TODO: implement
+        static::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "after".
+     */
+    public function testPropertyAfter(): void
+    {
+        // TODO: implement
+        static::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "before".
+     */
+    public function testPropertyBefore(): void
     {
         // TODO: implement
         static::markTestIncomplete('Not implemented');

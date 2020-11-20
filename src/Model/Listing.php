@@ -36,8 +36,11 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $openAPITypes = [
-        'kind' => 'string',
-        'data' => '\Flexolabs\RedditClient\Model\ListingData',
+        'modhash' => 'string',
+        'dist' => 'int',
+        'children' => '\Flexolabs\RedditClient\Model\Thing[]',
+        'after' => 'string',
+        'before' => 'string',
     ];
 
     /**
@@ -48,8 +51,11 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'kind' => null,
-        'data' => null,
+        'modhash' => null,
+        'dist' => null,
+        'children' => null,
+        'after' => null,
+        'before' => null,
     ];
 
     /**
@@ -59,8 +65,11 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $attributeMap = [
-        'kind' => 'kind',
-        'data' => 'data',
+        'modhash' => 'modhash',
+        'dist' => 'dist',
+        'children' => 'children',
+        'after' => 'after',
+        'before' => 'before',
     ];
 
     /**
@@ -69,8 +78,11 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $setters = [
-        'kind' => 'setKind',
-        'data' => 'setData',
+        'modhash' => 'setModhash',
+        'dist' => 'setDist',
+        'children' => 'setChildren',
+        'after' => 'setAfter',
+        'before' => 'setBefore',
     ];
 
     /**
@@ -79,8 +91,11 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
      * @var string[]
      */
     protected static $getters = [
-        'kind' => 'getKind',
-        'data' => 'getData',
+        'modhash' => 'getModhash',
+        'dist' => 'getDist',
+        'children' => 'getChildren',
+        'after' => 'getAfter',
+        'before' => 'getBefore',
     ];
 
     /**
@@ -98,8 +113,11 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
      */
     public function __construct(array $data = null)
     {
-        $this->container['kind'] = $data['kind'] ?? null;
-        $this->container['data'] = $data['data'] ?? null;
+        $this->container['modhash'] = $data['modhash'] ?? null;
+        $this->container['dist'] = $data['dist'] ?? null;
+        $this->container['children'] = $data['children'] ?? null;
+        $this->container['after'] = $data['after'] ?? null;
+        $this->container['before'] = $data['before'] ?? null;
     }
 
     /**
@@ -171,11 +189,14 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
     {
         $invalidProperties = [];
 
-        if ($this->container['kind'] === null) {
-            $invalidProperties[] = "'kind' can't be null";
+        if ($this->container['modhash'] === null) {
+            $invalidProperties[] = "'modhash' can't be null";
         }
-        if ($this->container['data'] === null) {
-            $invalidProperties[] = "'data' can't be null";
+        if ($this->container['dist'] === null) {
+            $invalidProperties[] = "'dist' can't be null";
+        }
+        if ($this->container['children'] === null) {
+            $invalidProperties[] = "'children' can't be null";
         }
 
         return $invalidProperties;
@@ -193,41 +214,103 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
     }
 
     /**
-     * Gets kind.
+     * Gets modhash.
      */
-    public function getKind(): string
+    public function getModhash(): string
     {
-        return $this->container['kind'];
+        return $this->container['modhash'];
     }
 
     /**
-     * Sets kind.
+     * Sets modhash.
      *
-     * @param string $kind kind
+     * @param string $modhash modhash
      */
-    public function setKind($kind): self
+    public function setModhash($modhash): self
     {
-        $this->container['kind'] = $kind;
+        $this->container['modhash'] = $modhash;
 
         return $this;
     }
 
     /**
-     * Gets data.
+     * Gets dist.
      */
-    public function getData(): \Flexolabs\RedditClient\Model\ListingData
+    public function getDist(): int
     {
-        return $this->container['data'];
+        return $this->container['dist'];
     }
 
     /**
-     * Sets data.
+     * Sets dist.
      *
-     * @param \Flexolabs\RedditClient\Model\ListingData $data data
+     * @param int $dist dist
      */
-    public function setData($data): self
+    public function setDist($dist): self
     {
-        $this->container['data'] = $data;
+        $this->container['dist'] = $dist;
+
+        return $this;
+    }
+
+    /**
+     * Gets children.
+     *
+     * @return \Flexolabs\RedditClient\Model\Thing[]
+     */
+    public function getChildren(): array
+    {
+        return $this->container['children'];
+    }
+
+    /**
+     * Sets children.
+     *
+     * @param \Flexolabs\RedditClient\Model\Thing[] $children children
+     */
+    public function setChildren($children): self
+    {
+        $this->container['children'] = $children;
+
+        return $this;
+    }
+
+    /**
+     * Gets after.
+     */
+    public function getAfter(): ?string
+    {
+        return $this->container['after'];
+    }
+
+    /**
+     * Sets after.
+     *
+     * @param null|string $after after
+     */
+    public function setAfter($after): self
+    {
+        $this->container['after'] = $after;
+
+        return $this;
+    }
+
+    /**
+     * Gets before.
+     */
+    public function getBefore(): ?string
+    {
+        return $this->container['before'];
+    }
+
+    /**
+     * Sets before.
+     *
+     * @param null|string $before before
+     */
+    public function setBefore($before): self
+    {
+        $this->container['before'] = $before;
 
         return $this;
     }
