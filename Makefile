@@ -14,16 +14,19 @@ endif
 
 ifndef PHPQA_DOCKER_COMMAND
 PHPQA_DOCKER_IMAGE=jakzal/phpqa:1.41-php${BUILD_ENV}-alpine
-PHPQA_DOCKER_COMMAND=docker run --init --interactive --rm --env "COMPOSER_CACHE_DIR=/composer/cache" --user "$(shell id -u):$(shell id -g)" --volume "$(shell pwd)/var/tmp/phpqa:/tmp" --volume "$(shell pwd):/project" --volume "${HOME}/.composer:/composer" --workdir /project ${PHPQA_DOCKER_IMAGE}
+PHPQA_DOCKER_COMMAND=docker run --init --interactive --rm --env "COMPOSER_CACHE_DIR=/composer/cache" --user "$(shell id -u):$(shell id -g)" --tmpfs /tmp --volume "$(shell pwd):/project" --volume "${HOME}/.composer:/composer" --workdir /project ${PHPQA_DOCKER_IMAGE}
 endif
 
-rebuild: build
+default: help
 docs: markdownlint textlint vale
-check: composer-validate cs-check analyze
-analyze: phpstan psalm
-test: phpunit
+run/check: composer-validate cs-check run/analyze ## Run a suite of checks (code style, static analysis)
+run/analyze: phpstan psalm ## Run static analysis
+run/test: phpunit ## Run a suite of tests
 
-build: ensure
+help: ## Prints commands help
+	@grep --no-filename --extended-regexp '^ *[-a-zA-Z0-9_/]+ *:.*## ' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[45m%-15s\033[0m %s\n", $$1, $$2}'
+
+build: ensure ## Rebuild the repo
 	sh -c "${OPENAPI_DOCKER_COMMAND} /specs/reddit/v1/index.yaml"
 
 composer-validate: ensure composer-normalize-check
@@ -31,7 +34,7 @@ composer-validate: ensure composer-normalize-check
 composer-install: ensure
 	sh -c "${PHPQA_DOCKER_COMMAND} composer upgrade"
 composer-normalize-check: ensure
-	sh -c "${PHPQA_DOCKER_COMMAND} composer normalize --dry-run"
+	sh -c "${PHPQA_DOCKER_COMMAND} composer normalize --dry-run --no-check-lock --no-update-lock"
 
 cs-check: ensure
 	sh -c "${PHPQA_DOCKER_COMMAND} php-cs-fixer fix --using-cache=false --dry-run --diff -vvv"

@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <psalm
-    errorLevel="8"
+    errorLevel="7"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config">
+    xmlns="https://getpsalm.org/schema/config"
+    cacheDirectory="/tmp">
 
     <projectFiles>
         <directory name="."/>
@@ -14,7 +15,7 @@
 
     <issueHandlers>
         <PropertyNotSetInConstructor>
-            <errorLevel type="info">
+            <errorLevel type="suppress">
                 <directory name="test/"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
