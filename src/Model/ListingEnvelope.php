@@ -23,7 +23,7 @@ class ListingEnvelope implements \JsonSerializable, ArrayAccess, ModelInterface
 {
     public const DISCRIMINATOR = null;
 
-    const KIND_LISTING = 'listing';
+    const KIND_LISTING = 'Listing';
 
     /**
      * The original name of the model.
