@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **modhash** | **string** |  |
 **dist** | **int** |  |
-**children** | [**\Flexolabs\RedditClient\Model\Thing[]**](Thing.md) |  |
+**children** | [**\Sigwin\RedditClient\Model\Thing[]**](Thing.md) |  |
 **after** | **string** |  | [optional]
 **before** | **string** |  | [optional]
 

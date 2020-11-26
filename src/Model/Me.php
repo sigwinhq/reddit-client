@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Flexolabs\RedditClient\Model;
+namespace Sigwin\RedditClient\Model;
 
 use ArrayAccess;
-use Flexolabs\RedditClient\ObjectSerializer;
+use Sigwin\RedditClient\ObjectSerializer;
 
 /**
  * Me Class Doc Comment.

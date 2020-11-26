@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Flexolabs\RedditClient;
+namespace Sigwin\RedditClient;
 
-use Flexolabs\RedditClient\Model\ModelInterface;
+use Sigwin\RedditClient\Model\ModelInterface;
 
 /**
  * ObjectSerializer Class Doc Comment.
@@ -337,7 +337,7 @@ class ObjectSerializer
         // If a discriminator is defined and points to a valid subclass, use it.
         $discriminator = $class::DISCRIMINATOR;
         if ( ! empty($discriminator) && isset($data->{$discriminator}) && \is_string($data->{$discriminator})) {
-            $subclass = '\Flexolabs\RedditClient\Model\\'.$data->{$discriminator};
+            $subclass = '\Sigwin\RedditClient\Model\\'.$data->{$discriminator};
             if (is_subclass_of($subclass, $class)) {
                 $class = $subclass;
             }

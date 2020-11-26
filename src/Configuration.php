@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flexolabs\RedditClient;
+namespace Sigwin\RedditClient;
 
 /**
  * Configuration Class Doc Comment
@@ -373,7 +373,7 @@ class Configuration
      */
     public static function toDebugReport(): string
     {
-        $report = 'PHP SDK (Flexolabs\RedditClient) Debug Report:'.PHP_EOL;
+        $report = 'PHP SDK (Sigwin\RedditClient) Debug Report:'.PHP_EOL;
         $report .= '    OS: '.php_uname().PHP_EOL;
         $report .= '    PHP Version: '.PHP_VERSION.PHP_EOL;
         $report .= '    The version of the OpenAPI document: 1.0.2'.PHP_EOL;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flexolabs\RedditClient\Model;
+namespace Sigwin\RedditClient\Model;
 
 /**
  * Interface abstracting model access.

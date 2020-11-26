@@ -1,5 +1,5 @@
 {
-    "name": "flexolabs/reddit-client",
+    "name": "sigwin/reddit-client",
     "description": "Reddit.com API",
     "keywords": [
         "openapitools",
@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Flexolabs\\RedditClient\\": "src/"
+            "Sigwin\\RedditClient\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Flexolabs\\RedditClient\\Test\\": "test/"
+            "Sigwin\\RedditClient\\Test\\": "test/"
         }
     }
 }
