@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Flexolabs\RedditClient\Model;
+namespace Sigwin\RedditClient\Model;
 
 use ArrayAccess;
-use Flexolabs\RedditClient\ObjectSerializer;
+use Sigwin\RedditClient\ObjectSerializer;
 
 /**
  * ListingEnvelope Class Doc Comment.
@@ -39,7 +39,7 @@ class ListingEnvelope implements \JsonSerializable, ArrayAccess, ModelInterface
      */
     protected static $openAPITypes = [
         'kind' => 'string',
-        'data' => '\Flexolabs\RedditClient\Model\Listing',
+        'data' => '\Sigwin\RedditClient\Model\Listing',
     ];
 
     /**
@@ -242,7 +242,7 @@ class ListingEnvelope implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Gets data.
      */
-    public function getData(): \Flexolabs\RedditClient\Model\Listing
+    public function getData(): \Sigwin\RedditClient\Model\Listing
     {
         return $this->container['data'];
     }
@@ -250,7 +250,7 @@ class ListingEnvelope implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Sets data.
      *
-     * @param \Flexolabs\RedditClient\Model\Listing $data data
+     * @param \Sigwin\RedditClient\Model\Listing $data data
      */
     public function setData($data): self
     {

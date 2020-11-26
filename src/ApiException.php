@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flexolabs\RedditClient;
+namespace Sigwin\RedditClient;
 
 use Exception;
 

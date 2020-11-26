@@ -1,4 +1,4 @@
-# Flexolabs\RedditClient\UserApi
+# Sigwin\RedditClient\UserApi
 
 All URIs are relative to https://oauth.reddit.com.
 
@@ -11,7 +11,7 @@ Method | HTTP request | Description
 ## `getSaved()`
 
 ```php
-getSaved($username, $after, $before, $limit): \Flexolabs\RedditClient\Model\ListingEnvelope
+getSaved($username, $after, $before, $limit): \Sigwin\RedditClient\Model\ListingEnvelope
 ```
 
 Get user saved things
@@ -24,10 +24,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = Flexolabs\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Sigwin\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
-$apiInstance = new Flexolabs\RedditClient\Api\UserApi(
+$apiInstance = new Sigwin\RedditClient\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
@@ -57,7 +57,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Flexolabs\RedditClient\Model\ListingEnvelope**](../Model/ListingEnvelope.md)
+[**\Sigwin\RedditClient\Model\ListingEnvelope**](../Model/ListingEnvelope.md)
 
 ### Authorization
 
@@ -75,7 +75,7 @@ Name | Type | Description  | Notes
 ## `me()`
 
 ```php
-me(): \Flexolabs\RedditClient\Model\Me
+me(): \Sigwin\RedditClient\Model\Me
 ```
 
 Returns the identity of the user.
@@ -88,10 +88,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = Flexolabs\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Sigwin\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
-$apiInstance = new Flexolabs\RedditClient\Api\UserApi(
+$apiInstance = new Sigwin\RedditClient\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
@@ -112,7 +112,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**\Flexolabs\RedditClient\Model\Me**](../Model/Me.md)
+[**\Sigwin\RedditClient\Model\Me**](../Model/Me.md)
 
 ### Authorization
 

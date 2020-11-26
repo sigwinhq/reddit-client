@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Flexolabs\RedditClient\Model;
+namespace Sigwin\RedditClient\Model;
 
 use ArrayAccess;
-use Flexolabs\RedditClient\ObjectSerializer;
+use Sigwin\RedditClient\ObjectSerializer;
 
 /**
  * Thing Class Doc Comment.
@@ -40,7 +40,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
      */
     protected static $openAPITypes = [
         'kind' => 'string',
-        'data' => '\Flexolabs\RedditClient\Model\ThingData',
+        'data' => '\Sigwin\RedditClient\Model\ThingData',
     ];
 
     /**
@@ -237,7 +237,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Gets data.
      */
-    public function getData(): ?\Flexolabs\RedditClient\Model\ThingData
+    public function getData(): ?\Sigwin\RedditClient\Model\ThingData
     {
         return $this->container['data'];
     }
@@ -245,7 +245,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Sets data.
      *
-     * @param null|\Flexolabs\RedditClient\Model\ThingData $data data
+     * @param null|\Sigwin\RedditClient\Model\ThingData $data data
      */
     public function setData($data): self
     {

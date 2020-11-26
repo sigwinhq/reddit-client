@@ -1,4 +1,4 @@
-# Flexolabs\RedditClient
+# RedditClient
 
 Reddit.com API
 
@@ -19,11 +19,11 @@ To install the bindings via [Composer](https://getcomposer.org/), add the follow
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/flexolabs/reddit-client.git"
+      "url": "https://github.com/sigwin/reddit-client.git"
     }
   ],
   "require": {
-    "flexolabs/reddit-client": "*@dev"
+    "sigwin/reddit-client": "*@dev"
   }
 }
 ```
@@ -36,7 +36,7 @@ Download the files and include `autoload.php`:
 
 ```php
 <?php
-require_once('/path/to/Flexolabs\RedditClient/vendor/autoload.php');
+require_once('/path/to/RedditClient/vendor/autoload.php');
 ```
 
 ## Getting Started
@@ -50,10 +50,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = Flexolabs\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Sigwin\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
-$apiInstance = new Flexolabs\RedditClient\Api\UserApi(
+$apiInstance = new Sigwin\RedditClient\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),

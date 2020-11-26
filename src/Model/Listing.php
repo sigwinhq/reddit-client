@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Flexolabs\RedditClient\Model;
+namespace Sigwin\RedditClient\Model;
 
 use ArrayAccess;
-use Flexolabs\RedditClient\ObjectSerializer;
+use Sigwin\RedditClient\ObjectSerializer;
 
 /**
  * Listing Class Doc Comment.
@@ -38,7 +38,7 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
     protected static $openAPITypes = [
         'modhash' => 'string',
         'dist' => 'int',
-        'children' => '\Flexolabs\RedditClient\Model\Thing[]',
+        'children' => '\Sigwin\RedditClient\Model\Thing[]',
         'after' => 'string',
         'before' => 'string',
     ];
@@ -256,7 +256,7 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Gets children.
      *
-     * @return \Flexolabs\RedditClient\Model\Thing[]
+     * @return \Sigwin\RedditClient\Model\Thing[]
      */
     public function getChildren(): array
     {
@@ -266,7 +266,7 @@ class Listing implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Sets children.
      *
-     * @param \Flexolabs\RedditClient\Model\Thing[] $children children
+     * @param \Sigwin\RedditClient\Model\Thing[] $children children
      */
     public function setChildren($children): self
     {

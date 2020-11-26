@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flexolabs\RedditClient\Test\Model;
+namespace Sigwin\RedditClient\Test\Model;
 
 use PHPUnit\Framework\TestCase;
 
