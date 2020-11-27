@@ -187,6 +187,9 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     {
         $invalidProperties = [];
 
+        if ($this->container['kind'] === null) {
+            $invalidProperties[] = "'kind' can't be null";
+        }
         $allowedValues = $this->getKindAllowableValues();
         if (null !== $this->container['kind'] && ! \in_array($this->container['kind'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -194,6 +197,10 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
                 $this->container['kind'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        if ($this->container['data'] === null) {
+            $invalidProperties[] = "'data' can't be null";
         }
 
         return $invalidProperties;
@@ -213,7 +220,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Gets kind.
      */
-    public function getKind(): ?string
+    public function getKind(): string
     {
         return $this->container['kind'];
     }
@@ -221,12 +228,12 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Sets kind.
      *
-     * @param null|string $kind kind
+     * @param string $kind kind
      */
     public function setKind($kind): self
     {
         $allowedValues = $this->getKindAllowableValues();
-        if (null !== $kind && ! \in_array($kind, $allowedValues, true)) {
+        if ( ! \in_array($kind, $allowedValues, true)) {
             throw new \InvalidArgumentException(sprintf("Invalid value '%s' for 'kind', must be one of '%s'", $kind, implode("', '", $allowedValues)));
         }
         $this->container['kind'] = $kind;
@@ -237,7 +244,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Gets data.
      */
-    public function getData(): ?\Sigwin\RedditClient\Model\ThingData
+    public function getData(): \Sigwin\RedditClient\Model\ThingData
     {
         return $this->container['data'];
     }
@@ -245,7 +252,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     /**
      * Sets data.
      *
-     * @param null|\Sigwin\RedditClient\Model\ThingData $data data
+     * @param \Sigwin\RedditClient\Model\ThingData $data data
      */
     public function setData($data): self
     {
