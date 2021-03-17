@@ -264,7 +264,7 @@ class ObjectSerializer
             return $values;
         }
 
-        if (mb_substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
+        if (preg_match('/^(array<|map\[)/', $class)) { // for associative array e.g. array<string,int>
             $data = \is_string($data) ? json_decode($data) : $data;
             $data = (array) $data;
             $inner = mb_substr($class, 4, -1);
@@ -294,10 +294,18 @@ class ObjectSerializer
             // be interpreted as a missing field/value. Let's handle
             // this graceful.
             if ( ! empty($data)) {
-                return new \DateTimeImmutable($data);
+                try {
+                    return new \DateTimeImmutable($data);
+                } catch (\Exception $exception) {
+                    // Some API's return a date-time with too high nanosecond
+                    // precision for php's DateTime to handle. This conversion
+                    // (string -> unix timestamp -> DateTime) is a workaround
+                    // for the problem.
+                    return (new \DateTimeImmutable())->setTimestamp(strtotime($data));
+                }
+            } else {
+                return null;
             }
-
-            return null;
         }
 
         /** @psalm-suppress ParadoxicalCondition */

@@ -112,7 +112,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
+            \JSON_PRETTY_PRINT
         );
     }
 
@@ -243,8 +243,10 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
 
     /**
      * Gets data.
+     *
+     * @return \Sigwin\RedditClient\Model\ThingData
      */
-    public function getData(): \Sigwin\RedditClient\Model\ThingData
+    public function getData(): ThingData
     {
         return $this->container['data'];
     }

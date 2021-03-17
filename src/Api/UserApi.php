@@ -260,7 +260,7 @@ class UserApi
      *
      * @throws \InvalidArgumentException
      */
-    public function getSavedRequest($username, $after = null, $before = null, $limit = 25): \GuzzleHttp\Psr7\Request
+    public function getSavedRequest($username, $after = null, $before = null, $limit = 25): Request
     {
         // verify the required parameter 'username' is set
         if ($username === null || (\is_array($username) && \count($username) === 0)) {
@@ -532,7 +532,7 @@ class UserApi
      *
      * @throws \InvalidArgumentException
      */
-    public function meRequest(): \GuzzleHttp\Psr7\Request
+    public function meRequest(): Request
     {
         $resourcePath = '/me';
         $formParams = [];

@@ -111,7 +111,7 @@ class ListingEnvelope implements \JsonSerializable, ArrayAccess, ModelInterface
     {
         return json_encode(
             ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
+            \JSON_PRETTY_PRINT
         );
     }
 
@@ -241,8 +241,10 @@ class ListingEnvelope implements \JsonSerializable, ArrayAccess, ModelInterface
 
     /**
      * Gets data.
+     *
+     * @return \Sigwin\RedditClient\Model\Listing
      */
-    public function getData(): \Sigwin\RedditClient\Model\Listing
+    public function getData(): Listing
     {
         return $this->container['data'];
     }
