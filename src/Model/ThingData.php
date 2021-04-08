@@ -55,6 +55,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'title' => 'string',
         'url' => 'string',
         'url_overridden_by_dest' => 'string',
+        'link_id' => 'string',
+        'link_author' => 'string',
+        'link_title' => 'string',
+        'link_permalink' => 'string',
         'body' => 'string',
     ];
 
@@ -79,6 +83,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'title' => null,
         'url' => null,
         'url_overridden_by_dest' => null,
+        'link_id' => null,
+        'link_author' => null,
+        'link_title' => null,
+        'link_permalink' => null,
         'body' => null,
     ];
 
@@ -102,6 +110,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'title' => 'title',
         'url' => 'url',
         'url_overridden_by_dest' => 'url_overridden_by_dest',
+        'link_id' => 'link_id',
+        'link_author' => 'link_author',
+        'link_title' => 'link_title',
+        'link_permalink' => 'link_permalink',
         'body' => 'body',
     ];
 
@@ -124,6 +136,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'title' => 'setTitle',
         'url' => 'setUrl',
         'url_overridden_by_dest' => 'setUrlOverriddenByDest',
+        'link_id' => 'setLinkId',
+        'link_author' => 'setLinkAuthor',
+        'link_title' => 'setLinkTitle',
+        'link_permalink' => 'setLinkPermalink',
         'body' => 'setBody',
     ];
 
@@ -146,6 +162,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'title' => 'getTitle',
         'url' => 'getUrl',
         'url_overridden_by_dest' => 'getUrlOverriddenByDest',
+        'link_id' => 'getLinkId',
+        'link_author' => 'getLinkAuthor',
+        'link_title' => 'getLinkTitle',
+        'link_permalink' => 'getLinkPermalink',
         'body' => 'getBody',
     ];
 
@@ -177,6 +197,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         $this->container['title'] = $data['title'] ?? null;
         $this->container['url'] = $data['url'] ?? null;
         $this->container['url_overridden_by_dest'] = $data['url_overridden_by_dest'] ?? null;
+        $this->container['link_id'] = $data['link_id'] ?? null;
+        $this->container['link_author'] = $data['link_author'] ?? null;
+        $this->container['link_title'] = $data['link_title'] ?? null;
+        $this->container['link_permalink'] = $data['link_permalink'] ?? null;
         $this->container['body'] = $data['body'] ?? null;
     }
 
@@ -570,6 +594,86 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
     public function setUrlOverriddenByDest($url_overridden_by_dest): self
     {
         $this->container['url_overridden_by_dest'] = $url_overridden_by_dest;
+
+        return $this;
+    }
+
+    /**
+     * Gets link_id.
+     */
+    public function getLinkId(): ?string
+    {
+        return $this->container['link_id'];
+    }
+
+    /**
+     * Sets link_id.
+     *
+     * @param null|string $link_id link_id
+     */
+    public function setLinkId($link_id): self
+    {
+        $this->container['link_id'] = $link_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets link_author.
+     */
+    public function getLinkAuthor(): ?string
+    {
+        return $this->container['link_author'];
+    }
+
+    /**
+     * Sets link_author.
+     *
+     * @param null|string $link_author link_author
+     */
+    public function setLinkAuthor($link_author): self
+    {
+        $this->container['link_author'] = $link_author;
+
+        return $this;
+    }
+
+    /**
+     * Gets link_title.
+     */
+    public function getLinkTitle(): ?string
+    {
+        return $this->container['link_title'];
+    }
+
+    /**
+     * Sets link_title.
+     *
+     * @param null|string $link_title link_title
+     */
+    public function setLinkTitle($link_title): self
+    {
+        $this->container['link_title'] = $link_title;
+
+        return $this;
+    }
+
+    /**
+     * Gets link_permalink.
+     */
+    public function getLinkPermalink(): ?string
+    {
+        return $this->container['link_permalink'];
+    }
+
+    /**
+     * Sets link_permalink.
+     *
+     * @param null|string $link_permalink link_permalink
+     */
+    public function setLinkPermalink($link_permalink): self
+    {
+        $this->container['link_permalink'] = $link_permalink;
 
         return $this;
     }

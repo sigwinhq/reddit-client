@@ -17,6 +17,10 @@ Name | Type | Description | Notes
 **title** | **string** |  | [optional]
 **url** | **string** |  | [optional]
 **url_overridden_by_dest** | **string** |  | [optional]
+**link_id** | **string** |  | [optional]
+**link_author** | **string** |  | [optional]
+**link_title** | **string** |  | [optional]
+**link_permalink** | **string** |  | [optional]
 **body** | **string** |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
