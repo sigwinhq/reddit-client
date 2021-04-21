@@ -60,7 +60,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => 'string',
         'link_permalink' => 'string',
         'body' => 'string',
+        'is_gallery' => 'bool',
+        'is_meta' => 'bool',
         'is_self' => 'bool',
+        'is_video' => 'bool',
         'selftext' => 'string',
     ];
 
@@ -90,7 +93,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => null,
         'link_permalink' => null,
         'body' => null,
+        'is_gallery' => null,
+        'is_meta' => null,
         'is_self' => null,
+        'is_video' => null,
         'selftext' => null,
     ];
 
@@ -119,7 +125,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => 'link_title',
         'link_permalink' => 'link_permalink',
         'body' => 'body',
+        'is_gallery' => 'is_gallery',
+        'is_meta' => 'is_meta',
         'is_self' => 'is_self',
+        'is_video' => 'is_video',
         'selftext' => 'selftext',
     ];
 
@@ -147,7 +156,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => 'setLinkTitle',
         'link_permalink' => 'setLinkPermalink',
         'body' => 'setBody',
+        'is_gallery' => 'setIsGallery',
+        'is_meta' => 'setIsMeta',
         'is_self' => 'setIsSelf',
+        'is_video' => 'setIsVideo',
         'selftext' => 'setSelftext',
     ];
 
@@ -175,7 +187,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => 'getLinkTitle',
         'link_permalink' => 'getLinkPermalink',
         'body' => 'getBody',
+        'is_gallery' => 'getIsGallery',
+        'is_meta' => 'getIsMeta',
         'is_self' => 'getIsSelf',
+        'is_video' => 'getIsVideo',
         'selftext' => 'getSelftext',
     ];
 
@@ -212,7 +227,10 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         $this->container['link_title'] = $data['link_title'] ?? null;
         $this->container['link_permalink'] = $data['link_permalink'] ?? null;
         $this->container['body'] = $data['body'] ?? null;
+        $this->container['is_gallery'] = $data['is_gallery'] ?? null;
+        $this->container['is_meta'] = $data['is_meta'] ?? null;
         $this->container['is_self'] = $data['is_self'] ?? null;
+        $this->container['is_video'] = $data['is_video'] ?? null;
         $this->container['selftext'] = $data['selftext'] ?? null;
     }
 
@@ -711,6 +729,46 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
     }
 
     /**
+     * Gets is_gallery.
+     */
+    public function getIsGallery(): ?bool
+    {
+        return $this->container['is_gallery'];
+    }
+
+    /**
+     * Sets is_gallery.
+     *
+     * @param null|bool $is_gallery is_gallery
+     */
+    public function setIsGallery($is_gallery): self
+    {
+        $this->container['is_gallery'] = $is_gallery;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_meta.
+     */
+    public function getIsMeta(): ?bool
+    {
+        return $this->container['is_meta'];
+    }
+
+    /**
+     * Sets is_meta.
+     *
+     * @param null|bool $is_meta is_meta
+     */
+    public function setIsMeta($is_meta): self
+    {
+        $this->container['is_meta'] = $is_meta;
+
+        return $this;
+    }
+
+    /**
      * Gets is_self.
      */
     public function getIsSelf(): ?bool
@@ -726,6 +784,26 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
     public function setIsSelf($is_self): self
     {
         $this->container['is_self'] = $is_self;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_video.
+     */
+    public function getIsVideo(): ?bool
+    {
+        return $this->container['is_video'];
+    }
+
+    /**
+     * Sets is_video.
+     *
+     * @param null|bool $is_video is_video
+     */
+    public function setIsVideo($is_video): self
+    {
+        $this->container['is_video'] = $is_video;
 
         return $this;
     }
