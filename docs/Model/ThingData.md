@@ -22,5 +22,7 @@ Name | Type | Description | Notes
 **link_title** | **string** |  | [optional]
 **link_permalink** | **string** |  | [optional]
 **body** | **string** |  | [optional]
+**is_self** | **bool** |  | [optional]
+**selftext** | **string** |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

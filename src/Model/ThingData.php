@@ -60,6 +60,8 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => 'string',
         'link_permalink' => 'string',
         'body' => 'string',
+        'is_self' => 'bool',
+        'selftext' => 'string',
     ];
 
     /**
@@ -88,6 +90,8 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => null,
         'link_permalink' => null,
         'body' => null,
+        'is_self' => null,
+        'selftext' => null,
     ];
 
     /**
@@ -115,6 +119,8 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => 'link_title',
         'link_permalink' => 'link_permalink',
         'body' => 'body',
+        'is_self' => 'is_self',
+        'selftext' => 'selftext',
     ];
 
     /**
@@ -141,6 +147,8 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => 'setLinkTitle',
         'link_permalink' => 'setLinkPermalink',
         'body' => 'setBody',
+        'is_self' => 'setIsSelf',
+        'selftext' => 'setSelftext',
     ];
 
     /**
@@ -167,6 +175,8 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         'link_title' => 'getLinkTitle',
         'link_permalink' => 'getLinkPermalink',
         'body' => 'getBody',
+        'is_self' => 'getIsSelf',
+        'selftext' => 'getSelftext',
     ];
 
     /**
@@ -202,6 +212,8 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
         $this->container['link_title'] = $data['link_title'] ?? null;
         $this->container['link_permalink'] = $data['link_permalink'] ?? null;
         $this->container['body'] = $data['body'] ?? null;
+        $this->container['is_self'] = $data['is_self'] ?? null;
+        $this->container['selftext'] = $data['selftext'] ?? null;
     }
 
     /**
@@ -694,6 +706,46 @@ class ThingData implements \JsonSerializable, ArrayAccess, ModelInterface
     public function setBody($body): self
     {
         $this->container['body'] = $body;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_self.
+     */
+    public function getIsSelf(): ?bool
+    {
+        return $this->container['is_self'];
+    }
+
+    /**
+     * Sets is_self.
+     *
+     * @param null|bool $is_self is_self
+     */
+    public function setIsSelf($is_self): self
+    {
+        $this->container['is_self'] = $is_self;
+
+        return $this;
+    }
+
+    /**
+     * Gets selftext.
+     */
+    public function getSelftext(): ?string
+    {
+        return $this->container['selftext'];
+    }
+
+    /**
+     * Sets selftext.
+     *
+     * @param null|string $selftext selftext
+     */
+    public function setSelftext($selftext): self
+    {
+        $this->container['selftext'] = $selftext;
 
         return $this;
     }
