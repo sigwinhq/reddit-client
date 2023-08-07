@@ -6,7 +6,7 @@ namespace Sigwin\RedditClient;
 
 /**
  * Configuration Class Doc Comment
- * PHP version 7.2.
+ * PHP version 7.3.
  *
  * @category Class
  *
@@ -376,7 +376,7 @@ class Configuration
         $report = 'PHP SDK (Sigwin\RedditClient) Debug Report:'.\PHP_EOL;
         $report .= '    OS: '.php_uname().\PHP_EOL;
         $report .= '    PHP Version: '.\PHP_VERSION.\PHP_EOL;
-        $report .= '    The version of the OpenAPI document: 1.1.0'.\PHP_EOL;
+        $report .= '    The version of the OpenAPI document: 1.2.0'.\PHP_EOL;
         $report .= '    Temp Folder Path: '.self::getDefaultConfiguration()->getTempFolderPath().\PHP_EOL;
 
         return $report;

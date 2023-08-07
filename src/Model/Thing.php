@@ -25,6 +25,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
 
     const KIND_T1 = 't1';
     const KIND_T3 = 't3';
+    const KIND_MORE = 'more';
 
     /**
      * The original name of the model.
@@ -175,6 +176,7 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
         return [
             self::KIND_T1,
             self::KIND_T3,
+            self::KIND_MORE,
         ];
     }
 
