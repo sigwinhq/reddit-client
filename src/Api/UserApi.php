@@ -373,9 +373,6 @@ class UserApi
      *
      * Returns the identity of the user.
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: https://oauth.reddit.com/api/v1
-     *
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      */
@@ -390,9 +387,6 @@ class UserApi
      * Operation meWithHttpInfo.
      *
      * Returns the identity of the user.
-     *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: https://oauth.reddit.com/api/v1
      *
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -464,9 +458,6 @@ class UserApi
      *
      * Returns the identity of the user.
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: https://oauth.reddit.com/api/v1
-     *
      * @throws \InvalidArgumentException
      */
     public function meAsync(): \GuzzleHttp\Promise\PromiseInterface
@@ -483,9 +474,6 @@ class UserApi
      * Operation meAsyncWithHttpInfo.
      *
      * Returns the identity of the user.
-     *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: https://oauth.reddit.com/api/v1
      *
      * @throws \InvalidArgumentException
      */
@@ -521,14 +509,11 @@ class UserApi
     /**
      * Create request for operation 'me'.
      *
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
-     * URL: https://oauth.reddit.com/api/v1
-     *
      * @throws \InvalidArgumentException
      */
     public function meRequest(): Request
     {
-        $resourcePath = '/me';
+        $resourcePath = '/api/me';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -585,17 +570,11 @@ class UserApi
             $headers
         );
 
-        $operationHosts = ['https://oauth.reddit.com/api/v1'];
-        if ($this->hostIndex < 0 || $this->hostIndex >= \count($operationHosts)) {
-            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".\count($operationHosts));
-        }
-        $operationHost = $operationHosts[$this->hostIndex];
-
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
 
         return new Request(
             'GET',
-            $operationHost.$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

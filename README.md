@@ -54,22 +54,19 @@ require_once(__DIR__ . '/vendor/autoload.php');
 $config = Sigwin\RedditClient\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
-$apiInstance = new Sigwin\RedditClient\Api\UserApi(
+$apiInstance = new Sigwin\RedditClient\Api\ThingApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
     $config
 );
-$username = snoo; // string
-$after = 'after_example'; // string
-$before = 'before_example'; // string
-$limit = 25; // int
+$id = t3_11e9mr5; // string
 
 try {
-    $result = $apiInstance->getSaved($username, $after, $before, $limit);
+    $result = $apiInstance->getInfo($id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->getSaved: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling ThingApi->getInfo: ', $e->getMessage(), PHP_EOL;
 }
 
 ```
@@ -80,8 +77,9 @@ All URIs are relative to *https://oauth.reddit.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*ThingApi* | [**getInfo**](docs/Api/ThingApi.md#getinfo) | **GET** /api/info | Get thing info
 *UserApi* | [**getSaved**](docs/Api/UserApi.md#getsaved) | **GET** /user/{username}/saved | Get user saved things
-*UserApi* | [**me**](docs/Api/UserApi.md#me) | **GET** /me | Returns the identity of the user.
+*UserApi* | [**me**](docs/Api/UserApi.md#me) | **GET** /api/me | Returns the identity of the user.
 
 ## Models
 

@@ -5,7 +5,7 @@ All URIs are relative to https://oauth.reddit.com.
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**getSaved()**](UserApi.md#getSaved) | **GET** /user/{username}/saved | Get user saved things
-[**me()**](UserApi.md#me) | **GET** /me | Returns the identity of the user.
+[**me()**](UserApi.md#me) | **GET** /api/me | Returns the identity of the user.
 
 
 ## `getSaved()`

@@ -24,7 +24,11 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     public const DISCRIMINATOR = null;
 
     const KIND_T1 = 't1';
+    const KIND_T2 = 't2';
     const KIND_T3 = 't3';
+    const KIND_T4 = 't4';
+    const KIND_T5 = 't5';
+    const KIND_T6 = 't6';
     const KIND_MORE = 'more';
 
     /**
@@ -175,7 +179,11 @@ class Thing implements \JsonSerializable, ArrayAccess, ModelInterface
     {
         return [
             self::KIND_T1,
+            self::KIND_T2,
             self::KIND_T3,
+            self::KIND_T4,
+            self::KIND_T5,
+            self::KIND_T6,
             self::KIND_MORE,
         ];
     }
