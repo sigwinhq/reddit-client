@@ -1,23 +1,28 @@
 <?xml version="1.0"?>
-<psalm
-    errorLevel="7"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    cacheDirectory="/tmp">
-
+<psalm xmlns="https://getpsalm.org/schema/config"
+       cacheDirectory="var/phpqa/psalm"
+       checkForThrowsInGlobalScope="true"
+       ensureArrayIntOffsetsExist="true"
+       ensureArrayStringOffsetsExist="true"
+       errorLevel="1"
+       findUnusedBaselineEntry="true"
+       findUnusedCode="true"
+       findUnusedPsalmSuppress="true"
+       findUnusedVariablesAndParams="true"
+       limitMethodComplexity="true"
+       restrictReturnTypes="false"
+       strictBinaryOperands="true">
     <projectFiles>
-        <directory name="."/>
+        <directory name="./"/>
         <ignoreFiles allowMissingFiles="true">
-            <directory name="vendor/"/>
+            <file name=".php-cs-fixer.dist.php"/>
             <directory name="var/"/>
+            <directory name="vendor/"/>
         </ignoreFiles>
     </projectFiles>
 
-    <issueHandlers>
-        <PropertyNotSetInConstructor>
-            <errorLevel type="suppress">
-                <directory name="test/"/>
-            </errorLevel>
-        </PropertyNotSetInConstructor>
-    </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+    </plugins>
 </psalm>
