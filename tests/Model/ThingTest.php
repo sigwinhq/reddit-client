@@ -74,7 +74,7 @@ final class ThingTest extends TestCase
     public function testThing(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -83,7 +83,7 @@ final class ThingTest extends TestCase
     public function testPropertyKind(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,6 +92,6 @@ final class ThingTest extends TestCase
     public function testPropertyData(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 }

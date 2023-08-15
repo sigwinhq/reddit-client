@@ -74,6 +74,6 @@ final class ThingApiTest extends TestCase
     public function testGetInfo(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 }

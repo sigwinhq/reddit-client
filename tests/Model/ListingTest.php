@@ -74,7 +74,7 @@ final class ListingTest extends TestCase
     public function testListing(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -83,7 +83,7 @@ final class ListingTest extends TestCase
     public function testPropertyModhash(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,7 +92,7 @@ final class ListingTest extends TestCase
     public function testPropertyDist(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -101,7 +101,7 @@ final class ListingTest extends TestCase
     public function testPropertyChildren(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -110,7 +110,7 @@ final class ListingTest extends TestCase
     public function testPropertyAfter(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -119,6 +119,6 @@ final class ListingTest extends TestCase
     public function testPropertyBefore(): void
     {
         // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        static::markTestIncomplete('Not implemented');
     }
 }
