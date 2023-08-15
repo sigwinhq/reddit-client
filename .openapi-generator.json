@@ -3,5 +3,9 @@
     "invokerPackage": "Sigwin\\RedditClient",
     "srcBasePath": "src",
     "gitUserId": "sigwin",
-    "gitRepoId": "reddit-client"
+    "gitRepoId": "reddit-client",
+    "artifactUrl": "https://github.com/sigwinhq/reddit-client",
+    "licenseName": "MIT",
+    "developerOrganization": "Sigwin d.o.o.",
+    "developerOrganizationUrl": "https://sigwin.company/"
 }

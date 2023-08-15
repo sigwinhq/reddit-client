@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="./vendor/autoload.php"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         beStrictAboutChangesToGlobalState="true"
+         beStrictAboutCoversAnnotation="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutResourceUsageDuringSmallTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         bootstrap="./vendor/autoload.php"
+         cacheResultFile="var/phpqa/phpunit.result.cache"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         stopOnFailure="false">
+         convertDeprecationsToExceptions="true"
+         enforceTimeLimit="true"
+         executionOrder="random"
+         failOnEmptyTestSuite="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         forceCoversAnnotation="true"
+         verbose="true">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </coverage>
     <testsuites>
-        <testsuite name="tests">
-            <directory>./test/Api</directory>
-            <directory>./test/Model</directory>
+        <testsuite name="Suite">
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src/Api</directory>
-            <directory suffix=".php">./src/Model</directory>
-        </whitelist>
-    </filter>
-    <php>
-        <ini name="error_reporting" value="E_ALL" />
-    </php>
 </phpunit>

@@ -1,6 +1,7 @@
 {
     "name": "sigwin/reddit-client",
     "description": "Reddit.com API",
+    "license": "MIT",
     "keywords": [
         "openapitools",
         "openapi-generator",
@@ -10,22 +11,23 @@
         "rest",
         "api"
     ],
-    "homepage": "https://openapi-generator.tech",
-    "license": "MIT",
     "authors": [
         {
-            "name": "OpenAPI-Generator contributors",
-            "homepage": "https://openapi-generator.tech"
+            "name": "Sigwin d.o.o.",
+            "homepage": "https://sigwin.company/"
         }
     ],
+    "homepage": "https://github.com/sigwinhq/reddit-client",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.2",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.0 || ^9.0"
+        "phpunit/phpunit": "^9.0",
+        "sigwin/infra": "~1.5.0"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +36,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Sigwin\\RedditClient\\Test\\": "test/"
+            "Sigwin\\RedditClient\\Test\\": "tests/"
         }
     }
 }
