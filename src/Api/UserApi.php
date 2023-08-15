@@ -21,6 +21,7 @@ namespace Sigwin\RedditClient\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
@@ -60,6 +61,16 @@ final class UserApi
      * @var int Host index
      */
     private $hostIndex;
+
+    /** @var string[] */
+    public const contentTypes = [
+        'getSaved' => [
+            'application/json',
+        ],
+        'me' => [
+            'application/json',
+        ],
+    ];
 
     /**
      * @param ClientInterface $client
@@ -109,17 +120,18 @@ final class UserApi
      *
      * Get user saved things
      *
-     * @param string $username username (required)
-     * @param string $after    after (optional)
-     * @param string $before   before (optional)
-     * @param int    $limit    limit (optional, default to 25)
+     * @param string $username    username (required)
+     * @param string $after       after (optional)
+     * @param string $before      before (optional)
+     * @param int    $limit       limit (optional, default to 25)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      */
-    public function getSaved($username, $after = null, $before = null, $limit = 25): \Sigwin\RedditClient\Model\ListingEnvelope
+    public function getSaved($username, $after = null, $before = null, $limit = 25, string $contentType = self::contentTypes['getSaved'][0]): \Sigwin\RedditClient\Model\ListingEnvelope
     {
-        [$response] = $this->getSavedWithHttpInfo($username, $after, $before, $limit);
+        [$response] = $this->getSavedWithHttpInfo($username, $after, $before, $limit, $contentType);
 
         return $response;
     }
@@ -129,19 +141,20 @@ final class UserApi
      *
      * Get user saved things
      *
-     * @param string $username (required)
-     * @param string $after    (optional)
-     * @param string $before   (optional)
-     * @param int    $limit    (optional, default to 25)
+     * @param string $username    (required)
+     * @param string $after       (optional)
+     * @param string $before      (optional)
+     * @param int    $limit       (optional, default to 25)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @return array of \Sigwin\RedditClient\Model\ListingEnvelope, HTTP status code, HTTP response headers (array of strings)
      *
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      */
-    public function getSavedWithHttpInfo($username, $after = null, $before = null, $limit = 25): array
+    public function getSavedWithHttpInfo($username, $after = null, $before = null, $limit = 25, string $contentType = self::contentTypes['getSaved'][0]): array
     {
-        $request = $this->getSavedRequest($username, $after, $before, $limit);
+        $request = $this->getSavedRequest($username, $after, $before, $limit, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -149,6 +162,8 @@ final class UserApi
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", (int) $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? (string) $e->getResponse()->getBody() : null);
+            } catch (ConnectException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", (int) $e->getCode(), null, null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -163,6 +178,9 @@ final class UserApi
                         $content = $response->getBody(); // stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\Sigwin\RedditClient\Model\ListingEnvelope' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -177,6 +195,9 @@ final class UserApi
                 $content = $response->getBody(); // stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -204,16 +225,17 @@ final class UserApi
      *
      * Get user saved things
      *
-     * @param string $username (required)
-     * @param string $after    (optional)
-     * @param string $before   (optional)
-     * @param int    $limit    (optional, default to 25)
+     * @param string $username    (required)
+     * @param string $after       (optional)
+     * @param string $before      (optional)
+     * @param int    $limit       (optional, default to 25)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
-    public function getSavedAsync($username, $after = null, $before = null, $limit = 25): \GuzzleHttp\Promise\PromiseInterface
+    public function getSavedAsync($username, $after = null, $before = null, $limit = 25, string $contentType = self::contentTypes['getSaved'][0]): \GuzzleHttp\Promise\PromiseInterface
     {
-        return $this->getSavedAsyncWithHttpInfo($username, $after, $before, $limit)
+        return $this->getSavedAsyncWithHttpInfo($username, $after, $before, $limit, $contentType)
             ->then(
                 static function ($response) {
                     return $response[0];
@@ -227,17 +249,18 @@ final class UserApi
      *
      * Get user saved things
      *
-     * @param string $username (required)
-     * @param string $after    (optional)
-     * @param string $before   (optional)
-     * @param int    $limit    (optional, default to 25)
+     * @param string $username    (required)
+     * @param string $after       (optional)
+     * @param string $before      (optional)
+     * @param int    $limit       (optional, default to 25)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
-    public function getSavedAsyncWithHttpInfo($username, $after = null, $before = null, $limit = 25): \GuzzleHttp\Promise\PromiseInterface
+    public function getSavedAsyncWithHttpInfo($username, $after = null, $before = null, $limit = 25, string $contentType = self::contentTypes['getSaved'][0]): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\Sigwin\RedditClient\Model\ListingEnvelope';
-        $request = $this->getSavedRequest($username, $after, $before, $limit);
+        $request = $this->getSavedRequest($username, $after, $before, $limit, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -247,6 +270,9 @@ final class UserApi
                         $content = $response->getBody(); // stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -267,19 +293,21 @@ final class UserApi
     /**
      * Create request for operation 'getSaved'.
      *
-     * @param string $username (required)
-     * @param string $after    (optional)
-     * @param string $before   (optional)
-     * @param int    $limit    (optional, default to 25)
+     * @param string $username    (required)
+     * @param string $after       (optional)
+     * @param string $before      (optional)
+     * @param int    $limit       (optional, default to 25)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
-    public function getSavedRequest($username, $after = null, $before = null, $limit = 25): Request
+    public function getSavedRequest($username, $after = null, $before = null, $limit = 25, string $contentType = self::contentTypes['getSaved'][0]): Request
     {
         // verify the required parameter 'username' is set
         if ($username === null || (\is_array($username) && \count($username) === 0)) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling getSaved');
         }
+
         if ($limit !== null && $limit > 100) {
             throw new \InvalidArgumentException('invalid value for "$limit" when calling UserApi.getSaved, must be smaller than or equal to 100.');
         }
@@ -295,26 +323,32 @@ final class UserApi
         $multipart = false;
 
         // query params
-        if (\is_array($after)) {
-            $after = ObjectSerializer::serializeCollection($after, '', true);
-        }
-        if ($after !== null) {
-            $queryParams['after'] = $after;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $after,
+            'after', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
         // query params
-        if (\is_array($before)) {
-            $before = ObjectSerializer::serializeCollection($before, '', true);
-        }
-        if ($before !== null) {
-            $queryParams['before'] = $before;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $before,
+            'before', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
         // query params
-        if (\is_array($limit)) {
-            $limit = ObjectSerializer::serializeCollection($limit, '', true);
-        }
-        if ($limit !== null) {
-            $queryParams['limit'] = $limit;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $limit,
+            'limit', // param base name
+            'integer', // openApiType
+            '', // style
+            false, // explode
+            false // required
+        ) ?? []);
 
         // path params
         if ($username !== null) {
@@ -325,16 +359,11 @@ final class UserApi
             );
         }
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                []
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            $contentType,
+            $multipart
+        );
 
         // for model (json/xml)
         if (\count($formParams) > 0) {
@@ -351,16 +380,17 @@ final class UserApi
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+            } elseif (mb_stripos($headers['Content-Type'], 'application/json') !== false) {
+                // if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
         // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
+        if (! empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer '.$this->config->getAccessToken();
         }
 
@@ -375,11 +405,12 @@ final class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
 
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $operationHost.$resourcePath.($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -390,12 +421,14 @@ final class UserApi
      *
      * Returns the identity of the user.
      *
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
+     *
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      */
-    public function me(): \Sigwin\RedditClient\Model\Me
+    public function me(string $contentType = self::contentTypes['me'][0]): \Sigwin\RedditClient\Model\Me
     {
-        [$response] = $this->meWithHttpInfo();
+        [$response] = $this->meWithHttpInfo($contentType);
 
         return $response;
     }
@@ -405,14 +438,16 @@ final class UserApi
      *
      * Returns the identity of the user.
      *
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
+     *
      * @return array of \Sigwin\RedditClient\Model\Me, HTTP status code, HTTP response headers (array of strings)
      *
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      */
-    public function meWithHttpInfo(): array
+    public function meWithHttpInfo(string $contentType = self::contentTypes['me'][0]): array
     {
-        $request = $this->meRequest();
+        $request = $this->meRequest($contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -420,6 +455,8 @@ final class UserApi
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", (int) $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? (string) $e->getResponse()->getBody() : null);
+            } catch (ConnectException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", (int) $e->getCode(), null, null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -434,6 +471,9 @@ final class UserApi
                         $content = $response->getBody(); // stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\Sigwin\RedditClient\Model\Me' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -448,6 +488,9 @@ final class UserApi
                 $content = $response->getBody(); // stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -475,11 +518,13 @@ final class UserApi
      *
      * Returns the identity of the user.
      *
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
+     *
      * @throws \InvalidArgumentException
      */
-    public function meAsync(): \GuzzleHttp\Promise\PromiseInterface
+    public function meAsync(string $contentType = self::contentTypes['me'][0]): \GuzzleHttp\Promise\PromiseInterface
     {
-        return $this->meAsyncWithHttpInfo()
+        return $this->meAsyncWithHttpInfo($contentType)
             ->then(
                 static function ($response) {
                     return $response[0];
@@ -493,12 +538,14 @@ final class UserApi
      *
      * Returns the identity of the user.
      *
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
+     *
      * @throws \InvalidArgumentException
      */
-    public function meAsyncWithHttpInfo(): \GuzzleHttp\Promise\PromiseInterface
+    public function meAsyncWithHttpInfo(string $contentType = self::contentTypes['me'][0]): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\Sigwin\RedditClient\Model\Me';
-        $request = $this->meRequest();
+        $request = $this->meRequest($contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -508,6 +555,9 @@ final class UserApi
                         $content = $response->getBody(); // stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -528,9 +578,11 @@ final class UserApi
     /**
      * Create request for operation 'me'.
      *
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
+     *
      * @throws \InvalidArgumentException
      */
-    public function meRequest(): Request
+    public function meRequest(string $contentType = self::contentTypes['me'][0]): Request
     {
         $resourcePath = '/api/me';
         $formParams = [];
@@ -539,16 +591,11 @@ final class UserApi
         $httpBody = '';
         $multipart = false;
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                []
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            $contentType,
+            $multipart
+        );
 
         // for model (json/xml)
         if (\count($formParams) > 0) {
@@ -565,16 +612,17 @@ final class UserApi
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+            } elseif (mb_stripos($headers['Content-Type'], 'application/json') !== false) {
+                // if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
         // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
+        if (! empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer '.$this->config->getAccessToken();
         }
 
@@ -589,11 +637,12 @@ final class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
 
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $operationHost.$resourcePath.($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

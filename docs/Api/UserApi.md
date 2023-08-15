@@ -1,11 +1,11 @@
 # Sigwin\RedditClient\UserApi
 
-All URIs are relative to https://oauth.reddit.com.
+All URIs are relative to https://oauth.reddit.com, except if the operation defines another base path.
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getSaved()**](UserApi.md#getSaved) | **GET** /user/{username}/saved | Get user saved things
-[**me()**](UserApi.md#me) | **GET** /api/me | Returns the identity of the user.
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**getSaved()**](UserApi.md#getSaved) | **GET** /user/{username}/saved | Get user saved things |
+| [**me()**](UserApi.md#me) | **GET** /api/me | Returns the identity of the user. |
 
 
 ## `getSaved()`
@@ -48,12 +48,12 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **string**|  |
- **after** | **string**|  | [optional]
- **before** | **string**|  | [optional]
- **limit** | **int**|  | [optional] [default to 25]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **username** | **string**|  | |
+| **after** | **string**|  | [optional] |
+| **before** | **string**|  | [optional] |
+| **limit** | **int**|  | [optional] [default to 25] |
 
 ### Return type
 

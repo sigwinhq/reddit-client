@@ -30,10 +30,7 @@ use Sigwin\RedditClient\ObjectSerializer;
  *
  * @see     https://openapi-generator.tech
  *
- * @implements \ArrayAccess<TKey, TValue>
- *
- * @template TKey int|null
- * @template TValue mixed|null
+ * @implements \ArrayAccess<string, mixed>
  */
 final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
 {
@@ -77,6 +74,26 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
     ];
 
     /**
+     * Array of nullable properties. Used for (de)serialization.
+     *
+     * @var bool[]
+     */
+    private static array $openAPINullables = [
+        'modhash' => false,
+        'dist' => false,
+        'children' => false,
+        'after' => false,
+        'before' => false,
+    ];
+
+    /**
+     * If a nullable field gets set to null, insert it here.
+     *
+     * @var bool[]
+     */
+    private array $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization.
      */
     public static function openAPITypes(): array
@@ -90,6 +107,50 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
     public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties.
+     */
+    private static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null.
+     *
+     * @return bool[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null.
+     *
+     * @param bool[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable.
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return \in_array($property, $this->getOpenAPINullablesSetToNull(), true);
     }
 
     /**
@@ -180,11 +241,27 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function __construct(array $data = null)
     {
-        $this->container['modhash'] = $data['modhash'] ?? null;
-        $this->container['dist'] = $data['dist'] ?? null;
-        $this->container['children'] = $data['children'] ?? null;
-        $this->container['after'] = $data['after'] ?? null;
-        $this->container['before'] = $data['before'] ?? null;
+        $this->setIfExists('modhash', $data ?? [], null);
+        $this->setIfExists('dist', $data ?? [], null);
+        $this->setIfExists('children', $data ?? [], null);
+        $this->setIfExists('after', $data ?? [], null);
+        $this->setIfExists('before', $data ?? [], null);
+    }
+
+    /**
+     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+     * $this->openAPINullablesSetToNull array.
+     *
+     * @param mixed $defaultValue
+     */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && \array_key_exists($variableName, $fields) && $fields[$variableName] === null) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -235,6 +312,9 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setModhash($modhash): self
     {
+        if ($modhash === null) {
+            throw new \InvalidArgumentException('non-nullable modhash cannot be null');
+        }
         $this->container['modhash'] = $modhash;
 
         return $this;
@@ -255,6 +335,9 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setDist($dist): self
     {
+        if ($dist === null) {
+            throw new \InvalidArgumentException('non-nullable dist cannot be null');
+        }
         $this->container['dist'] = $dist;
 
         return $this;
@@ -277,6 +360,9 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setChildren($children): self
     {
+        if ($children === null) {
+            throw new \InvalidArgumentException('non-nullable children cannot be null');
+        }
         $this->container['children'] = $children;
 
         return $this;
@@ -297,6 +383,9 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setAfter($after): self
     {
+        if ($after === null) {
+            throw new \InvalidArgumentException('non-nullable after cannot be null');
+        }
         $this->container['after'] = $after;
 
         return $this;
@@ -317,6 +406,9 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setBefore($before): self
     {
+        if ($before === null) {
+            throw new \InvalidArgumentException('non-nullable before cannot be null');
+        }
         $this->container['before'] = $before;
 
         return $this;
@@ -339,7 +431,8 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
      *
      * @return null|mixed
      */
-    public function offsetGet($offset): mixed
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
         return $this->container[$offset] ?? null;
     }
@@ -377,7 +470,8 @@ final class Listing implements \ArrayAccess, \JsonSerializable, ModelInterface
      * @return mixed returns data which can be serialized by json_encode(), which is a value
      *               of any type other than a resource
      */
-    public function jsonSerialize(): mixed
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
     {
         return ObjectSerializer::sanitizeForSerialization($this);
     }

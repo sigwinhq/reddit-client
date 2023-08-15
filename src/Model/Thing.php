@@ -30,10 +30,7 @@ use Sigwin\RedditClient\ObjectSerializer;
  *
  * @see     https://openapi-generator.tech
  *
- * @implements \ArrayAccess<TKey, TValue>
- *
- * @template TKey int|null
- * @template TValue mixed|null
+ * @implements \ArrayAccess<string, mixed>
  */
 final class Thing implements \ArrayAccess, \JsonSerializable, ModelInterface
 {
@@ -71,6 +68,23 @@ final class Thing implements \ArrayAccess, \JsonSerializable, ModelInterface
     ];
 
     /**
+     * Array of nullable properties. Used for (de)serialization.
+     *
+     * @var bool[]
+     */
+    private static array $openAPINullables = [
+        'kind' => false,
+        'data' => false,
+    ];
+
+    /**
+     * If a nullable field gets set to null, insert it here.
+     *
+     * @var bool[]
+     */
+    private array $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization.
      */
     public static function openAPITypes(): array
@@ -84,6 +98,50 @@ final class Thing implements \ArrayAccess, \JsonSerializable, ModelInterface
     public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties.
+     */
+    private static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null.
+     *
+     * @return bool[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null.
+     *
+     * @param bool[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable.
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return \in_array($property, $this->getOpenAPINullablesSetToNull(), true);
     }
 
     /**
@@ -191,8 +249,24 @@ final class Thing implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function __construct(array $data = null)
     {
-        $this->container['kind'] = $data['kind'] ?? null;
-        $this->container['data'] = $data['data'] ?? null;
+        $this->setIfExists('kind', $data ?? [], null);
+        $this->setIfExists('data', $data ?? [], null);
+    }
+
+    /**
+     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+     * $this->openAPINullablesSetToNull array.
+     *
+     * @param mixed $defaultValue
+     */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && \array_key_exists($variableName, $fields) && $fields[$variableName] === null) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -249,6 +323,9 @@ final class Thing implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setKind($kind): self
     {
+        if ($kind === null) {
+            throw new \InvalidArgumentException('non-nullable kind cannot be null');
+        }
         $allowedValues = $this->getKindAllowableValues();
         if (! \in_array($kind, $allowedValues, true)) {
             throw new \InvalidArgumentException(sprintf("Invalid value '%s' for 'kind', must be one of '%s'", $kind, implode("', '", $allowedValues)));
@@ -275,6 +352,9 @@ final class Thing implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setData($data): self
     {
+        if ($data === null) {
+            throw new \InvalidArgumentException('non-nullable data cannot be null');
+        }
         $this->container['data'] = $data;
 
         return $this;
@@ -297,7 +377,8 @@ final class Thing implements \ArrayAccess, \JsonSerializable, ModelInterface
      *
      * @return null|mixed
      */
-    public function offsetGet($offset): mixed
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
         return $this->container[$offset] ?? null;
     }
@@ -335,7 +416,8 @@ final class Thing implements \ArrayAccess, \JsonSerializable, ModelInterface
      * @return mixed returns data which can be serialized by json_encode(), which is a value
      *               of any type other than a resource
      */
-    public function jsonSerialize(): mixed
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
     {
         return ObjectSerializer::sanitizeForSerialization($this);
     }

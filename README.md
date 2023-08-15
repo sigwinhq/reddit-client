@@ -8,8 +8,8 @@ For more information, please visit [https://ssl.reddit.com/dev/api](https://ssl.
 
 ### Requirements
 
-PHP 7.3 and later.
-Should also work with PHP 8.0 but has not been tested.
+PHP 7.4 and later.
+Should also work with PHP 8.0.
 
 ### Composer
 
@@ -91,6 +91,7 @@ Class | Method | HTTP request | Description
 
 ## Authorization
 
+Authentication schemes defined for the API:
 ### oauth2
 
 - **Type**: `OAuth`

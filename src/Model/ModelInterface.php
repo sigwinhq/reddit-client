@@ -66,4 +66,14 @@ interface ModelInterface
      * return true if all passed.
      */
     public function valid(): bool;
+
+    /**
+     * Checks if a property is nullable.
+     */
+    public static function isNullable(string $property): bool;
+
+    /**
+     * Checks if a nullable property is set to null.
+     */
+    public function isNullableSetToNull(string $property): bool;
 }

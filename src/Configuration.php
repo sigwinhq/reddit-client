@@ -21,7 +21,7 @@ namespace Sigwin\RedditClient;
 
 /**
  * Configuration Class Doc Comment
- * PHP version 7.3.
+ * PHP version 7.4.
  *
  * @category Class
  *
@@ -31,6 +31,9 @@ namespace Sigwin\RedditClient;
  */
 class Configuration
 {
+    public const BOOLEAN_FORMAT_INT = 'int';
+    public const BOOLEAN_FORMAT_STRING = 'string';
+
     /**
      * @var Configuration
      */
@@ -56,6 +59,13 @@ class Configuration
      * @var string
      */
     private $accessToken = '';
+
+    /**
+     * Boolean format for query string.
+     *
+     * @var string
+     */
+    private $booleanFormatForQueryString = self::BOOLEAN_FORMAT_INT;
 
     /**
      * Username for HTTP basic authentication.
@@ -188,6 +198,28 @@ class Configuration
     public function getAccessToken(): string
     {
         return $this->accessToken;
+    }
+
+    /**
+     * Sets boolean format for query string.
+     *
+     * @return $this
+     */
+    public function setBooleanFormatForQueryString(string $booleanFormat)
+    {
+        $this->booleanFormatForQueryString = $booleanFormat;
+
+        return $this;
+    }
+
+    /**
+     * Gets boolean format for query string.
+     *
+     * @return string Boolean format for query string
+     */
+    public function getBooleanFormatForQueryString(): string
+    {
+        return $this->booleanFormatForQueryString;
     }
 
     /**
@@ -373,7 +405,7 @@ class Configuration
     }
 
     /**
-     * Sets the detault configuration instance.
+     * Sets the default configuration instance.
      *
      * @param Configuration $config An instance of the Configuration Object
      */
@@ -439,33 +471,31 @@ class Configuration
     }
 
     /**
-     * Returns URL based on the index and variables.
+     * Returns URL based on host settings, index and variables.
      *
-     * @param int        $index     index of the host settings
+     * @param int        $hostIndex index of the host settings
      * @param null|array $variables hash of variable and the corresponding value (optional)
      *
      * @return string URL based on host settings
      */
-    public function getHostFromSettings($index, $variables = null): string
+    public static function getHostString(array $hostsSettings, $hostIndex, array $variables = null): string
     {
         if ($variables === null) {
             $variables = [];
         }
 
-        $hosts = $this->getHostSettings();
-
         // check array index out of bound
-        if ($index < 0 || $index >= \count($hosts)) {
-            throw new \InvalidArgumentException("Invalid index {$index} when selecting the host. Must be less than ".\count($hosts));
+        if ($hostIndex < 0 || $hostIndex >= \count($hostsSettings)) {
+            throw new \InvalidArgumentException("Invalid index {$hostIndex} when selecting the host. Must be less than ".\count($hostsSettings));
         }
 
-        $host = $hosts[$index];
+        $host = $hostsSettings[$hostIndex];
         $url = $host['url'];
 
         // go through variable and assign a value
         foreach ($host['variables'] ?? [] as $name => $variable) {
             if (\array_key_exists($name, $variables)) { // check to see if it's in the variables provided by the user
-                if (\in_array($variables[$name], $variable['enum_values'], true)) { // check to see if the value is in the enum
+                if (! isset($variable['enum_values']) || \in_array($variables[$name], $variable['enum_values'], true)) { // check to see if the value is in the enum
                     $url = str_replace('{'.$name.'}', $variables[$name], $url);
                 } else {
                     throw new \InvalidArgumentException("The variable `{$name}` in the host URL has invalid value ".$variables[$name].'. Must be '.implode(',', $variable['enum_values']).'.');
@@ -477,5 +507,18 @@ class Configuration
         }
 
         return $url;
+    }
+
+    /**
+     * Returns URL based on the index and variables.
+     *
+     * @param int        $index     index of the host settings
+     * @param null|array $variables hash of variable and the corresponding value (optional)
+     *
+     * @return string URL based on host settings
+     */
+    public function getHostFromSettings($index, $variables = null): string
+    {
+        return self::getHostString($this->getHostSettings(), $index, $variables);
     }
 }

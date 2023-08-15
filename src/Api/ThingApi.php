@@ -21,6 +21,7 @@ namespace Sigwin\RedditClient\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
@@ -60,6 +61,13 @@ final class ThingApi
      * @var int Host index
      */
     private $hostIndex;
+
+    /** @var string[] */
+    public const contentTypes = [
+        'getInfo' => [
+            'application/json',
+        ],
+    ];
 
     /**
      * @param ClientInterface $client
@@ -109,14 +117,15 @@ final class ThingApi
      *
      * Get thing info
      *
-     * @param string $id id (required)
+     * @param string $id          id (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      */
-    public function getInfo($id): \Sigwin\RedditClient\Model\ListingEnvelope
+    public function getInfo($id, string $contentType = self::contentTypes['getInfo'][0]): \Sigwin\RedditClient\Model\ListingEnvelope
     {
-        [$response] = $this->getInfoWithHttpInfo($id);
+        [$response] = $this->getInfoWithHttpInfo($id, $contentType);
 
         return $response;
     }
@@ -126,16 +135,17 @@ final class ThingApi
      *
      * Get thing info
      *
-     * @param string $id (required)
+     * @param string $id          (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @return array of \Sigwin\RedditClient\Model\ListingEnvelope, HTTP status code, HTTP response headers (array of strings)
      *
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      */
-    public function getInfoWithHttpInfo($id): array
+    public function getInfoWithHttpInfo($id, string $contentType = self::contentTypes['getInfo'][0]): array
     {
-        $request = $this->getInfoRequest($id);
+        $request = $this->getInfoRequest($id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -143,6 +153,8 @@ final class ThingApi
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", (int) $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? (string) $e->getResponse()->getBody() : null);
+            } catch (ConnectException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", (int) $e->getCode(), null, null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -157,6 +169,9 @@ final class ThingApi
                         $content = $response->getBody(); // stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\Sigwin\RedditClient\Model\ListingEnvelope' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -171,6 +186,9 @@ final class ThingApi
                 $content = $response->getBody(); // stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -198,13 +216,14 @@ final class ThingApi
      *
      * Get thing info
      *
-     * @param string $id (required)
+     * @param string $id          (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
-    public function getInfoAsync($id): \GuzzleHttp\Promise\PromiseInterface
+    public function getInfoAsync($id, string $contentType = self::contentTypes['getInfo'][0]): \GuzzleHttp\Promise\PromiseInterface
     {
-        return $this->getInfoAsyncWithHttpInfo($id)
+        return $this->getInfoAsyncWithHttpInfo($id, $contentType)
             ->then(
                 static function ($response) {
                     return $response[0];
@@ -218,14 +237,15 @@ final class ThingApi
      *
      * Get thing info
      *
-     * @param string $id (required)
+     * @param string $id          (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
-    public function getInfoAsyncWithHttpInfo($id): \GuzzleHttp\Promise\PromiseInterface
+    public function getInfoAsyncWithHttpInfo($id, string $contentType = self::contentTypes['getInfo'][0]): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\Sigwin\RedditClient\Model\ListingEnvelope';
-        $request = $this->getInfoRequest($id);
+        $request = $this->getInfoRequest($id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -235,6 +255,9 @@ final class ThingApi
                         $content = $response->getBody(); // stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -255,11 +278,12 @@ final class ThingApi
     /**
      * Create request for operation 'getInfo'.
      *
-     * @param string $id (required)
+     * @param string $id          (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
-    public function getInfoRequest($id): Request
+    public function getInfoRequest($id, string $contentType = self::contentTypes['getInfo'][0]): Request
     {
         // verify the required parameter 'id' is set
         if ($id === null || (\is_array($id) && \count($id) === 0)) {
@@ -274,23 +298,20 @@ final class ThingApi
         $multipart = false;
 
         // query params
-        if (\is_array($id)) {
-            $id = ObjectSerializer::serializeCollection($id, '', true);
-        }
-        if ($id !== null) {
-            $queryParams['id'] = $id;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $id,
+            'id', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            true // required
+        ) ?? []);
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                []
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            $contentType,
+            $multipart
+        );
 
         // for model (json/xml)
         if (\count($formParams) > 0) {
@@ -307,16 +328,17 @@ final class ThingApi
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+            } elseif (mb_stripos($headers['Content-Type'], 'application/json') !== false) {
+                // if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
         // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
+        if (! empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer '.$this->config->getAccessToken();
         }
 
@@ -331,11 +353,12 @@ final class ThingApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
 
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $operationHost.$resourcePath.($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

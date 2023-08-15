@@ -30,10 +30,7 @@ use Sigwin\RedditClient\ObjectSerializer;
  *
  * @see     https://openapi-generator.tech
  *
- * @implements \ArrayAccess<TKey, TValue>
- *
- * @template TKey int|null
- * @template TValue mixed|null
+ * @implements \ArrayAccess<string, mixed>
  */
 final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
 {
@@ -113,6 +110,44 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
     ];
 
     /**
+     * Array of nullable properties. Used for (de)serialization.
+     *
+     * @var bool[]
+     */
+    private static array $openAPINullables = [
+        'id' => false,
+        'name' => false,
+        'permalink' => false,
+        'post_hint' => false,
+        'created_utc' => false,
+        'subreddit' => false,
+        'subreddit_id' => false,
+        'subreddit_type' => false,
+        'author' => false,
+        'author_fullname' => false,
+        'title' => false,
+        'url' => false,
+        'url_overridden_by_dest' => false,
+        'link_id' => false,
+        'link_author' => false,
+        'link_title' => false,
+        'link_permalink' => false,
+        'body' => false,
+        'is_gallery' => false,
+        'is_meta' => false,
+        'is_self' => false,
+        'is_video' => false,
+        'selftext' => false,
+    ];
+
+    /**
+     * If a nullable field gets set to null, insert it here.
+     *
+     * @var bool[]
+     */
+    private array $openAPINullablesSetToNull = [];
+
+    /**
      * Array of property to type mappings. Used for (de)serialization.
      */
     public static function openAPITypes(): array
@@ -126,6 +161,50 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
     public static function openAPIFormats(): array
     {
         return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties.
+     */
+    private static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null.
+     *
+     * @return bool[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null.
+     *
+     * @param bool[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable.
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return \in_array($property, $this->getOpenAPINullablesSetToNull(), true);
     }
 
     /**
@@ -292,29 +371,45 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = $data['id'] ?? null;
-        $this->container['name'] = $data['name'] ?? null;
-        $this->container['permalink'] = $data['permalink'] ?? null;
-        $this->container['post_hint'] = $data['post_hint'] ?? null;
-        $this->container['created_utc'] = $data['created_utc'] ?? null;
-        $this->container['subreddit'] = $data['subreddit'] ?? null;
-        $this->container['subreddit_id'] = $data['subreddit_id'] ?? null;
-        $this->container['subreddit_type'] = $data['subreddit_type'] ?? null;
-        $this->container['author'] = $data['author'] ?? null;
-        $this->container['author_fullname'] = $data['author_fullname'] ?? null;
-        $this->container['title'] = $data['title'] ?? null;
-        $this->container['url'] = $data['url'] ?? null;
-        $this->container['url_overridden_by_dest'] = $data['url_overridden_by_dest'] ?? null;
-        $this->container['link_id'] = $data['link_id'] ?? null;
-        $this->container['link_author'] = $data['link_author'] ?? null;
-        $this->container['link_title'] = $data['link_title'] ?? null;
-        $this->container['link_permalink'] = $data['link_permalink'] ?? null;
-        $this->container['body'] = $data['body'] ?? null;
-        $this->container['is_gallery'] = $data['is_gallery'] ?? null;
-        $this->container['is_meta'] = $data['is_meta'] ?? null;
-        $this->container['is_self'] = $data['is_self'] ?? null;
-        $this->container['is_video'] = $data['is_video'] ?? null;
-        $this->container['selftext'] = $data['selftext'] ?? null;
+        $this->setIfExists('id', $data ?? [], null);
+        $this->setIfExists('name', $data ?? [], null);
+        $this->setIfExists('permalink', $data ?? [], null);
+        $this->setIfExists('post_hint', $data ?? [], null);
+        $this->setIfExists('created_utc', $data ?? [], null);
+        $this->setIfExists('subreddit', $data ?? [], null);
+        $this->setIfExists('subreddit_id', $data ?? [], null);
+        $this->setIfExists('subreddit_type', $data ?? [], null);
+        $this->setIfExists('author', $data ?? [], null);
+        $this->setIfExists('author_fullname', $data ?? [], null);
+        $this->setIfExists('title', $data ?? [], null);
+        $this->setIfExists('url', $data ?? [], null);
+        $this->setIfExists('url_overridden_by_dest', $data ?? [], null);
+        $this->setIfExists('link_id', $data ?? [], null);
+        $this->setIfExists('link_author', $data ?? [], null);
+        $this->setIfExists('link_title', $data ?? [], null);
+        $this->setIfExists('link_permalink', $data ?? [], null);
+        $this->setIfExists('body', $data ?? [], null);
+        $this->setIfExists('is_gallery', $data ?? [], null);
+        $this->setIfExists('is_meta', $data ?? [], null);
+        $this->setIfExists('is_self', $data ?? [], null);
+        $this->setIfExists('is_video', $data ?? [], null);
+        $this->setIfExists('selftext', $data ?? [], null);
+    }
+
+    /**
+     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+     * $this->openAPINullablesSetToNull array.
+     *
+     * @param mixed $defaultValue
+     */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && \array_key_exists($variableName, $fields) && $fields[$variableName] === null) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -386,6 +481,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setId($id): self
     {
+        if ($id === null) {
+            throw new \InvalidArgumentException('non-nullable id cannot be null');
+        }
         $this->container['id'] = $id;
 
         return $this;
@@ -406,6 +504,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setName($name): self
     {
+        if ($name === null) {
+            throw new \InvalidArgumentException('non-nullable name cannot be null');
+        }
         $this->container['name'] = $name;
 
         return $this;
@@ -426,6 +527,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setPermalink($permalink): self
     {
+        if ($permalink === null) {
+            throw new \InvalidArgumentException('non-nullable permalink cannot be null');
+        }
         $this->container['permalink'] = $permalink;
 
         return $this;
@@ -446,8 +550,11 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setPostHint($post_hint): self
     {
+        if ($post_hint === null) {
+            throw new \InvalidArgumentException('non-nullable post_hint cannot be null');
+        }
         $allowedValues = $this->getPostHintAllowableValues();
-        if ($post_hint !== null && ! \in_array($post_hint, $allowedValues, true)) {
+        if (! \in_array($post_hint, $allowedValues, true)) {
             throw new \InvalidArgumentException(sprintf("Invalid value '%s' for 'post_hint', must be one of '%s'", $post_hint, implode("', '", $allowedValues)));
         }
         $this->container['post_hint'] = $post_hint;
@@ -470,6 +577,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setCreatedUtc($created_utc): self
     {
+        if ($created_utc === null) {
+            throw new \InvalidArgumentException('non-nullable created_utc cannot be null');
+        }
         $this->container['created_utc'] = $created_utc;
 
         return $this;
@@ -490,6 +600,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setSubreddit($subreddit): self
     {
+        if ($subreddit === null) {
+            throw new \InvalidArgumentException('non-nullable subreddit cannot be null');
+        }
         $this->container['subreddit'] = $subreddit;
 
         return $this;
@@ -510,6 +623,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setSubredditId($subreddit_id): self
     {
+        if ($subreddit_id === null) {
+            throw new \InvalidArgumentException('non-nullable subreddit_id cannot be null');
+        }
         $this->container['subreddit_id'] = $subreddit_id;
 
         return $this;
@@ -530,6 +646,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setSubredditType($subreddit_type): self
     {
+        if ($subreddit_type === null) {
+            throw new \InvalidArgumentException('non-nullable subreddit_type cannot be null');
+        }
         $this->container['subreddit_type'] = $subreddit_type;
 
         return $this;
@@ -550,6 +669,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setAuthor($author): self
     {
+        if ($author === null) {
+            throw new \InvalidArgumentException('non-nullable author cannot be null');
+        }
         $this->container['author'] = $author;
 
         return $this;
@@ -570,6 +692,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setAuthorFullname($author_fullname): self
     {
+        if ($author_fullname === null) {
+            throw new \InvalidArgumentException('non-nullable author_fullname cannot be null');
+        }
         $this->container['author_fullname'] = $author_fullname;
 
         return $this;
@@ -590,6 +715,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setTitle($title): self
     {
+        if ($title === null) {
+            throw new \InvalidArgumentException('non-nullable title cannot be null');
+        }
         $this->container['title'] = $title;
 
         return $this;
@@ -610,6 +738,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setUrl($url): self
     {
+        if ($url === null) {
+            throw new \InvalidArgumentException('non-nullable url cannot be null');
+        }
         $this->container['url'] = $url;
 
         return $this;
@@ -630,6 +761,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setUrlOverriddenByDest($url_overridden_by_dest): self
     {
+        if ($url_overridden_by_dest === null) {
+            throw new \InvalidArgumentException('non-nullable url_overridden_by_dest cannot be null');
+        }
         $this->container['url_overridden_by_dest'] = $url_overridden_by_dest;
 
         return $this;
@@ -650,6 +784,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setLinkId($link_id): self
     {
+        if ($link_id === null) {
+            throw new \InvalidArgumentException('non-nullable link_id cannot be null');
+        }
         $this->container['link_id'] = $link_id;
 
         return $this;
@@ -670,6 +807,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setLinkAuthor($link_author): self
     {
+        if ($link_author === null) {
+            throw new \InvalidArgumentException('non-nullable link_author cannot be null');
+        }
         $this->container['link_author'] = $link_author;
 
         return $this;
@@ -690,6 +830,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setLinkTitle($link_title): self
     {
+        if ($link_title === null) {
+            throw new \InvalidArgumentException('non-nullable link_title cannot be null');
+        }
         $this->container['link_title'] = $link_title;
 
         return $this;
@@ -710,6 +853,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setLinkPermalink($link_permalink): self
     {
+        if ($link_permalink === null) {
+            throw new \InvalidArgumentException('non-nullable link_permalink cannot be null');
+        }
         $this->container['link_permalink'] = $link_permalink;
 
         return $this;
@@ -730,6 +876,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setBody($body): self
     {
+        if ($body === null) {
+            throw new \InvalidArgumentException('non-nullable body cannot be null');
+        }
         $this->container['body'] = $body;
 
         return $this;
@@ -750,6 +899,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setIsGallery($is_gallery): self
     {
+        if ($is_gallery === null) {
+            throw new \InvalidArgumentException('non-nullable is_gallery cannot be null');
+        }
         $this->container['is_gallery'] = $is_gallery;
 
         return $this;
@@ -770,6 +922,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setIsMeta($is_meta): self
     {
+        if ($is_meta === null) {
+            throw new \InvalidArgumentException('non-nullable is_meta cannot be null');
+        }
         $this->container['is_meta'] = $is_meta;
 
         return $this;
@@ -790,6 +945,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setIsSelf($is_self): self
     {
+        if ($is_self === null) {
+            throw new \InvalidArgumentException('non-nullable is_self cannot be null');
+        }
         $this->container['is_self'] = $is_self;
 
         return $this;
@@ -810,6 +968,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setIsVideo($is_video): self
     {
+        if ($is_video === null) {
+            throw new \InvalidArgumentException('non-nullable is_video cannot be null');
+        }
         $this->container['is_video'] = $is_video;
 
         return $this;
@@ -830,6 +991,9 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      */
     public function setSelftext($selftext): self
     {
+        if ($selftext === null) {
+            throw new \InvalidArgumentException('non-nullable selftext cannot be null');
+        }
         $this->container['selftext'] = $selftext;
 
         return $this;
@@ -852,7 +1016,8 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      *
      * @return null|mixed
      */
-    public function offsetGet($offset): mixed
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
         return $this->container[$offset] ?? null;
     }
@@ -890,7 +1055,8 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      * @return mixed returns data which can be serialized by json_encode(), which is a value
      *               of any type other than a resource
      */
-    public function jsonSerialize(): mixed
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
     {
         return ObjectSerializer::sanitizeForSerialization($this);
     }

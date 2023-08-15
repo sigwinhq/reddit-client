@@ -1,10 +1,10 @@
 # Sigwin\RedditClient\ThingApi
 
-All URIs are relative to https://oauth.reddit.com.
+All URIs are relative to https://oauth.reddit.com, except if the operation defines another base path.
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getInfo()**](ThingApi.md#getInfo) | **GET** /api/info | Get thing info
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**getInfo()**](ThingApi.md#getInfo) | **GET** /api/info | Get thing info |
 
 
 ## `getInfo()`
@@ -44,9 +44,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **string**|  |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **string**|  | |
 
 ### Return type
 
