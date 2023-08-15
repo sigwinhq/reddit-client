@@ -29,7 +29,7 @@ namespace Sigwin\RedditClient;
  *
  * @see     https://openapi-generator.tech
  */
-final class Configuration
+class Configuration
 {
     /**
      * @var Configuration
