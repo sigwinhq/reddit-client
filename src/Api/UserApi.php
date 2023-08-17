@@ -64,6 +64,9 @@ final class UserApi
 
     /** @var string[] */
     public const contentTypes = [
+        'getAbout' => [
+            'application/json',
+        ],
         'getSaved' => [
             'application/json',
         ],
@@ -113,6 +116,257 @@ final class UserApi
     public function getConfig(): Configuration
     {
         return $this->config;
+    }
+
+    /**
+     * Operation getAbout.
+     *
+     * Returns the identity of a user.
+     *
+     * @param string $username    username (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getAbout'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @throws \Sigwin\RedditClient\ApiException on non-2xx response
+     */
+    public function getAbout($username, string $contentType = self::contentTypes['getAbout'][0]): \Sigwin\RedditClient\Model\User
+    {
+        [$response] = $this->getAboutWithHttpInfo($username, $contentType);
+
+        return $response;
+    }
+
+    /**
+     * Operation getAboutWithHttpInfo.
+     *
+     * Returns the identity of a user.
+     *
+     * @param string $username    (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getAbout'] to see the possible values for this operation
+     *
+     * @return array of \Sigwin\RedditClient\Model\User, HTTP status code, HTTP response headers (array of strings)
+     *
+     * @throws \InvalidArgumentException
+     * @throws \Sigwin\RedditClient\ApiException on non-2xx response
+     */
+    public function getAboutWithHttpInfo($username, string $contentType = self::contentTypes['getAbout'][0]): array
+    {
+        $request = $this->getAboutRequest($username, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", (int) $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? (string) $e->getResponse()->getBody() : null);
+            } catch (ConnectException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", (int) $e->getCode(), null, null);
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, (string) $request->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
+            }
+
+            switch ($statusCode) {
+                case 200:
+                    if ('\Sigwin\RedditClient\Model\User' === '\SplFileObject') {
+                        $content = $response->getBody(); // stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\Sigwin\RedditClient\Model\User' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Sigwin\RedditClient\Model\User', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders(),
+                    ];
+            }
+
+            $returnType = '\Sigwin\RedditClient\Model\User';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); // stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders(),
+            ];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Sigwin\RedditClient\Model\User',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getAboutAsync.
+     *
+     * Returns the identity of a user.
+     *
+     * @param string $username    (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getAbout'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getAboutAsync($username, string $contentType = self::contentTypes['getAbout'][0]): \GuzzleHttp\Promise\PromiseInterface
+    {
+        return $this->getAboutAsyncWithHttpInfo($username, $contentType)
+            ->then(
+                static function ($response) {
+                    return $response[0];
+                }
+            )
+        ;
+    }
+
+    /**
+     * Operation getAboutAsyncWithHttpInfo.
+     *
+     * Returns the identity of a user.
+     *
+     * @param string $username    (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getAbout'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getAboutAsyncWithHttpInfo($username, string $contentType = self::contentTypes['getAbout'][0]): \GuzzleHttp\Promise\PromiseInterface
+    {
+        $returnType = '\Sigwin\RedditClient\Model\User';
+        $request = $this->getAboutRequest($username, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                static function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); // stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders(),
+                    ];
+                },
+                static function ($exception): void {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
+                }
+            )
+        ;
+    }
+
+    /**
+     * Create request for operation 'getAbout'.
+     *
+     * @param string $username    (required)
+     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getAbout'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getAboutRequest($username, string $contentType = self::contentTypes['getAbout'][0]): Request
+    {
+        // verify the required parameter 'username' is set
+        if ($username === null || (\is_array($username) && \count($username) === 0)) {
+            throw new \InvalidArgumentException('Missing the required parameter $username when calling getAbout');
+        }
+
+        $resourcePath = '/user/{username}/about';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // path params
+        if ($username !== null) {
+            $resourcePath = str_replace(
+                '{username}',
+                ObjectSerializer::toPathValue($username),
+                $resourcePath
+            );
+        }
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (\count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = \is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem,
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+            } elseif (mb_stripos($headers['Content-Type'], 'application/json') !== false) {
+                // if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if (! empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer '.$this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+
+        return new Request(
+            'GET',
+            $operationHost.$resourcePath.($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -419,14 +673,14 @@ final class UserApi
     /**
      * Operation me.
      *
-     * Returns the identity of the user.
+     * Returns the identity of the current user.
      *
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      */
-    public function me(string $contentType = self::contentTypes['me'][0]): \Sigwin\RedditClient\Model\Me
+    public function me(string $contentType = self::contentTypes['me'][0]): \Sigwin\RedditClient\Model\UserData
     {
         [$response] = $this->meWithHttpInfo($contentType);
 
@@ -436,11 +690,11 @@ final class UserApi
     /**
      * Operation meWithHttpInfo.
      *
-     * Returns the identity of the user.
+     * Returns the identity of the current user.
      *
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
      *
-     * @return array of \Sigwin\RedditClient\Model\Me, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Sigwin\RedditClient\Model\UserData, HTTP status code, HTTP response headers (array of strings)
      *
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
@@ -467,23 +721,23 @@ final class UserApi
 
             switch ($statusCode) {
                 case 200:
-                    if ('\Sigwin\RedditClient\Model\Me' === '\SplFileObject') {
+                    if ('\Sigwin\RedditClient\Model\UserData' === '\SplFileObject') {
                         $content = $response->getBody(); // stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('\Sigwin\RedditClient\Model\Me' !== 'string') {
+                        if ('\Sigwin\RedditClient\Model\UserData' !== 'string') {
                             $content = json_decode($content);
                         }
                     }
 
                     return [
-                        ObjectSerializer::deserialize($content, '\Sigwin\RedditClient\Model\Me', []),
+                        ObjectSerializer::deserialize($content, '\Sigwin\RedditClient\Model\UserData', []),
                         $response->getStatusCode(),
                         $response->getHeaders(),
                     ];
             }
 
-            $returnType = '\Sigwin\RedditClient\Model\Me';
+            $returnType = '\Sigwin\RedditClient\Model\UserData';
             if ($returnType === '\SplFileObject') {
                 $content = $response->getBody(); // stream goes to serializer
             } else {
@@ -503,7 +757,7 @@ final class UserApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Sigwin\RedditClient\Model\Me',
+                        '\Sigwin\RedditClient\Model\UserData',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -516,7 +770,7 @@ final class UserApi
     /**
      * Operation meAsync.
      *
-     * Returns the identity of the user.
+     * Returns the identity of the current user.
      *
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
      *
@@ -536,7 +790,7 @@ final class UserApi
     /**
      * Operation meAsyncWithHttpInfo.
      *
-     * Returns the identity of the user.
+     * Returns the identity of the current user.
      *
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
      *
@@ -544,7 +798,7 @@ final class UserApi
      */
     public function meAsyncWithHttpInfo(string $contentType = self::contentTypes['me'][0]): \GuzzleHttp\Promise\PromiseInterface
     {
-        $returnType = '\Sigwin\RedditClient\Model\Me';
+        $returnType = '\Sigwin\RedditClient\Model\UserData';
         $request = $this->meRequest($contentType);
 
         return $this->client

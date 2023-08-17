@@ -22,11 +22,11 @@ namespace Sigwin\RedditClient\Test\Model;
 use PHPUnit\Framework\TestCase;
 
 /**
- * MeTest Class Doc Comment.
+ * UserDataTest Class Doc Comment.
  *
  * @category    Class
  *
- * @description Me
+ * @description UserData
  *
  * @author      OpenAPI Generator team
  *
@@ -38,7 +38,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @small
  */
-final class MeTest extends TestCase
+final class UserDataTest extends TestCase
 {
     /**
      * Setup before running any test case.
@@ -69,9 +69,9 @@ final class MeTest extends TestCase
     }
 
     /**
-     * Test "Me".
+     * Test "UserData".
      */
-    public function testMe(): void
+    public function testUserData(): void
     {
         // TODO: implement
         static::markTestIncomplete('Not implemented');

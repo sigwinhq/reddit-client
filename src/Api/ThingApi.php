@@ -117,15 +117,16 @@ final class ThingApi
      *
      * Get thing info
      *
-     * @param string $id          id (required)
+     * @param string $id          id (optional)
+     * @param string $sr_name     sr_name (optional)
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      */
-    public function getInfo($id, string $contentType = self::contentTypes['getInfo'][0]): \Sigwin\RedditClient\Model\ListingEnvelope
+    public function getInfo($id = null, $sr_name = null, string $contentType = self::contentTypes['getInfo'][0]): \Sigwin\RedditClient\Model\ListingEnvelope
     {
-        [$response] = $this->getInfoWithHttpInfo($id, $contentType);
+        [$response] = $this->getInfoWithHttpInfo($id, $sr_name, $contentType);
 
         return $response;
     }
@@ -135,7 +136,8 @@ final class ThingApi
      *
      * Get thing info
      *
-     * @param string $id          (required)
+     * @param string $id          (optional)
+     * @param string $sr_name     (optional)
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @return array of \Sigwin\RedditClient\Model\ListingEnvelope, HTTP status code, HTTP response headers (array of strings)
@@ -143,9 +145,9 @@ final class ThingApi
      * @throws \InvalidArgumentException
      * @throws \Sigwin\RedditClient\ApiException on non-2xx response
      */
-    public function getInfoWithHttpInfo($id, string $contentType = self::contentTypes['getInfo'][0]): array
+    public function getInfoWithHttpInfo($id = null, $sr_name = null, string $contentType = self::contentTypes['getInfo'][0]): array
     {
-        $request = $this->getInfoRequest($id, $contentType);
+        $request = $this->getInfoRequest($id, $sr_name, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -216,14 +218,15 @@ final class ThingApi
      *
      * Get thing info
      *
-     * @param string $id          (required)
+     * @param string $id          (optional)
+     * @param string $sr_name     (optional)
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
-    public function getInfoAsync($id, string $contentType = self::contentTypes['getInfo'][0]): \GuzzleHttp\Promise\PromiseInterface
+    public function getInfoAsync($id = null, $sr_name = null, string $contentType = self::contentTypes['getInfo'][0]): \GuzzleHttp\Promise\PromiseInterface
     {
-        return $this->getInfoAsyncWithHttpInfo($id, $contentType)
+        return $this->getInfoAsyncWithHttpInfo($id, $sr_name, $contentType)
             ->then(
                 static function ($response) {
                     return $response[0];
@@ -237,15 +240,16 @@ final class ThingApi
      *
      * Get thing info
      *
-     * @param string $id          (required)
+     * @param string $id          (optional)
+     * @param string $sr_name     (optional)
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
-    public function getInfoAsyncWithHttpInfo($id, string $contentType = self::contentTypes['getInfo'][0]): \GuzzleHttp\Promise\PromiseInterface
+    public function getInfoAsyncWithHttpInfo($id = null, $sr_name = null, string $contentType = self::contentTypes['getInfo'][0]): \GuzzleHttp\Promise\PromiseInterface
     {
         $returnType = '\Sigwin\RedditClient\Model\ListingEnvelope';
-        $request = $this->getInfoRequest($id, $contentType);
+        $request = $this->getInfoRequest($id, $sr_name, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -278,18 +282,14 @@ final class ThingApi
     /**
      * Create request for operation 'getInfo'.
      *
-     * @param string $id          (required)
+     * @param string $id          (optional)
+     * @param string $sr_name     (optional)
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getInfo'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
-    public function getInfoRequest($id, string $contentType = self::contentTypes['getInfo'][0]): Request
+    public function getInfoRequest($id = null, $sr_name = null, string $contentType = self::contentTypes['getInfo'][0]): Request
     {
-        // verify the required parameter 'id' is set
-        if ($id === null || (\is_array($id) && \count($id) === 0)) {
-            throw new \InvalidArgumentException('Missing the required parameter $id when calling getInfo');
-        }
-
         $resourcePath = '/api/info';
         $formParams = [];
         $queryParams = [];
@@ -304,7 +304,16 @@ final class ThingApi
             'string', // openApiType
             '', // style
             false, // explode
-            true // required
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $sr_name,
+            'sr_name', // param base name
+            'string', // openApiType
+            '', // style
+            false, // explode
+            false // required
         ) ?? []);
 
         $headers = $this->headerSelector->selectHeaders(

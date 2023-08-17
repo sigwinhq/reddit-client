@@ -10,7 +10,7 @@ All URIs are relative to https://oauth.reddit.com, except if the operation defin
 ## `getInfo()`
 
 ```php
-getInfo($id): \Sigwin\RedditClient\Model\ListingEnvelope
+getInfo($id, $sr_name): \Sigwin\RedditClient\Model\ListingEnvelope
 ```
 
 Get thing info
@@ -33,9 +33,10 @@ $apiInstance = new Sigwin\RedditClient\Api\ThingApi(
     $config
 );
 $id = t3_11e9mr5; // string
+$sr_name = pics; // string
 
 try {
-    $result = $apiInstance->getInfo($id);
+    $result = $apiInstance->getInfo($id, $sr_name);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ThingApi->getInfo: ', $e->getMessage(), PHP_EOL;
@@ -46,7 +47,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **id** | **string**|  | |
+| **id** | **string**|  | [optional] |
+| **sr_name** | **string**|  | [optional] |
 
 ### Return type
 
