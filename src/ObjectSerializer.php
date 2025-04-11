@@ -49,13 +49,13 @@ final class ObjectSerializer
     /**
      * Serialize data.
      *
-     * @param mixed  $data   the data to serialize
-     * @param string $type   the OpenAPIToolsType of the data
-     * @param string $format the format of the OpenAPITools type of the data
+     * @param mixed       $data   the data to serialize
+     * @param null|string $type   the OpenAPIToolsType of the data
+     * @param null|string $format the format of the OpenAPITools type of the data
      *
      * @return null|array|object|scalar serialized form of $data
      */
-    public static function sanitizeForSerialization($data, $type = null, $format = null)
+    public static function sanitizeForSerialization($data, $type = null, $format = null): scalar|object|array|null
     {
         if (\is_scalar($data) || $data === null) {
             return $data;
@@ -117,7 +117,7 @@ final class ObjectSerializer
      */
     public static function sanitizeFilename($filename): string
     {
-        if (preg_match('/.*[\\/\\\\](.*)$/', $filename, $match)) {
+        if (preg_match('/.*[\/\\\](.*)$/', $filename, $match)) {
             return $match[1];
         }
 
@@ -156,8 +156,6 @@ final class ObjectSerializer
     /**
      * Checks if a value is empty, based on its OpenAPI type.
      *
-     * @param mixed $value
-     *
      * @return bool true if $value is empty
      */
     private static function isEmptyValue($value, string $openApiType): bool
@@ -189,6 +187,10 @@ final class ObjectSerializer
             case 'boolean':
                 return ! \in_array($value, [false, 0], true);
 
+                // For string values, '' is considered empty.
+            case 'string':
+                return $value === '';
+
                 // For all the other types, any value at this point can be considered empty.
             default:
                 return true;
@@ -212,7 +214,7 @@ final class ObjectSerializer
         string $openApiType = 'string',
         string $style = 'form',
         bool $explode = true,
-        bool $required = true
+        bool $required = true,
     ): array {
         // Check if we should omit this parameter from the query. This should only happen when:
         //  - Parameter is NOT required; AND
@@ -227,7 +229,7 @@ final class ObjectSerializer
         }
 
         // Handle DateTime objects in query
-        if ($openApiType === '\\DateTime' && $value instanceof \DateTimeImmutable) {
+        if ($openApiType === '\DateTime' && $value instanceof \DateTimeImmutable) {
             return ["{$paramName}" => $value->format(self::$dateTimeFormat)];
         }
 
@@ -260,6 +262,11 @@ final class ObjectSerializer
 
         $value = $flattenArray($value, $paramName);
 
+        // https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values
+        if ($openApiType === 'array' && $style === 'deepObject' && $explode) {
+            return $value;
+        }
+
         if ($openApiType === 'object' && ($style === 'deepObject' || $explode)) {
             return $value;
         }
@@ -281,7 +288,7 @@ final class ObjectSerializer
      *
      * @return int|string Boolean value in format
      */
-    public static function convertBoolToQueryStringFormat(bool $value)
+    public static function convertBoolToQueryStringFormat(bool $value): int|string
     {
         if (Configuration::BOOLEAN_FORMAT_STRING === Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()) {
             return $value ? 'true' : 'false';
@@ -310,21 +317,33 @@ final class ObjectSerializer
     }
 
     /**
-     * Take value and turn it into a string suitable for inclusion in
+     * Take value and turn it into an array suitable for inclusion in
      * the http body (form parameter). If it's a string, pass through unchanged
      * If it's a datetime object, format it in ISO8601.
      *
-     * @param \SplFileObject|string $value the value of the form parameter
+     * @param array|\ArrayAccess|bool|DateTime|\SplFileObject|string $value the value of the form parameter
      *
-     * @return string the form string
+     * @return array [key => value] of formdata
      */
-    public static function toFormValue($value): string
+    public static function toFormValue(string $key, $value): array
     {
         if ($value instanceof \SplFileObject) {
-            return $value->getRealPath();
+            return [$key => $value->getRealPath()];
+        }
+        if (\is_array($value) || $value instanceof \ArrayAccess) {
+            $flattened = [];
+            $result = [];
+
+            self::flattenArray(json_decode(json_encode($value), true), $flattened);
+
+            foreach ($flattened as $k => $v) {
+                $result["{$key}{$k}"] = self::toString($v);
+            }
+
+            return $result;
         }
 
-        return self::toString($value);
+        return [$key => self::toString($value)];
     }
 
     /**
@@ -333,7 +352,7 @@ final class ObjectSerializer
      * If it's a datetime object, format it in ISO8601
      * If it's a boolean, convert it to "true" or "false".
      *
-     * @param bool|\DateTime|string $value the value of the parameter
+     * @param bool|\DateTime|float|int $value the value of the parameter
      *
      * @return string the header string
      */
@@ -387,13 +406,13 @@ final class ObjectSerializer
     /**
      * Deserialize a JSON string into an object.
      *
-     * @param mixed    $data        object or primitive to be deserialized
-     * @param string   $class       class name is passed as a string
-     * @param string[] $httpHeaders HTTP headers
+     * @param mixed         $data        object or primitive to be deserialized
+     * @param string        $class       class name is passed as a string
+     * @param null|string[] $httpHeaders HTTP headers
      *
      * @return null|array|object a single or an array of $class instances
      */
-    public static function deserialize($data, $class, $httpHeaders = null)
+    public static function deserialize($data, $class, $httpHeaders = null): object|array|null
     {
         if ($data === null) {
             return null;
@@ -545,21 +564,141 @@ final class ObjectSerializer
     }
 
     /**
-     * Native `http_build_query` wrapper.
+     * Build a query string from an array of key value pairs.
      *
-     * @see https://www.php.net/manual/en/function.http-build-query
+     * This function can use the return value of `parse()` to build a query
+     * string. This function does not modify the provided keys when an array is
+     * encountered (like `http_build_query()` would).
      *
-     * @param array|object $data           may be an array or object containing properties
-     * @param string       $numeric_prefix if numeric indices are used in the base array and this parameter is provided, it will be prepended to the numeric index for elements in the base array only
-     * @param null|string  $arg_separator  arg_separator.output is used to separate arguments but may be overridden by specifying this parameter.
-     * @param int          $encoding_type  Encoding type. By default, PHP_QUERY_RFC1738.
+     * The function is copied from https://github.com/guzzle/psr7/blob/a243f80a1ca7fe8ceed4deee17f12c1930efe662/src/Query.php#L59-L112
+     * with a modification which is described in https://github.com/guzzle/psr7/pull/603
+     *
+     * @param array     $params   query string parameters
+     * @param false|int $encoding set to false to not encode, PHP_QUERY_RFC3986
+     *                            to encode using RFC3986, or PHP_QUERY_RFC1738
+     *                            to encode using RFC1738
      */
-    public static function buildQuery(
-        $data,
-        string $numeric_prefix = '',
-        string $arg_separator = null,
-        int $encoding_type = \PHP_QUERY_RFC3986
-    ): string {
-        return \GuzzleHttp\Psr7\Query::build($data, $encoding_type);
+    public static function buildQuery(array $params, $encoding = \PHP_QUERY_RFC3986): string
+    {
+        if (! $params) {
+            return '';
+        }
+
+        if ($encoding === false) {
+            $encoder = static function (string $str): string {
+                return $str;
+            };
+        } elseif ($encoding === \PHP_QUERY_RFC3986) {
+            $encoder = 'rawurlencode';
+        } elseif ($encoding === \PHP_QUERY_RFC1738) {
+            $encoder = 'urlencode';
+        } else {
+            throw new \InvalidArgumentException('Invalid type');
+        }
+
+        $castBool = Configuration::BOOLEAN_FORMAT_INT === Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()
+            ? static function ($v) { return (int) $v; }
+        : static function ($v) { return $v ? 'true' : 'false'; };
+
+        $qs = '';
+        foreach ($params as $k => $v) {
+            $k = $encoder((string) $k);
+            if (! \is_array($v)) {
+                $qs .= $k;
+                $v = \is_bool($v) ? $castBool($v) : $v;
+                if ($v !== null) {
+                    $qs .= '='.$encoder((string) $v);
+                }
+                $qs .= '&';
+            } else {
+                foreach ($v as $vv) {
+                    $qs .= $k;
+                    $vv = \is_bool($vv) ? $castBool($vv) : $vv;
+                    if ($vv !== null) {
+                        $qs .= '='.$encoder((string) $vv);
+                    }
+                    $qs .= '&';
+                }
+            }
+        }
+
+        return $qs ? (string) mb_substr($qs, 0, -1) : '';
+    }
+
+    /**
+     * Flattens an array of Model object and generates an array compatible
+     * with formdata - a single-level array where the keys use bracket
+     * notation to signify nested data.
+     *
+     * @param array|\ArrayAccess $source
+     *
+     * credit: https://github.com/FranBar1966/FlatPHP
+     */
+    private static function flattenArray(
+        $source,
+        array &$destination,
+        string $start = '',
+    ) {
+        $opt = [
+            'prefix' => '[',
+            'suffix' => ']',
+            'suffix-end' => true,
+            'prefix-list' => '[',
+            'suffix-list' => ']',
+            'suffix-list-end' => true,
+        ];
+
+        if (! \is_array($source)) {
+            $source = (array) $source;
+        }
+
+        /*
+         * array_is_list only in PHP >= 8.1
+         *
+         * credit: https://www.php.net/manual/en/function.array-is-list.php#127044
+         */
+        if (! \function_exists('array_is_list')) {
+            function array_is_list(array $array)
+            {
+                $i = -1;
+
+                foreach ($array as $k => $v) {
+                    ++$i;
+                    if ($k !== $i) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        if (array_is_list($source)) {
+            $currentPrefix = $opt['prefix-list'];
+            $currentSuffix = $opt['suffix-list'];
+            $currentSuffixEnd = $opt['suffix-list-end'];
+        } else {
+            $currentPrefix = $opt['prefix'];
+            $currentSuffix = $opt['suffix'];
+            $currentSuffixEnd = $opt['suffix-end'];
+        }
+
+        $currentName = $start;
+
+        foreach ($source as $key => $val) {
+            $currentName .= $currentPrefix.$key;
+
+            if (\is_array($val) && ! empty($val)) {
+                $currentName .= "{$currentSuffix}";
+                self::flattenArray($val, $destination, $currentName);
+            } else {
+                if ($currentSuffixEnd) {
+                    $currentName .= $currentSuffix;
+                }
+                $destination[$currentName] = self::toString($val);
+            }
+
+            $currentName = $start;
+        }
     }
 }

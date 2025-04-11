@@ -40,7 +40,7 @@ final class ApiException extends \Exception
     /**
      * The HTTP header of the server response.
      *
-     * @var null|string[]
+     * @var null|string[][]
      */
     protected $responseHeaders;
 
@@ -56,7 +56,7 @@ final class ApiException extends \Exception
      *
      * @param string                $message         Error message
      * @param int                   $code            HTTP status code
-     * @param null|string[]         $responseHeaders HTTP response header
+     * @param null|string[][]       $responseHeaders HTTP response header
      * @param null|\stdClass|string $responseBody    HTTP decoded body of the server response either as \stdClass or string
      */
     public function __construct($message = '', $code = 0, $responseHeaders = [], $responseBody = null)
@@ -69,7 +69,7 @@ final class ApiException extends \Exception
     /**
      * Gets the HTTP response header.
      *
-     * @return null|string[] HTTP response header
+     * @return null|string[][] HTTP response header
      */
     public function getResponseHeaders(): ?array
     {
@@ -81,7 +81,7 @@ final class ApiException extends \Exception
      *
      * @return null|\stdClass|string HTTP body of the server response either as \stdClass or string
      */
-    public function getResponseBody()
+    public function getResponseBody(): \stdClass|string|null
     {
         return $this->responseBody;
     }

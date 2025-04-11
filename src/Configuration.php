@@ -21,7 +21,7 @@ namespace Sigwin\RedditClient;
 
 /**
  * Configuration Class Doc Comment
- * PHP version 7.4.
+ * PHP version 8.1.
  *
  * @category Class
  *
@@ -29,7 +29,7 @@ namespace Sigwin\RedditClient;
  *
  * @see     https://openapi-generator.tech
  */
-class Configuration
+final class Configuration
 {
     public const BOOLEAN_FORMAT_INT = 'int';
     public const BOOLEAN_FORMAT_STRING = 'string';
@@ -202,6 +202,8 @@ class Configuration
 
     /**
      * Sets boolean format for query string.
+     *
+     * @param string $booleanFormat Boolean format for query string
      *
      * @return $this
      */
@@ -473,23 +475,24 @@ class Configuration
     /**
      * Returns URL based on host settings, index and variables.
      *
-     * @param int        $hostIndex index of the host settings
-     * @param null|array $variables hash of variable and the corresponding value (optional)
+     * @param array      $hostSettings array of host settings, generated from getHostSettings() or equivalent from the API clients
+     * @param int        $hostIndex    index of the host settings
+     * @param null|array $variables    hash of variable and the corresponding value (optional)
      *
      * @return string URL based on host settings
      */
-    public static function getHostString(array $hostsSettings, $hostIndex, array $variables = null): string
+    public static function getHostString(array $hostSettings, $hostIndex, ?array $variables = null): string
     {
         if ($variables === null) {
             $variables = [];
         }
 
         // check array index out of bound
-        if ($hostIndex < 0 || $hostIndex >= \count($hostsSettings)) {
-            throw new \InvalidArgumentException("Invalid index {$hostIndex} when selecting the host. Must be less than ".\count($hostsSettings));
+        if ($hostIndex < 0 || $hostIndex >= \count($hostSettings)) {
+            throw new \InvalidArgumentException("Invalid index {$hostIndex} when selecting the host. Must be less than ".\count($hostSettings));
         }
 
-        $host = $hostsSettings[$hostIndex];
+        $host = $hostSettings[$hostIndex];
         $url = $host['url'];
 
         // go through variable and assign a value

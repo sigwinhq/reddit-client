@@ -232,10 +232,10 @@ final class ListingEnvelope implements \ArrayAccess, \JsonSerializable, ModelInt
     /**
      * Constructor.
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param null|mixed[] $data Associated array of property values
+     *                           initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->setIfExists('kind', $data ?? [], null);
         $this->setIfExists('data', $data ?? [], null);
@@ -245,8 +245,6 @@ final class ListingEnvelope implements \ArrayAccess, \JsonSerializable, ModelInt
      * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
      * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
      * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
      */
     private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
@@ -271,7 +269,7 @@ final class ListingEnvelope implements \ArrayAccess, \JsonSerializable, ModelInt
         }
         $allowedValues = $this->getKindAllowableValues();
         if ($this->container['kind'] !== null && ! \in_array($this->container['kind'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
+            $invalidProperties[] = \sprintf(
                 "invalid value '%s' for 'kind', must be one of '%s'",
                 $this->container['kind'],
                 implode("', '", $allowedValues)
@@ -316,7 +314,7 @@ final class ListingEnvelope implements \ArrayAccess, \JsonSerializable, ModelInt
         }
         $allowedValues = $this->getKindAllowableValues();
         if (! \in_array($kind, $allowedValues, true)) {
-            throw new \InvalidArgumentException(sprintf("Invalid value '%s' for 'kind', must be one of '%s'", $kind, implode("', '", $allowedValues)));
+            throw new \InvalidArgumentException(\sprintf("Invalid value '%s' for 'kind', must be one of '%s'", $kind, implode("', '", $allowedValues)));
         }
         $this->container['kind'] = $kind;
 
@@ -325,8 +323,6 @@ final class ListingEnvelope implements \ArrayAccess, \JsonSerializable, ModelInt
 
     /**
      * Gets data.
-     *
-     * @return \Sigwin\RedditClient\Model\Listing
      */
     public function getData(): Listing
     {
@@ -336,7 +332,7 @@ final class ListingEnvelope implements \ArrayAccess, \JsonSerializable, ModelInt
     /**
      * Sets data.
      *
-     * @param \Sigwin\RedditClient\Model\Listing $data data
+     * @param Listing $data data
      */
     public function setData($data): self
     {

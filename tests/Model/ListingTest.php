@@ -33,11 +33,9 @@ use PHPUnit\Framework\TestCase;
  * @see        https://openapi-generator.tech
  *
  * @internal
- *
- * @coversNothing
- *
- * @small
  */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+#[\PHPUnit\Framework\Attributes\Small]
 final class ListingTest extends TestCase
 {
     /**
@@ -74,7 +72,7 @@ final class ListingTest extends TestCase
     public function testListing(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -83,7 +81,7 @@ final class ListingTest extends TestCase
     public function testPropertyModhash(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,7 +90,7 @@ final class ListingTest extends TestCase
     public function testPropertyDist(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -101,7 +99,7 @@ final class ListingTest extends TestCase
     public function testPropertyChildren(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -110,7 +108,7 @@ final class ListingTest extends TestCase
     public function testPropertyAfter(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -119,6 +117,6 @@ final class ListingTest extends TestCase
     public function testPropertyBefore(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }
