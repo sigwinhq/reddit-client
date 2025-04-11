@@ -33,11 +33,9 @@ use PHPUnit\Framework\TestCase;
  * @see        https://openapi-generator.tech
  *
  * @internal
- *
- * @coversNothing
- *
- * @small
  */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+#[\PHPUnit\Framework\Attributes\Small]
 final class UserDataTest extends TestCase
 {
     /**
@@ -74,7 +72,7 @@ final class UserDataTest extends TestCase
     public function testUserData(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -83,7 +81,7 @@ final class UserDataTest extends TestCase
     public function testPropertyId(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,6 +90,6 @@ final class UserDataTest extends TestCase
     public function testPropertyName(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

@@ -33,11 +33,9 @@ use PHPUnit\Framework\TestCase;
  * @see        https://openapi-generator.tech
  *
  * @internal
- *
- * @coversNothing
- *
- * @small
  */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+#[\PHPUnit\Framework\Attributes\Small]
 final class ThingDataTest extends TestCase
 {
     /**
@@ -74,7 +72,7 @@ final class ThingDataTest extends TestCase
     public function testThingData(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -83,7 +81,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyId(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,7 +90,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyName(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -101,7 +99,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyPermalink(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -110,7 +108,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyPostHint(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -119,7 +117,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyCreatedUtc(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -128,7 +126,7 @@ final class ThingDataTest extends TestCase
     public function testPropertySubreddit(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -137,7 +135,7 @@ final class ThingDataTest extends TestCase
     public function testPropertySubredditId(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -146,7 +144,7 @@ final class ThingDataTest extends TestCase
     public function testPropertySubredditType(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -155,7 +153,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyAuthor(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -164,7 +162,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyAuthorFullname(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -173,7 +171,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyTitle(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -182,7 +180,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyUrl(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -191,7 +189,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyUrlOverriddenByDest(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -200,7 +198,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyLinkId(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -209,7 +207,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyLinkAuthor(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -218,7 +216,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyLinkTitle(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -227,7 +225,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyLinkPermalink(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -236,7 +234,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyBody(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -245,7 +243,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyIsGallery(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -254,7 +252,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyIsMeta(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -263,7 +261,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyIsSelf(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -272,7 +270,7 @@ final class ThingDataTest extends TestCase
     public function testPropertyIsVideo(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -281,6 +279,6 @@ final class ThingDataTest extends TestCase
     public function testPropertySelftext(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

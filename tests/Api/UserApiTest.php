@@ -31,11 +31,9 @@ use PHPUnit\Framework\TestCase;
  * @see     https://openapi-generator.tech
  *
  * @internal
- *
- * @coversNothing
- *
- * @small
  */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+#[\PHPUnit\Framework\Attributes\Small]
 final class UserApiTest extends TestCase
 {
     /**
@@ -74,7 +72,7 @@ final class UserApiTest extends TestCase
     public function testGetAbout(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +83,7 @@ final class UserApiTest extends TestCase
     public function testGetSaved(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -96,6 +94,6 @@ final class UserApiTest extends TestCase
     public function testMe(): void
     {
         // TODO: implement
-        static::markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }
