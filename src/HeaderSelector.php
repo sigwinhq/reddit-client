@@ -77,7 +77,7 @@ final class HeaderSelector
         }
 
         // If none of the available Accept headers is of type "json", then just use all them
-        $headersWithJson = preg_grep('~(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$~', $accept);
+        $headersWithJson = $this->selectJsonMimeList($accept);
         if (\count($headersWithJson) === 0) {
             return implode(',', $accept);
         }
@@ -85,6 +85,29 @@ final class HeaderSelector
         // If we got here, then we need add quality values (weight), as described in IETF RFC 9110, Items 12.4.2/12.5.1,
         // to give the highest priority to json-like headers - recalculating the existing ones, if needed
         return $this->getAcceptHeaderWithAdjustedWeight($accept, $headersWithJson);
+    }
+
+    /**
+     * Detects whether a string contains a valid JSON mime type.
+     */
+    public function isJsonMime(string $searchString): bool
+    {
+        return preg_match('~^application/(json|[\w!#$&.+-^_]+\+json)\s*(;|$)~', $searchString) === 1;
+    }
+
+    /**
+     * Select all items from a list containing a JSON mime type.
+     */
+    private function selectJsonMimeList(array $mimeList): array
+    {
+        $jsonMimeList = [];
+        foreach ($mimeList as $mime) {
+            if ($this->isJsonMime($mime)) {
+                $jsonMimeList[] = $mime;
+            }
+        }
+
+        return $jsonMimeList;
     }
 
     /**
@@ -189,7 +212,7 @@ final class HeaderSelector
             return $header;
         }
 
-        return trim($header, '; ').';q='.rtrim(sprintf('%0.3f', $weight / 1000), '0');
+        return trim($header, '; ').';q='.rtrim(\sprintf('%0.3f', $weight / 1000), '0');
     }
 
     /**

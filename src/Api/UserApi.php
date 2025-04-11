@@ -26,6 +26,8 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Sigwin\RedditClient\ApiException;
 use Sigwin\RedditClient\Configuration;
 use Sigwin\RedditClient\HeaderSelector;
@@ -76,19 +78,16 @@ final class UserApi
     ];
 
     /**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @param int $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
-        ClientInterface $client = null,
-        Configuration $config = null,
-        HeaderSelector $selector = null,
-        $hostIndex = 0
+        ?ClientInterface $client = null,
+        ?Configuration $config = null,
+        ?HeaderSelector $selector = null,
+        int $hostIndex = 0,
     ) {
         $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
+        $this->config = $config ?: Configuration::getDefaultConfiguration();
         $this->headerSelector = $selector ?: new HeaderSelector();
         $this->hostIndex = $hostIndex;
     }
@@ -127,7 +126,7 @@ final class UserApi
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getAbout'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
-     * @throws \Sigwin\RedditClient\ApiException on non-2xx response
+     * @throws ApiException              on non-2xx response or if the response body is not in the expected format
      */
     public function getAbout($username, string $contentType = self::contentTypes['getAbout'][0]): \Sigwin\RedditClient\Model\User
     {
@@ -147,7 +146,7 @@ final class UserApi
      * @return array of \Sigwin\RedditClient\Model\User, HTTP status code, HTTP response headers (array of strings)
      *
      * @throws \InvalidArgumentException
-     * @throws \Sigwin\RedditClient\ApiException on non-2xx response
+     * @throws ApiException              on non-2xx response or if the response body is not in the expected format
      */
     public function getAboutWithHttpInfo($username, string $contentType = self::contentTypes['getAbout'][0]): array
     {
@@ -165,43 +164,24 @@ final class UserApi
 
             $statusCode = $response->getStatusCode();
 
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, (string) $request->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
-            }
-
             switch ($statusCode) {
                 case 200:
-                    if ('\Sigwin\RedditClient\Model\User' === '\SplFileObject') {
-                        $content = $response->getBody(); // stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\Sigwin\RedditClient\Model\User' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\Sigwin\RedditClient\Model\User', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders(),
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\Sigwin\RedditClient\Model\User',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\Sigwin\RedditClient\Model\User';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, (string) $request->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders(),
-            ];
+            return $this->handleResponseWithDataType(
+                '\Sigwin\RedditClient\Model\User',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -211,8 +191,9 @@ final class UserApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+
             throw $e;
         }
     }
@@ -275,7 +256,7 @@ final class UserApi
                 static function ($exception): void {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-                    throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
+                    throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
                 }
             )
         ;
@@ -374,14 +355,14 @@ final class UserApi
      *
      * Get user saved things
      *
-     * @param string $username    username (required)
-     * @param string $after       after (optional)
-     * @param string $before      before (optional)
-     * @param int    $limit       limit (optional, default to 25)
-     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
+     * @param string      $username    username (required)
+     * @param null|string $after       after (optional)
+     * @param null|string $before      before (optional)
+     * @param null|int    $limit       limit (optional, default to 25)
+     * @param string      $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
-     * @throws \Sigwin\RedditClient\ApiException on non-2xx response
+     * @throws ApiException              on non-2xx response or if the response body is not in the expected format
      */
     public function getSaved($username, $after = null, $before = null, $limit = 25, string $contentType = self::contentTypes['getSaved'][0]): \Sigwin\RedditClient\Model\ListingEnvelope
     {
@@ -395,16 +376,16 @@ final class UserApi
      *
      * Get user saved things
      *
-     * @param string $username    (required)
-     * @param string $after       (optional)
-     * @param string $before      (optional)
-     * @param int    $limit       (optional, default to 25)
-     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
+     * @param string      $username    (required)
+     * @param null|string $after       (optional)
+     * @param null|string $before      (optional)
+     * @param null|int    $limit       (optional, default to 25)
+     * @param string      $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @return array of \Sigwin\RedditClient\Model\ListingEnvelope, HTTP status code, HTTP response headers (array of strings)
      *
      * @throws \InvalidArgumentException
-     * @throws \Sigwin\RedditClient\ApiException on non-2xx response
+     * @throws ApiException              on non-2xx response or if the response body is not in the expected format
      */
     public function getSavedWithHttpInfo($username, $after = null, $before = null, $limit = 25, string $contentType = self::contentTypes['getSaved'][0]): array
     {
@@ -422,43 +403,24 @@ final class UserApi
 
             $statusCode = $response->getStatusCode();
 
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, (string) $request->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
-            }
-
             switch ($statusCode) {
                 case 200:
-                    if ('\Sigwin\RedditClient\Model\ListingEnvelope' === '\SplFileObject') {
-                        $content = $response->getBody(); // stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\Sigwin\RedditClient\Model\ListingEnvelope' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\Sigwin\RedditClient\Model\ListingEnvelope', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders(),
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\Sigwin\RedditClient\Model\ListingEnvelope',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\Sigwin\RedditClient\Model\ListingEnvelope';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, (string) $request->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders(),
-            ];
+            return $this->handleResponseWithDataType(
+                '\Sigwin\RedditClient\Model\ListingEnvelope',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -468,8 +430,9 @@ final class UserApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+
             throw $e;
         }
     }
@@ -479,11 +442,11 @@ final class UserApi
      *
      * Get user saved things
      *
-     * @param string $username    (required)
-     * @param string $after       (optional)
-     * @param string $before      (optional)
-     * @param int    $limit       (optional, default to 25)
-     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
+     * @param string      $username    (required)
+     * @param null|string $after       (optional)
+     * @param null|string $before      (optional)
+     * @param null|int    $limit       (optional, default to 25)
+     * @param string      $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
@@ -503,11 +466,11 @@ final class UserApi
      *
      * Get user saved things
      *
-     * @param string $username    (required)
-     * @param string $after       (optional)
-     * @param string $before      (optional)
-     * @param int    $limit       (optional, default to 25)
-     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
+     * @param string      $username    (required)
+     * @param null|string $after       (optional)
+     * @param null|string $before      (optional)
+     * @param null|int    $limit       (optional, default to 25)
+     * @param string      $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
@@ -538,7 +501,7 @@ final class UserApi
                 static function ($exception): void {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-                    throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
+                    throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
                 }
             )
         ;
@@ -547,11 +510,11 @@ final class UserApi
     /**
      * Create request for operation 'getSaved'.
      *
-     * @param string $username    (required)
-     * @param string $after       (optional)
-     * @param string $before      (optional)
-     * @param int    $limit       (optional, default to 25)
-     * @param string $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
+     * @param string      $username    (required)
+     * @param null|string $after       (optional)
+     * @param null|string $before      (optional)
+     * @param null|int    $limit       (optional, default to 25)
+     * @param string      $contentType The value for the Content-Type header. Check self::contentTypes['getSaved'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      */
@@ -678,7 +641,7 @@ final class UserApi
      * @param string $contentType The value for the Content-Type header. Check self::contentTypes['me'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
-     * @throws \Sigwin\RedditClient\ApiException on non-2xx response
+     * @throws ApiException              on non-2xx response or if the response body is not in the expected format
      */
     public function me(string $contentType = self::contentTypes['me'][0]): \Sigwin\RedditClient\Model\UserData
     {
@@ -697,7 +660,7 @@ final class UserApi
      * @return array of \Sigwin\RedditClient\Model\UserData, HTTP status code, HTTP response headers (array of strings)
      *
      * @throws \InvalidArgumentException
-     * @throws \Sigwin\RedditClient\ApiException on non-2xx response
+     * @throws ApiException              on non-2xx response or if the response body is not in the expected format
      */
     public function meWithHttpInfo(string $contentType = self::contentTypes['me'][0]): array
     {
@@ -715,43 +678,24 @@ final class UserApi
 
             $statusCode = $response->getStatusCode();
 
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, (string) $request->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
-            }
-
             switch ($statusCode) {
                 case 200:
-                    if ('\Sigwin\RedditClient\Model\UserData' === '\SplFileObject') {
-                        $content = $response->getBody(); // stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\Sigwin\RedditClient\Model\UserData' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\Sigwin\RedditClient\Model\UserData', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders(),
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\Sigwin\RedditClient\Model\UserData',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\Sigwin\RedditClient\Model\UserData';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, (string) $request->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders(),
-            ];
+            return $this->handleResponseWithDataType(
+                '\Sigwin\RedditClient\Model\UserData',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -761,8 +705,9 @@ final class UserApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+
             throw $e;
         }
     }
@@ -823,7 +768,7 @@ final class UserApi
                 static function ($exception): void {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-                    throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
+                    throw new ApiException(\sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), (string) $response->getBody());
                 }
             )
         ;
@@ -920,5 +865,40 @@ final class UserApi
         }
 
         return $options;
+    }
+
+    private function handleResponseWithDataType(
+        string $dataType,
+        RequestInterface $request,
+        ResponseInterface $response,
+    ): array {
+        if ($dataType === '\SplFileObject') {
+            $content = $response->getBody(); // stream goes to serializer
+        } else {
+            $content = (string) $response->getBody();
+            if ($dataType !== 'string') {
+                try {
+                    $content = json_decode($content, false, 512, \JSON_THROW_ON_ERROR);
+                } catch (\JsonException $exception) {
+                    throw new ApiException(\sprintf('Error JSON decoding server response (%s)', $request->getUri()), $response->getStatusCode(), $response->getHeaders(), $content);
+                }
+            }
+        }
+
+        return [
+            ObjectSerializer::deserialize($content, $dataType, []),
+            $response->getStatusCode(),
+            $response->getHeaders(),
+        ];
+    }
+
+    private function responseWithinRangeCode(
+        string $rangeCode,
+        int $statusCode,
+    ): bool {
+        $left = (int) ($rangeCode[0].'00');
+        $right = (int) ($rangeCode[0].'99');
+
+        return $statusCode >= $left && $statusCode <= $right;
     }
 }

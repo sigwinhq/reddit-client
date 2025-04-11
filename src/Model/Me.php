@@ -221,7 +221,7 @@ final class Me implements \ArrayAccess, \JsonSerializable, ModelInterface
      * @param mixed[] $data Associated array of property values
      *                      initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('name', $data ?? [], null);
@@ -231,8 +231,6 @@ final class Me implements \ArrayAccess, \JsonSerializable, ModelInterface
      * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
      * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
      * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
      */
     private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {

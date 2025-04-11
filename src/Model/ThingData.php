@@ -337,8 +337,8 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
     public const POST_HINT_SELF = 'self';
     public const POST_HINT_LINK = 'link';
     public const POST_HINT_IMAGE = 'image';
-    public const POST_HINT_HOSTEDVIDEO = 'hosted:video';
-    public const POST_HINT_RICHVIDEO = 'rich:video';
+    public const POST_HINT_HOSTED_VIDEO = 'hosted:video';
+    public const POST_HINT_RICH_VIDEO = 'rich:video';
 
     /**
      * Gets allowable values of the enum.
@@ -351,8 +351,8 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
             self::POST_HINT_SELF,
             self::POST_HINT_LINK,
             self::POST_HINT_IMAGE,
-            self::POST_HINT_HOSTEDVIDEO,
-            self::POST_HINT_RICHVIDEO,
+            self::POST_HINT_HOSTED_VIDEO,
+            self::POST_HINT_RICH_VIDEO,
         ];
     }
 
@@ -366,10 +366,10 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
     /**
      * Constructor.
      *
-     * @param mixed[] $data Associated array of property values
-     *                      initializing the model
+     * @param null|mixed[] $data Associated array of property values
+     *                           initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('name', $data ?? [], null);
@@ -400,8 +400,6 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
      * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
      * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
      * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
      */
     private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
@@ -432,7 +430,7 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
         }
         $allowedValues = $this->getPostHintAllowableValues();
         if ($this->container['post_hint'] !== null && ! \in_array($this->container['post_hint'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
+            $invalidProperties[] = \sprintf(
                 "invalid value '%s' for 'post_hint', must be one of '%s'",
                 $this->container['post_hint'],
                 implode("', '", $allowedValues)
@@ -555,7 +553,7 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
         }
         $allowedValues = $this->getPostHintAllowableValues();
         if (! \in_array($post_hint, $allowedValues, true)) {
-            throw new \InvalidArgumentException(sprintf("Invalid value '%s' for 'post_hint', must be one of '%s'", $post_hint, implode("', '", $allowedValues)));
+            throw new \InvalidArgumentException(\sprintf("Invalid value '%s' for 'post_hint', must be one of '%s'", $post_hint, implode("', '", $allowedValues)));
         }
         $this->container['post_hint'] = $post_hint;
 
