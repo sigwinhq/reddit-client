@@ -412,7 +412,7 @@ final class ObjectSerializer
      *
      * @return null|array|object a single or an array of $class instances
      */
-    public static function deserialize($data, $class, $httpHeaders = null): object|array|null
+    public static function deserialize($data, $class, $httpHeaders = null): mixed
     {
         if ($data === null) {
             return null;
