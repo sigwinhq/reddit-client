@@ -117,7 +117,7 @@ final class ObjectSerializer
      */
     public static function sanitizeFilename($filename): string
     {
-        if (preg_match('/.*[\/\\\](.*)$/', $filename, $match)) {
+        if (preg_match('/.*[\\/\\\\](.*)$/', $filename, $match)) {
             return $match[1];
         }
 
@@ -229,7 +229,7 @@ final class ObjectSerializer
         }
 
         // Handle DateTime objects in query
-        if ($openApiType === '\DateTime' && $value instanceof \DateTimeImmutable) {
+        if ($openApiType === '\\DateTime' && $value instanceof \DateTimeImmutable) {
             return ["{$paramName}" => $value->format(self::$dateTimeFormat)];
         }
 
