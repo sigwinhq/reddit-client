@@ -55,7 +55,7 @@ final class ObjectSerializer
      *
      * @return null|array|object|scalar serialized form of $data
      */
-    public static function sanitizeForSerialization($data, $type = null, $format = null): scalar|object|array|null
+    public static function sanitizeForSerialization($data, $type = null, $format = null): mixed
     {
         if (\is_scalar($data) || $data === null) {
             return $data;
