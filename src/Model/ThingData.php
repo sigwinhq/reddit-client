@@ -339,6 +339,7 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
     public const POST_HINT_IMAGE = 'image';
     public const POST_HINT_HOSTED_VIDEO = 'hosted:video';
     public const POST_HINT_RICH_VIDEO = 'rich:video';
+    public const POST_HINT_GALLERY = 'gallery';
 
     /**
      * Gets allowable values of the enum.
@@ -353,6 +354,7 @@ final class ThingData implements \ArrayAccess, \JsonSerializable, ModelInterface
             self::POST_HINT_IMAGE,
             self::POST_HINT_HOSTED_VIDEO,
             self::POST_HINT_RICH_VIDEO,
+            self::POST_HINT_GALLERY,
         ];
     }
 
